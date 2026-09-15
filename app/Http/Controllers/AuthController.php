@@ -33,7 +33,27 @@ class AuthController extends Controller
         if (Auth::attempt($loginData, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            $user = Auth::user();
+
+            if($user->role->name === 'Owner'){
+                return redirect()->route('owner.dashboard');
+            }
+
+            if($user->role->name === 'ServiceAdvisor'){
+                return redirect()->route('service-advisor.dashboard');
+            }
+
+            if($user->role->name === 'Mechanic'){
+                return redirect()->route('mechanic.dashboard');
+            }
+
+            if($user->role->name === 'Admin'){
+                return redirect()->route('admin.dashboard');
+            }
+
+            if($user->role->name === 'Customer'){
+                return redirect()->route('customer.dashboard');
+            }
         }
 
         return back()

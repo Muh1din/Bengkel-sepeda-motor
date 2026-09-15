@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'Service Advisor '
+            'name' => 'ServiceAdvisor'
         ]);
 
         Role::create([
