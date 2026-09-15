@@ -1,9 +1,22 @@
+@import '@fontsource/instrument-sans';
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Font Family */
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Brand Colors */
+    --color-brand-navy: #1b263b;
+    --color-brand-gold: #c58e4b;
+    --color-brand-silver: #bdc3c7;
+    --color-brand-steel: #5d7b93;
+
+    /* UI Colors */
+    --color-ui-main: #f8f9fa;
+    --color-ui-card: #ffffff;
+    --color-ui-text: #2d3436;
+    --color-ui-border: #dee2e6;
 }

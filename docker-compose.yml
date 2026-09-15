@@ -12,6 +12,7 @@ services:
     volumes:
       - .:/var/www/html
     environment:
+      - HOME=/tmp 
       - WWWUSER=${WWWUSER:-1000}
       - APP_ENV=local
       - APP_DEBUG=true
