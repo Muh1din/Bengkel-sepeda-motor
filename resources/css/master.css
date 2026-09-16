@@ -1,0 +1,33 @@
+@media print {
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    .no-print,
+    aside,
+    sidebar,
+    header,
+    .filter-section,
+    button,
+    .action-buttons {
+        display: none !important;
+    }
+
+    main {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .print-full-width {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .card-print {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+}

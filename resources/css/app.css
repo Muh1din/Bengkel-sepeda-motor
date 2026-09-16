@@ -1,5 +1,6 @@
 @import '@fontsource/instrument-sans';
 @import 'tailwindcss';
+@import 'master';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
