@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Role;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -65,11 +66,18 @@ class AuthorizationTest extends TestCase
 
     public function test_customer_can_access_customer_dashboard(): void
     {
-        $user = $this->createUser('Customer');
+        $user = User::factory()->create([
+            'role_id' => 5,
+        ]);
 
-        $response = $this->actingAs($user)
-            ->get('/customer/dashboard');
-            
+        Customer::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get(route('customer.dashboard'));
+
         $response->assertOk();
     }
 
