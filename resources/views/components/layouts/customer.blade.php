@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nirwana Garage | {{$title}} </title>
+    <title>Nirwana Garage | {{ $title }} </title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -31,6 +31,17 @@
             {{ $slot }}
         </main>
     </div>
+
+    <x-customer.logout-modal></x-customer.logout-modal>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+
 
 </body>
 
