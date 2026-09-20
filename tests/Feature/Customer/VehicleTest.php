@@ -16,7 +16,6 @@ class VehicleTest extends TestCase
     // Customer bisa melihat daftar kendaraannya
     public function test_customer_can_view_their_vehicles(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
@@ -47,8 +46,6 @@ class VehicleTest extends TestCase
     // Customer bisa menambahkan kendaraan
     public function test_customer_can_add_a_vehicle(): void
     {
-        $this->seed();
-
         $user = User::factory()->create([
             'role_id' => 5,
         ]);
@@ -84,7 +81,6 @@ class VehicleTest extends TestCase
     // Customer bisa membuka halaman edit kendaraan
     public function test_customer_can_view_vehicle_edit_page(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
@@ -119,7 +115,6 @@ class VehicleTest extends TestCase
     // Customer bisa membuka halaman edit kendaraan
     public function test_customer_can_update_their_vehicle(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
@@ -167,7 +162,6 @@ class VehicleTest extends TestCase
     // Customer tidak bisa membuka halaman edit kendaraan customer lain
     public function test_customer_cannot_edit_another_customers_vehicle(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
@@ -193,7 +187,6 @@ class VehicleTest extends TestCase
     // Customer tidak bisa mengubah kendaraan customer lain
     public function test_customer_cannot_update_another_customers_vehicle(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
@@ -243,7 +236,6 @@ class VehicleTest extends TestCase
     // Customer bisa menghapus kendaraan miliknya
     public function test_customer_can_delete_their_vehicle(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
@@ -278,7 +270,6 @@ class VehicleTest extends TestCase
     // Customer tidak bisa menghapus kendaraan customer lain
     public function test_customer_cannot_delete_another_customers_vehicle(): void
     {
-        $this->seed();
 
         $user = User::factory()->create([
             'role_id' => 5,
