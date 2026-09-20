@@ -9,34 +9,32 @@ use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
+
     use RefreshDatabase;
 
     private function createUser(): User
     {
-        $role = Role::create([
-            'name' => 'Owner',
-        ]);
+        $role = Role::where('name', 'Owner')->firstOrFail();
 
         return User::factory()->create([
             'role_id' => $role->id,
+            'email' => 'test-owner@gmail.com',
             'password' => 'rahasia',
         ]);
     }
 
     public function test_user_can_login_with_valid_credentials(): void
     {
-        $user = $this->createUser();
-
-        $user->update([
-            'email' => 'owner@gmail.com',
-        ]);
+        $user = User::where('email', 'owner@gmail.com')->firstOrFail();
 
         $response = $this->post('/login', [
             'identity' => 'owner@gmail.com',
             'password' => 'rahasia',
         ]);
 
-        $response->assertRedirect(route('owner.dashboard'));
+        $response->assertRedirect(
+            route('owner.dashboard')
+        );
 
         $this->assertAuthenticatedAs($user);
     }
@@ -45,9 +43,6 @@ class AuthenticationTest extends TestCase
     {
         $user = $this->createUser();
 
-        $user->update([
-            'email' => 'owner@gmail.com',
-        ]);
 
         $response = $this->post('/login', [
             'identity' => 'owner@gmail.com',
@@ -75,20 +70,19 @@ class AuthenticationTest extends TestCase
     {
         $user = $this->createUser();
 
-        $user->update([
-            'email' => 'owner@gmail.com',
-        ]);
-
         $oldSessionId = $this->app['session']->getId();
 
         $this->post('/login', [
-            'identity' => 'owner@gmail.com',
+            'identity' => 'test-owner@gmail.com',
             'password' => 'rahasia',
         ]);
 
         $newSessionId = $this->app['session']->getId();
 
-        $this->assertNotSame($oldSessionId, $newSessionId);
+        $this->assertNotSame(
+            $oldSessionId,
+            $newSessionId
+        );
 
         $this->assertAuthenticatedAs($user);
     }
@@ -101,7 +95,9 @@ class AuthenticationTest extends TestCase
 
         $response = $this->post('/logout');
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(
+            route('login')
+        );
 
         $this->assertGuest();
     }
@@ -109,9 +105,11 @@ class AuthenticationTest extends TestCase
     public function test_guest_cannot_access_authenticated_page(): void
     {
         $response = $this->get('/dashboard');
-        
-        $response->assertRedirect(route('login'));
-        
+
+        $response->assertRedirect(
+            route('login')
+        );
+
         $this->assertGuest();
     }
 }
