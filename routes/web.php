@@ -1,7 +1,7 @@
 <?php
 
-
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController as AuthAuthController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\ProfileController;
@@ -14,12 +14,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', [AuthAuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthAuthController::class, 'login']);
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 Route::middleware('auth')->group(function () {
 
@@ -71,12 +70,6 @@ Route::middleware('auth')->group(function () {
 
             // Vehicles
             Route::resource('vehicles', VehicleController::class);
-
-            // Active Booking
-            // Route::get('/booking-aktif', function () {
-            //     return view('customer.bookingAktif');
-            // })->name('bookingAktif');
-
             // Service Tracking
             Route::get('/tracking-service', [BookingController::class, 'tracking'])->name('trackingService');
 
@@ -86,6 +79,6 @@ Route::middleware('auth')->group(function () {
         });
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])
+Route::post('/logout', [AuthAuthController::class, 'logout'])
     ->name('logout')
     ->middleware('auth');

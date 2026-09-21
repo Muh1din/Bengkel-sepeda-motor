@@ -19,7 +19,20 @@
                 <!-- Avatar / Badge Inisial -->
                 <div
                     class="w-10 h-10 rounded-full bg-brand-navy/10 text-brand-navy font-bold text-base flex items-center justify-center shrink-0 border border-brand-navy/20">
-                    {{ strtoupper(substr(Auth::user()->customer->name ?? 'C', 0, 1)) }}
+                    @php
+                        $name = Auth::user()->name ?? 'Customer';
+                        $words = explode(' ', trim($name));
+                        $initials = '';
+
+                        if (count($words) >= 2) {
+                            $initials = strtoupper(substr($words[0], 0, 1) . substr(end($words), 0, 1));
+                        } else {
+                            $initials = strtoupper(substr($name, 0, min(2, strlen($name))));
+                        }
+
+                    @endphp
+                    
+                    {{ $initials }}
                 </div>
             </div>
 

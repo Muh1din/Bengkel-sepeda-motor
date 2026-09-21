@@ -18,7 +18,6 @@ class UserSeeder extends Seeder
         $service_advisor = Role::where('name', 'ServiceAdvisor')->first();
         $mechanic = Role::where('name', 'Mechanic')->first();
         $admin = Role::where('name', 'Admin')->first();
-        $customer = Role::where('name', 'Customer')->first();
 
 
         User::create([
@@ -51,14 +50,6 @@ class UserSeeder extends Seeder
             'phone' => '083898765432',
             'password' => 'rahasia',
             'role_id' => $admin->id
-        ]);
-
-        User::create([
-            'name' => 'Customer',
-            'email' => 'customer@gmail.com',
-            'phone' => '083822223333',
-            'password' => 'rahasia',
-            'role_id' => $customer->id
         ]);
     }
 }

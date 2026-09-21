@@ -119,7 +119,7 @@
                 <div class="col-span-1 md:col-span-2 lg:col-span-3 bg-ui-card rounded-lg p-8 text-center shadow-sm">
 
                     <div class="w-10 h-10 mx-auto rounded-full bg-ui-main flex items-center justify-center">
-                        <i data-lucide="car-front" class="w-5 h-5 text-brand-steel"></i>
+                        <i data-lucide="bike" class="w-5 h-5 text-brand-steel"></i>
                     </div>
 
                     <h4 class="text-sm font-semibold text-brand-navy mt-4">
@@ -129,14 +129,6 @@
                     <p class="text-xs text-brand-steel mt-1 max-w-sm mx-auto">
                         Anda belum memiliki kendaraan yang terdaftar pada sistem.
                     </p>
-
-                    <a href="{{ route('customer.vehicles.create') }}"
-                        class="inline-flex items-center justify-center gap-2 mt-4 px-4 py-2 bg-brand-navy hover:bg-slate-800 text-white text-sm font-medium rounded-md transition-colors">
-                        <i data-lucide="plus" class="w-4 h-4 text-brand-gold"></i>
-
-                        <span>Tambah Kendaraan</span>
-                    </a>
-
                 </div>
             @endforelse
 

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -35,23 +36,23 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            if($user->role->name === 'Owner'){
+            if ($user->role->name === 'Owner') {
                 return redirect()->route('owner.dashboard');
             }
 
-            if($user->role->name === 'ServiceAdvisor'){
+            if ($user->role->name === 'ServiceAdvisor') {
                 return redirect()->route('service-advisor.dashboard');
             }
 
-            if($user->role->name === 'Mechanic'){
+            if ($user->role->name === 'Mechanic') {
                 return redirect()->route('mechanic.dashboard');
             }
 
-            if($user->role->name === 'Admin'){
+            if ($user->role->name === 'Admin') {
                 return redirect()->route('admin.dashboard');
             }
 
-            if($user->role->name === 'Customer'){
+            if ($user->role->name === 'Customer') {
                 return redirect()->route('customer.dashboard');
             }
         }
