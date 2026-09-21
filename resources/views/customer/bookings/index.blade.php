@@ -149,12 +149,12 @@
 
                                         <button type="button"
                                             onclick="document.getElementById('cancel-modal-{{ $booking->id }}').close()"
-                                            class="px-4 py-2 border border-ui-border bg-ui-card hover:bg-ui-main rounded-lg text-xs font-semibold text-brand-navy transition-all cursor-pointer">
+                                            class="px-4 py-2 border border-ui-border bg-ui-card hover:bg-ui-main hover:border-brand-navy hover:shadow-sm rounded-lg text-xs font-semibold text-brand-navy transition-all duration-200 cursor-pointer">
                                             Kembali
                                         </button>
 
                                         <button type="submit"
-                                            class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition-all cursor-pointer">
+                                            class="px-4 py-2 rounded-lg bg-brand-navy hover:bg-brand-gold text-white text-xs font-semibold transition-all duration-200 cursor-pointer">
                                             Ya, Batalkan
                                         </button>
 

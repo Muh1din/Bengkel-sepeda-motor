@@ -116,7 +116,7 @@ class BookingController extends Controller
 
         $serviceHistory = $customer->bookings()
             ->where('status', 'COMPLETED')
-            ->with('vehicle')
+            ->with('vehicle', 'review')
             ->latest('booking_date')
             ->get();
 

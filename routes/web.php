@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController as AuthAuthController;
+use App\Http\Controllers\Customer\ReviewController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\DashboardController;
@@ -70,6 +71,9 @@ Route::middleware('auth')->group(function () {
 
             Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel'])
                 ->name('bookings.cancel');
+
+            Route::post('/bookings/{id}/review',[ReviewController::class, 'store'])
+                ->name('bookings.review.store');
 
             // Vehicles
             Route::resource('vehicles', VehicleController::class);

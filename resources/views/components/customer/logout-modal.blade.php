@@ -1,7 +1,5 @@
 <div id="logout-modal"
     class="fixed inset-0 z-100 hidden items-center justify-center bg-brand-navy/50 backdrop-blur-sm px-4">
-
-    ```
     <div class="w-full max-w-sm bg-ui-card rounded-lg shadow-xl border border-ui-border">
 
         <div class="p-5">
@@ -37,7 +35,7 @@
                 </button>
 
                 <button type="button" id="logout-confirm"
-                    class="px-4 py-2 rounded-md text-sm font-medium text-white bg-brand-gold hover:bg-brand-navy transition-colors">
+                    class="px-4 py-2 rounded-md text-sm font-medium text-white bg-brand-navy hover:bg-brand-gold transition-colors duration-200">
                     Keluar
                 </button>
 
@@ -46,6 +44,4 @@
         </div>
 
     </div>
-    ```
-
 </div>
