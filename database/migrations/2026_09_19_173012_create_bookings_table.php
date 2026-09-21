@@ -29,8 +29,10 @@ return new class extends Migration
                     'IN_PROGRESS',
                     'COMPLETED',
                     'REJECTED',
+                    'CANCELLED',
                 ]
             )->default('PENDING');
+            $table->text('cancellation_reason')->nullable();
             $table->timestamps();
             $table->foreign('customer_id')->on('customers')->references('id');
             $table->foreign('vehicle_id')->on('vehicles')->references('id');

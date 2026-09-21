@@ -105,6 +105,66 @@
 
                     </div>
 
+                    @if ($booking->status === 'PENDING')
+                        <dialog id="cancel-modal-{{ $booking->id }}"
+                            class="m-auto p-0 rounded-xl bg-transparent backdrop:bg-brand-navy/40 backdrop:backdrop-blur-xs max-w-md w-full">
+                            <div class="bg-ui-card border border-ui-border rounded-xl shadow-xl overflow-hidden">
+
+                                <div class="p-4 sm:p-5 border-b border-ui-border/80">
+                                    <span
+                                        class="text-[11px] font-mono font-bold text-brand-steel tracking-wider uppercase block">
+                                        Pembatalan Booking
+                                    </span>
+
+                                    <h3 class="text-base font-bold text-brand-navy mt-0.5">
+                                        Batalkan {{ $booking->booking_code }}?
+                                    </h3>
+                                </div>
+
+                                <form action="{{ route('customer.bookings.cancel', $booking->id) }}" method="POST">
+                                    @csrf
+
+                                    <div class="p-4 sm:p-5 space-y-4">
+
+                                        <div>
+                                            <label for="cancellation_reason_{{ $booking->id }}"
+                                                class="text-xs font-semibold uppercase tracking-wider text-brand-steel block mb-1.5">
+                                                Alasan Pembatalan
+                                            </label>
+
+                                            <textarea id="cancellation_reason_{{ $booking->id }}" name="cancellation_reason" rows="4" required
+                                                maxlength="1000" placeholder="Masukkan alasan pembatalan..."
+                                                class="w-full rounded-lg border border-ui-border bg-ui-card px-3 py-2 text-sm text-ui-text focus:border-brand-steel focus:ring-1 focus:ring-brand-steel outline-none resize-none"></textarea>
+
+                                            @error('cancellation_reason')
+                                                <p class="mt-1 text-xs text-red-600">
+                                                    {{ $message }}
+                                                </p>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-4 border-t border-ui-border/80 bg-ui-main/30 flex justify-end gap-2">
+
+                                        <button type="button"
+                                            onclick="document.getElementById('cancel-modal-{{ $booking->id }}').close()"
+                                            class="px-4 py-2 border border-ui-border bg-ui-card hover:bg-ui-main rounded-lg text-xs font-semibold text-brand-navy transition-all cursor-pointer">
+                                            Kembali
+                                        </button>
+
+                                        <button type="submit"
+                                            class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition-all cursor-pointer">
+                                            Ya, Batalkan
+                                        </button>
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </dialog>
+                    @endif
+
                     <!-- MODAL HTML DIALOG -->
                     <dialog id="modal-{{ $booking->id }}"
                         class="m-auto p-0 rounded-xl bg-transparent backdrop:bg-brand-navy/40 backdrop:backdrop-blur-xs max-w-lg w-full">
@@ -214,14 +274,23 @@
                             </div>
 
                             <!-- Modal Footer -->
-                            <div class="p-4 border-t border-ui-border/80 bg-ui-main/30 flex justify-end">
+                            <div class="p-4 border-t border-ui-border/80 bg-ui-main/30 flex justify-between">
+
+                                @if ($booking->status === 'PENDING')
+                                    <button type="button"
+                                        onclick="document.getElementById('cancel-modal-{{ $booking->id }}').showModal()"
+                                        class="px-4 py-2 border border-red-200 bg-red-50 hover:bg-red-100 rounded-lg text-xs font-semibold text-red-700 transition-all cursor-pointer">
+                                        Batalkan Booking
+                                    </button>
+                                @endif
+
                                 <button type="button"
                                     onclick="document.getElementById('modal-{{ $booking->id }}').close()"
                                     class="px-4 py-2 border border-ui-border bg-ui-card hover:bg-ui-main rounded-lg text-xs font-semibold text-brand-navy transition-all cursor-pointer">
                                     Tutup
                                 </button>
-                            </div>
 
+                            </div>
                         </div>
                     </dialog>
 

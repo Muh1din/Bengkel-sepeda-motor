@@ -68,6 +68,9 @@ Route::middleware('auth')->group(function () {
             Route::post('/bookings', [BookingController::class, 'store'])
                 ->name('bookings.store');
 
+            Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel'])
+                ->name('bookings.cancel');
+
             // Vehicles
             Route::resource('vehicles', VehicleController::class);
             // Service Tracking

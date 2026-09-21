@@ -12,15 +12,16 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-            'booking_code',
-            'customer_id',
-            'vehicle_id',
-            'service_type',
-            'booking_date',
-            'booking_time', 
-            'complaint', 
-            'status',
-        ];
+        'booking_code',
+        'customer_id',
+        'vehicle_id',
+        'service_type',
+        'booking_date',
+        'booking_time',
+        'complaint',
+        'status',
+        'cancellation_reason',
+    ];
 
 
     public function customer(): BelongsTo

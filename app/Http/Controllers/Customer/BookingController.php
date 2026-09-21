@@ -14,9 +14,17 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $customer = Customer::where('user_id', Auth::id())->firstOrFail();
+        $customer = Customer::where('user_id', Auth::id())
+            ->firstOrFail();
 
-        $bookings = $customer->bookings;
+        $bookings = $customer->bookings()
+            ->whereIn('status', [
+                'PENDING',
+                'CONFIRMED',
+                'IN_PROGRESS',
+            ])
+            ->latest()
+            ->get();
 
         return view('customer.bookings.index', compact('bookings'));
     }
@@ -64,6 +72,34 @@ class BookingController extends Controller
         return redirect()
             ->route('customer.bookings.index')
             ->with('success', 'Booking berhasil dibuat.');
+    }
+
+    public function cancel(Request $request, string $id)
+    {
+        $customer = Customer::where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $booking = $customer->bookings()
+            ->findOrFail($id);
+
+        if ($booking->status !== 'PENDING') {
+            return redirect()
+                ->route('customer.bookings.index')
+                ->with('error', 'Booking tidak dapat dibatalkan.');
+        }
+
+        $validated = $request->validate([
+            'cancellation_reason' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $booking->update([
+            'status' => 'CANCELLED',
+            'cancellation_reason' => $validated['cancellation_reason'],
+        ]);
+
+        return redirect()
+            ->route('customer.bookings.index')
+            ->with('success', 'Booking berhasil dibatalkan.');
     }
 
     public function tracking()

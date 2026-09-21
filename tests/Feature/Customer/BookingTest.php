@@ -3,6 +3,9 @@
 namespace Tests\Feature\Customer;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Role;
+use App\Models\Booking;
+use App\Models\Vehicle;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -307,5 +310,268 @@ class BookingTest extends TestCase
             ->get(route('customer.bookings.index'));
 
         $response->assertForbidden();
+    }
+
+    public function test_customer_can_cancel_pending_booking(): void
+    {
+        $role = Role::create([
+            'name' => 'Customer',
+        ]);
+
+        $user = User::factory()->create([
+            'role_id' => $role->id,
+        ]);
+
+        $customer = Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'user_id' => $user->id,
+        ]);
+
+        $vehicle = Vehicle::create([
+            'license_plate' => 'B 1234 XYZ',
+            'brand' => 'Honda',
+            'model' => 'Vario 160',
+            'year' => 2024,
+            'color' => 'Black',
+            'customer_id' => $customer->id,
+        ]);
+
+        $booking = Booking::create([
+            'booking_code' => 'BK-123456',
+            'customer_id' => $customer->id,
+            'vehicle_id' => $vehicle->id,
+            'service_type' => 'Service Berkala',
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:00',
+            'complaint' => 'Mesin terasa kasar',
+            'status' => 'PENDING',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->post(route('customer.bookings.cancel', $booking->id), [
+                'cancellation_reason' => 'Ada keperluan mendadak.',
+            ]);
+
+        $response->assertRedirect(route('customer.bookings.index'));
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->id,
+            'status' => 'CANCELLED',
+            'cancellation_reason' => 'Ada keperluan mendadak.',
+        ]);
+    }
+
+    public function test_customer_cannot_cancel_booking_without_reason(): void
+    {
+        $role = Role::create([
+            'name' => 'Customer',
+        ]);
+
+        $user = User::factory()->create([
+            'role_id' => $role->id,
+        ]);
+
+        $customer = Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'user_id' => $user->id,
+        ]);
+
+        $vehicle = Vehicle::create([
+            'license_plate' => 'B 1234 XYZ',
+            'brand' => 'Honda',
+            'model' => 'Vario 160',
+            'year' => 2024,
+            'color' => 'Black',
+            'customer_id' => $customer->id,
+        ]);
+
+        $booking = Booking::create([
+            'booking_code' => 'BK-123456',
+            'customer_id' => $customer->id,
+            'vehicle_id' => $vehicle->id,
+            'service_type' => 'Service Berkala',
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:00',
+            'complaint' => 'Mesin terasa kasar',
+            'status' => 'PENDING',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->post(route('customer.bookings.cancel', $booking->id), [
+                'cancellation_reason' => '',
+            ]);
+
+        $response->assertSessionHasErrors('cancellation_reason');
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->id,
+            'status' => 'PENDING',
+        ]);
+    }
+
+    public function test_customer_cannot_cancel_confirmed_booking(): void
+    {
+        $role = Role::create([
+            'name' => 'Customer',
+        ]);
+
+        $user = User::factory()->create([
+            'role_id' => $role->id,
+        ]);
+
+        $customer = Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'user_id' => $user->id,
+        ]);
+
+        $vehicle = Vehicle::create([
+            'license_plate' => 'B 1234 XYZ',
+            'brand' => 'Honda',
+            'model' => 'Vario 160',
+            'year' => 2024,
+            'color' => 'Black',
+            'customer_id' => $customer->id,
+        ]);
+
+        $booking = Booking::create([
+            'booking_code' => 'BK-123456',
+            'customer_id' => $customer->id,
+            'vehicle_id' => $vehicle->id,
+            'service_type' => 'Service Berkala',
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:00',
+            'complaint' => 'Mesin terasa kasar',
+            'status' => 'CONFIRMED',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->post(route('customer.bookings.cancel', $booking->id), [
+                'cancellation_reason' => 'Saya berubah jadwal.',
+            ]);
+
+        $response->assertRedirect(route('customer.bookings.index'));
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->id,
+            'status' => 'CONFIRMED',
+            'cancellation_reason' => null,
+        ]);
+    }
+
+    public function test_customer_cannot_cancel_another_customer_booking(): void
+    {
+        $role = Role::create([
+            'name' => 'Customer',
+        ]);
+
+        $user = User::factory()->create([
+            'role_id' => $role->id,
+        ]);
+
+        $otherUser = User::factory()->create([
+            'role_id' => $role->id,
+        ]);
+
+        $customer = Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'user_id' => $user->id,
+        ]);
+
+        $otherCustomer = Customer::create([
+            'name' => $otherUser->name,
+            'email' => $otherUser->email,
+            'phone' => $otherUser->phone,
+            'user_id' => $otherUser->id,
+        ]);
+
+        $vehicle = Vehicle::create([
+            'license_plate' => 'B 5678 ABC',
+            'brand' => 'Yamaha',
+            'model' => 'NMAX',
+            'year' => 2024,
+            'color' => 'Black',
+            'customer_id' => $otherCustomer->id,
+        ]);
+
+        $booking = Booking::create([
+            'booking_code' => 'BK-654321',
+            'customer_id' => $otherCustomer->id,
+            'vehicle_id' => $vehicle->id,
+            'service_type' => 'Service Berkala',
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:00',
+            'complaint' => 'Mesin bermasalah',
+            'status' => 'PENDING',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->post(route('customer.bookings.cancel', $booking->id), [
+                'cancellation_reason' => 'Mencoba membatalkan booking orang lain.',
+            ]);
+
+        $response->assertNotFound();
+
+        $this->assertDatabaseHas('bookings', [
+            'id' => $booking->id,
+            'status' => 'PENDING',
+            'cancellation_reason' => null,
+        ]);
+    }
+
+    public function test_canceled_booking_does_not_appear_in_active_bookings(): void
+    {
+        $role = Role::create([
+            'name' => 'Customer',
+        ]);
+
+        $user = User::factory()->create([
+            'role_id' => $role->id,
+        ]);
+
+        $customer = Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'user_id' => $user->id,
+        ]);
+
+        $vehicle = Vehicle::create([
+            'license_plate' => 'B 1234 XYZ',
+            'brand' => 'Honda',
+            'model' => 'Vario 160',
+            'year' => 2024,
+            'color' => 'Black',
+            'customer_id' => $customer->id,
+        ]);
+
+        Booking::create([
+            'booking_code' => 'BK-123456',
+            'customer_id' => $customer->id,
+            'vehicle_id' => $vehicle->id,
+            'service_type' => 'Service Berkala',
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:00',
+            'complaint' => 'Mesin terasa kasar',
+            'status' => 'CANCELLED',
+            'cancellation_reason' => 'Ada keperluan mendadak.',
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get(route('customer.bookings.index'));
+
+        $response->assertDontSee('BK-123456');
     }
 }
