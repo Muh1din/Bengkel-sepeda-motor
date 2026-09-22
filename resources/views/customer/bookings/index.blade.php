@@ -21,10 +21,10 @@
                 setTimeout(() => {
                     const alert = document.getElementById('success-alert');
                     if (alert) {
-                        alert.style.opacity = '0'; // Efek fade out
-                        setTimeout(() => alert.remove(), 500); // Hapus elemen dari DOM setelah animasi fade
+                        alert.style.opacity = '0'; 
+                        setTimeout(() => alert.remove(), 500); 
                     }
-                }, 4000); // 4000ms = 4 detik
+                }, 4000);
             </script>
         @endif
 

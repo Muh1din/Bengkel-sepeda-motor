@@ -1,19 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class RgisterController extends Controller
+class HomeController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    // public function index()
+    // {
+    //     return "Hello Boss!";
+    // }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('auth.register');
+        //
     }
 
     /**

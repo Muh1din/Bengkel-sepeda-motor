@@ -7,16 +7,15 @@ use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\ProfileController;
 use App\Http\Controllers\Customer\VehicleController;
+use App\Http\Controllers\Home\HomeController;
 use Illuminate\Image\Transformations\Rotate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/login', [AuthAuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthAuthController::class, 'login']);
+Route::get('/', [AuthAuthController::class, 'showLogin'])->name('login');
+Route::post('/', [AuthAuthController::class, 'login']);
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
