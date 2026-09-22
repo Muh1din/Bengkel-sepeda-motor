@@ -60,6 +60,7 @@ RUN composer dump-autoload \
 
 # 8. Create Storage Structure & Fix Ownership
 RUN mkdir -p \
+    resources/views \
     storage/app/public \
     storage/framework/cache/data \
     storage/framework/sessions \
@@ -68,7 +69,7 @@ RUN mkdir -p \
     bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
-    
+
 USER www-data
 
 EXPOSE 9000
