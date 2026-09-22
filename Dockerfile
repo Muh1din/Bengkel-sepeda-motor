@@ -1,41 +1,39 @@
-# Stage 1: Build Frontend
+# Stage 1: Build Frontend (Vite/Mix)
 FROM node:20-alpine AS node-builder
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci
+# Pakai --no-audit dan --no-fund untuk mempercepat install & hemat RAM saat build
+RUN npm ci --no-audit --no-fund
 
 COPY . .
 
 RUN npm run build
 
-
 # Stage 2: PHP Laravel Application
-FROM php:8.3-fpm AS app
+FROM php:8.3-fpm-alpine AS app
 
-# Install PHP dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    zip \
-    unzip \
-    libonig-dev \
-    libxml2-dev \
+# 1. Gunakan Alpine Linux alih-alih Debian (Apt).
+# Ini memotong ukuran image dari ~500MB menjadi ~80MB & hemat RAM!
+RUN apk add --no-cache \
+    icu-dev \
     libzip-dev \
-    libicu-dev \
-    libwebp-dev \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    passwd \
-    && docker-php-ext-configure gd \
+    libjpeg-turbo-dev \
+    libwebp-dev \
+    freetype-dev \
+    oniguruma-dev \
+    libxml2-dev \
+    shadow
+
+# 2. Configure & Install PHP Extensions
+RUN docker-php-ext-configure gd \
     --with-freetype \
     --with-jpeg \
     --with-webp \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install \
+    && docker-php-ext-install -j$(nproc) \
     pdo \
     pdo_mysql \
     mbstring \
@@ -43,83 +41,66 @@ RUN apt-get update && apt-get install -y \
     intl \
     zip \
     gd \
-    opcache \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    opcache
 
-
+# Modifikasi UID/GID www-data
 ARG WWWUSER=1000
 ARG WWWGROUP=1000
-
 RUN usermod -u ${WWWUSER} www-data \
     && groupmod -g ${WWWGROUP} www-data
-
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-
 WORKDIR /var/www/html
 
-
-# Composer dependency files
+# Copy Composer dependencies terlebih dahulu (Caching Layer)
 COPY composer.json composer.lock ./
 
-
-# Install production dependencies
+# Install Composer Dependencies (Optimized for Production)
 RUN composer install \
     --no-scripts \
     --no-autoloader \
     --ansi \
     --no-interaction \
-    --no-dev
+    --no-dev \
+    --prefer-dist
 
-
-# Copy Laravel application
+# Copy Source Code Aplikasi
 COPY . .
 
-
-# Copy Vite build AFTER copying source
+# Copy Frontend Assets dari Stage 1
 COPY --from=node-builder /app/public/build /var/www/html/public/build
 
-
-# Optimize Composer autoloader
+# Optimize Autoloader
 RUN composer dump-autoload \
     --optimize \
-    --no-dev
+    --no-dev \
+    --classmap-authoritative
 
-
-# Create Laravel storage directories
+# Buat direktori storage dan sesuaikan hak akses
 RUN mkdir -p \
-    /var/www/html/storage/app/public \
-    /var/www/html/storage/framework/cache \
-    /var/www/html/storage/framework/sessions \
-    /var/www/html/storage/framework/views \
-    /var/www/html/storage/logs \
-    /var/www/html/bootstrap/cache
-
-
-# Permissions
-RUN chown -R www-data:www-data \
-    /var/www/html/storage \
-    /var/www/html/bootstrap/cache \
-    && chmod -R 775 \
-    /var/www/html/storage \
-    /var/www/html/bootstrap/cache
-
+    storage/app/public \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 USER www-data
 
 EXPOSE 9000
 
 CMD ["php-fpm"]
-# Stage 3: Nginx
+
+
+# Stage 3: Nginx Web Server
 FROM nginx:alpine AS nginx
-# Nginx configuration
+
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-# Laravel public directory
-COPY public /var/www/html/public
-# Copy Vite production build
+COPY --from=app /var/www/html/public /var/www/html/public
 COPY --from=node-builder /app/public/build /var/www/html/public/build
-# Create storage directory
+
 RUN mkdir -p /var/www/html/storage/app/public
