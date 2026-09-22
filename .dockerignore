@@ -8,7 +8,6 @@ vendor
 .env.*
 !.env.example
 
-public/build
 
 storage/logs/*
 storage/framework/cache/*
