@@ -13,12 +13,12 @@ RUN apk add --no-cache \
     libxml2-dev \
     shadow
 
-# 2. Configure & Install PHP Extensions
+# 2. Configure & Install PHP Extensions (Gunakan -j1 agar ringan di VPS 1 GB)
 RUN docker-php-ext-configure gd \
     --with-freetype \
     --with-jpeg \
     --with-webp \
-    && docker-php-ext-install -j$(nproc) \
+    && docker-php-ext-install -j1 \
     pdo \
     pdo_mysql \
     mbstring \
@@ -49,7 +49,7 @@ RUN composer install \
     --no-dev \
     --prefer-dist
 
-# 6. Copy Entire Source Code (Termasuk folder public/build dari lokal)
+# 6. Copy Entire Source Code
 COPY . .
 
 # 7. Optimize Autoloader
@@ -58,7 +58,7 @@ RUN composer dump-autoload \
     --no-dev \
     --classmap-authoritative
 
-# 8. Create Storage Structure & Fix Ownership
+# 8. Create Storage Structure & Fix Ownership (Fokus hanya ke storage & cache)
 RUN mkdir -p \
     resources/views \
     storage/app/public \
@@ -67,7 +67,7 @@ RUN mkdir -p \
     storage/framework/views \
     storage/logs \
     bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html \
+    && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 USER www-data
@@ -80,11 +80,13 @@ CMD ["php-fpm"]
 # Stage 2: Nginx Web Server
 FROM nginx:alpine AS nginx
 
+WORKDIR /var/www/html
+
 # Copy Konfigurasi Nginx
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Copy Public Directory (Terdiri dari index.php, assets, dan build frontend)
+# Copy Public Directory dari stage app
 COPY --from=app /var/www/html/public /var/www/html/public
 
-# Pastikan folder storage publik dibuat untuk symlink
+# Folder storage publik untuk symlink
 RUN mkdir -p /var/www/html/storage/app/public
