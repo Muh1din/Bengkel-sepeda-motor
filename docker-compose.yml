@@ -25,7 +25,7 @@ services:
 
     environment:
       HOME: /tmp
-      APP_ENV: local
+      APP_ENV: production
       APP_DEBUG: "true"
       DB_CONNECTION: mysql
       DB_HOST: db
