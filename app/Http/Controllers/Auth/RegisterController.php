@@ -41,6 +41,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
+        
         $customerRole = Role::where('name', 'customer')->firstOrFail();
 
         $user = User::create([
