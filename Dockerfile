@@ -1,37 +1,92 @@
-FROM node:20-alpine AS node-builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+# Stage 1: PHP Laravel Application
+FROM php:8.3-fpm-alpine AS app
 
-FROM php:8.3-fpm
+# 1. Install System Dependencies
+RUN apk add --no-cache \
+    icu-dev \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    libwebp-dev \
+    freetype-dev \
+    oniguruma-dev \
+    libxml2-dev \
+    shadow
 
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip libonig-dev libxml2-dev libzip-dev libicu-dev \
-    libpng-dev libjpeg-dev libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install pdo pdo_mysql mbstring xml intl zip gd opcache
+# 2. Configure & Install PHP Extensions (Gunakan -j1 agar ringan di VPS 1 GB)
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp \
+    && docker-php-ext-install -j1 \
+    pdo \
+    pdo_mysql \
+    mbstring \
+    xml \
+    intl \
+    zip \
+    gd \
+    opcache
 
-COPY --from=node-builder /app/public/build /var/www/html/public/build
+# 3. Adjust User/Group ID www-data
+ARG WWWUSER=1000
+ARG WWWGROUP=1000
+RUN usermod -u ${WWWUSER} www-data \
+    && groupmod -g ${WWWGROUP} www-data
+
+# 4. Copy Composer Executable
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
+# 5. Install Composer Dependencies (Leveraging Docker Cache)
 COPY composer.json composer.lock ./
+RUN composer install \
+    --no-scripts \
+    --no-autoloader \
+    --ansi \
+    --no-interaction \
+    --no-dev \
+    --prefer-dist
 
-RUN composer install --no-scripts --no-autoloader --ansi --no-interaction --no-dev
-
+# 6. Copy Entire Source Code
 COPY . .
 
-RUN composer dump-autoload --optimize --no-dev 
+# 7. Optimize Autoloader
+RUN composer dump-autoload \
+    --optimize \
+    --no-dev \
+    --classmap-authoritative
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# 8. Create Storage Structure & Fix Ownership (Fokus hanya ke storage & cache)
+RUN mkdir -p \
+    resources/views \
+    storage/app/public \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 USER www-data
 
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+
+# Stage 2: Nginx Web Server
+FROM nginx:alpine AS nginx
+
+WORKDIR /var/www/html
+
+# Copy Konfigurasi Nginx
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Copy Public Directory dari stage app
+COPY --from=app /var/www/html/public /var/www/html/public
+
+# Folder storage publik untuk symlink
+RUN mkdir -p /var/www/html/storage/app/public
