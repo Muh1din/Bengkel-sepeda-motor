@@ -59,7 +59,7 @@ class RegisterController extends Controller
         ]);
 
         return redirect()
-            ->route('login')
+            ->route('/')
             ->with('success', 'Registrasi berhasil, silahkan login dengan akun anda');
     }
 
