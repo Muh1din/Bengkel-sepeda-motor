@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: app
-    container_name: nirwanaGarage_app
+    container_name: nirwanaGarage77_app
     restart: unless-stopped
     working_dir: /var/www/html
 
@@ -35,9 +35,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
 
     healthcheck:
-      test: ["CMD", "php-fpm-healthcheck"]
-      # Kalau image belum punya php-fpm-healthcheck, ganti dengan cek socket:
-      # test: ["CMD-SHELL", "SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping REQUEST_METHOD=GET cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1"]
+      test: ["CMD-SHELL", "php-fpm -t"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -52,7 +50,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: nirwanaGarage_nginx
+    container_name: nirwanaGarage77_nginx
     restart: unless-stopped
 
     mem_limit: 64m
@@ -77,7 +75,7 @@ services:
 
   db:
     image: mysql:8.4
-    container_name: nirwanaGarage_db
+    container_name: nirwanaGarage77_db
     restart: unless-stopped
 
     mem_limit: 384m
