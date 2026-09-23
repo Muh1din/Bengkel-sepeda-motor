@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Eka',
-            'email' => 'owner@gmail.com',
+            'email' => 'eka@gmail.com',
             'phone' => '081234567890',
             'password' => 'rahasia',
             'role_id' => $owner->id
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Dian',
-            'email' => 'advisor@gmail.com',
+            'email' => 'dian@gmail.com',
             'phone' => '083812345678',
             'password' => 'rahasia',
             'role_id' => $service_advisor->id
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Rafli',
-            'email' => 'mechanic@gmail.com',
+            'email' => 'rafli@gmail.com',
             'phone' => '083812349876',
             'password' => 'rahasia',
             'role_id' => $mechanic->id
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Ibnu',
-            'email' => 'admin@gmail.com',
+            'email' => 'ibnu@gmail.com',
             'phone' => '083898765432',
             'password' => 'rahasia',
             'role_id' => $admin->id
