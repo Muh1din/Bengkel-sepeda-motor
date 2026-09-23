@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class BookingController extends Controller
             ->findOrFail($validated['vehicle_id']);
 
         $customer->bookings()->create([
-            'booking_code' => 'BK-' . strtoupper(fake()->unique()->numerify('######')),
+            'booking_code' => 'BK-' . strtoupper(Str::random(6)),
             'vehicle_id' => $vehicle->id,
             'service_type' => $validated['service_type'],
             'booking_date' => $validated['booking_date'],
