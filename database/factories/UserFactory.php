@@ -36,6 +36,15 @@ class UserFactory extends Factory
         ];
     }
 
+    public function mechanic(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role_id' => Role::where('name', 'Mechanic')->firstOrFail()->id,
+            ];
+        });
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      */

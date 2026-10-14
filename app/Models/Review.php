@@ -15,6 +15,7 @@ class Review extends Model
         'customer_id',
         'rating',
         'comment',
+        'status',
     ];
 
     public function booking(): BelongsTo

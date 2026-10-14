@@ -16,8 +16,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'identity' => ['required'],
-            'password' => ['required'],
+            'identity' => ['required', 'string'],
+            'password' => ['required', 'string'],
         ]);
 
         $identity = $credentials['identity'];
@@ -29,6 +29,7 @@ class AuthController extends Controller
         $loginData = [
             $fieldType => $identity,
             'password' => $credentials['password'],
+            'is_active' => true,
         ];
 
         if (Auth::attempt($loginData, $request->boolean('remember'))) {
@@ -55,6 +56,11 @@ class AuthController extends Controller
             if ($user->role->name === 'Customer') {
                 return redirect()->route('customer.dashboard');
             }
+
+            Auth::logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
         }
 
         return back()

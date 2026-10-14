@@ -40,4 +40,24 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class, 'user_id', 'id');
     }
+
+    public function inspections()
+    {
+        return $this->hasMany(VehicleInspection::class,'mechanic_id','id');
+    }
+
+    public function createdInspections()
+    {
+        return $this->hasMany(VehicleInspection::class,'created_by','id');
+    }
+
+    public function workOrders()
+    {
+        return $this->hasMany(WorkOrder::class,'mechanic_id','id');
+    }
+
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
 }

@@ -25,10 +25,10 @@ class AuthenticationTest extends TestCase
 
     public function test_user_can_login_with_valid_credentials(): void
     {
-        $user = User::where('email', 'owner@gmail.com')->firstOrFail();
+        $user = $this->createUser();
 
         $response = $this->post('/login', [
-            'identity' => 'owner@gmail.com',
+            'identity' => 'test-owner@gmail.com',
             'password' => 'rahasia',
         ]);
 

@@ -21,6 +21,7 @@ class Booking extends Model
         'booking_time',
         'complaint',
         'status',
+        'rejection_reason',
         'cancellation_reason',
     ];
 
@@ -38,5 +39,15 @@ class Booking extends Model
     public function review(): HasOne
     {
         return $this->hasOne(Review::class, 'booking_id', 'id');
+    }
+
+    public function workOrder(): HasOne
+    {
+        return $this->hasOne(WorkOrder::class,'booking_id','id');
+    }
+
+    public function inspection(): HasOne
+    {
+        return $this->hasOne(VehicleInspection::class, 'booking_id', 'id');
     }
 }
