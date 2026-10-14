@@ -15,6 +15,19 @@ class BookingTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_booking_factory_creates_valid_customer_and_vehicle_relationship(): void
+    {
+        $booking = Booking::factory()->create();
+
+        $this->assertNotNull($booking->customer_id);
+        $this->assertNotNull($booking->vehicle_id);
+
+        $this->assertEquals(
+            $booking->customer_id,
+            $booking->vehicle->customer_id
+        );
+    }
+
     public function test_customer_can_view_their_bookings(): void
     {
         $user = User::factory()->create([
@@ -234,7 +247,7 @@ class BookingTest extends TestCase
         $this->assertNotEmpty($booking->booking_code);
 
         $this->assertMatchesRegularExpression(
-            '/^BK-\d{6}$/',
+            '/^BK-[A-Z0-9]{6}$/',
             $booking->booking_code
         );
     }

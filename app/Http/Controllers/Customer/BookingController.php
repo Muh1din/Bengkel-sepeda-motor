@@ -105,9 +105,27 @@ class BookingController extends Controller
 
     public function tracking()
     {
-        $customer = Customer::where('user_id', Auth::id())->firstOrFail();
-        $currentService = $customer->bookings()->whereIn('status', ['CONFIRMED', 'IN_PROGRESS', 'COMPLETED',])->with('vehicle')->latest()->first();
-        return view('customer.trackingService', compact('currentService'));
+        $customer = Customer::where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $currentService = $customer->bookings()
+            ->whereIn('status', [
+                'CONFIRMED',
+                'IN_PROGRESS',
+                'COMPLETED',
+            ])
+            ->with([
+                'vehicle',
+                'inspection.recommendedWorks',
+                'workOrder.workItems',
+            ])
+            ->latest()
+            ->first();
+
+        return view(
+            'customer.trackingService',
+            compact('currentService')
+        );
     }
 
     public function history()
