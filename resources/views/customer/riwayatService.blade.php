@@ -120,7 +120,7 @@
                                 {{-- AKSI --}}
                                 <td class="py-3 px-4">
 
-                                    <div class="flex flex-col items-start gap-2">
+                                    <div class="flex flex-row flex-wrap items-end gap-2">
 
                                         {{-- DETAIL --}}
                                         <button type="button" onclick="openDetailModal(@js([
@@ -132,18 +132,24 @@
     'serviceType' => $booking->service_type,
     'complaint' => $booking->complaint ?? '-',
 ]))"
-                                            class="text-xs font-medium text-brand-navy hover:text-brand-gold transition-colors">
+                                            class="inline-flex items-center justify-center rounded-lg border border-[#1b263b]
+               bg-white px-3 py-1.5 text-xs font-semibold text-[#1b263b]
+               transition-colors duration-200 hover:bg-[#1b263b] hover:text-white">
                                             Detail
                                         </button>
 
                                         {{-- REVIEW --}}
                                         @if ($booking->review)
-                                            <span class="text-xs text-green-600 font-medium">
+                                            <span
+                                                class="inline-flex items-center justify-center rounded-lg
+                   bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-700">
                                                 Sudah Direview
                                             </span>
                                         @else
                                             <button type="button" onclick="openReviewModal({{ $booking->id }})"
-                                                class="text-xs font-medium text-brand-gold hover:text-brand-navy transition-colors">
+                                                class="inline-flex items-center justify-center rounded-lg
+                   bg-[#c58e4b] px-3 py-1.5 text-xs font-semibold text-white
+                   transition-colors duration-200 hover:bg-[#a97538]">
                                                 Beri Review
                                             </button>
                                         @endif
@@ -339,26 +345,25 @@
 
                     {{-- RATING --}}
                     <div>
-
                         <label class="block text-sm font-medium text-brand-navy mb-2">
                             Rating
                         </label>
 
-                        <div class="flex items-center gap-4">
-
+                        <div class="flex items-center gap-2">
                             @for ($rating = 1; $rating <= 5; $rating++)
-                                <label class="flex items-center gap-1 text-sm text-brand-steel cursor-pointer">
-
+                                <label class="cursor-pointer">
                                     <input type="radio" name="rating" value="{{ $rating }}"
-                                        class="text-brand-navy focus:ring-brand-navy" required>
+                                        class="peer sr-only" required>
 
-                                    {{ $rating }}
-
+                                    <svg class="rating-star w-8 h-8 text-gray-300 transition-colors duration-200"
+                                        fill="currentColor" viewBox="0 0 24 24"
+                                        aria-label="{{ $rating }} bintang">
+                                        <path
+                                            d="M12 2.5l2.9 5.88 6.49.94-4.7 4.58 1.11 6.47L12 17.32l-5.8 3.05 1.11-6.47-4.7-4.58 6.49-.94L12 2.5z" />
+                                    </svg>
                                 </label>
                             @endfor
-
                         </div>
-
                     </div>
 
                     {{-- COMMENT --}}

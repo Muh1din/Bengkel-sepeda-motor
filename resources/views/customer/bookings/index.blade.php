@@ -21,8 +21,8 @@
                 setTimeout(() => {
                     const alert = document.getElementById('success-alert');
                     if (alert) {
-                        alert.style.opacity = '0'; 
-                        setTimeout(() => alert.remove(), 500); 
+                        alert.style.opacity = '0';
+                        setTimeout(() => alert.remove(), 500);
                     }
                 }, 4000);
             </script>
@@ -89,8 +89,8 @@
                                 <span>•</span>
                                 <span>
                                     {{ \Carbon\Carbon::parse($booking->booking_date)->format('Y-m-d') }} pukul
-                                    {{ $booking->booking_time }}
-                                </span>
+                                    {{ \Carbon\Carbon::parse($booking->booking_time)->format('H:i') }}
+                                </span> WIB
                             </p>
                         </div>
 
@@ -251,8 +251,9 @@
                                         </div>
                                         <div class="flex justify-between text-xs">
                                             <span class="text-brand-steel">Jam Estimasi:</span>
-                                            <span class="font-medium text-ui-text">{{ $booking->booking_time }}
-                                                WIB</span>
+                                            <span class="font-medium text-ui-text">
+                                                {{ \Carbon\Carbon::parse($booking->booking_time)->format('H:i') }} WIB
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -286,7 +287,7 @@
 
                                 <button type="button"
                                     onclick="document.getElementById('modal-{{ $booking->id }}').close()"
-                                    class="px-4 py-2 border border-ui-border bg-ui-card hover:bg-ui-main rounded-lg text-xs font-semibold text-brand-navy transition-all cursor-pointer">
+                                    class="ml-auto px-4 py-2 border border-ui-border bg-ui-card hover:bg-ui-main rounded-lg text-xs font-semibold text-brand-navy transition-all cursor-pointer">
                                     Tutup
                                 </button>
 
