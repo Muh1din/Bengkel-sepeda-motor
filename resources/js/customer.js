@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-
     // 1. Re-render Lucide Icons paling awal
     if (typeof lucide !== "undefined") {
         lucide.createIcons();
@@ -14,15 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 2. Sidebar Handling
     function openSidebar() {
-        if (sidebar && overlay) {
+        if (sidebar) {
             sidebar.classList.remove("-translate-x-full");
+        }
+
+        if (overlay) {
             overlay.classList.remove("hidden");
         }
     }
 
     function closeSidebar() {
-        if (sidebar && overlay) {
+        if (sidebar) {
             sidebar.classList.add("-translate-x-full");
+        }
+
+        if (overlay) {
             overlay.classList.add("hidden");
         }
     }
@@ -59,4 +64,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    document
+        .querySelectorAll('#review-form input[name="rating"]')
+        .forEach((input) => {
+            input.addEventListener("change", function () {
+                const rating = Number(this.value);
+                const stars = document.querySelectorAll(
+                    "#review-form .rating-star",
+                );
+
+                stars.forEach((star, index) => {
+                    star.classList.toggle("text-yellow-400", index < rating);
+                    star.classList.toggle("text-gray-300", index >= rating);
+                });
+            });
+        });
 });

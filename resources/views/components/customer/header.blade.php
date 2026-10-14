@@ -19,9 +19,4 @@
             </h1>
         </div>
     </div>
-
-    <!-- Sisi Kanan Header -->
-    <div class="flex items-center gap-3">
-        <!-- Profil ringkas / Notifikasi -->
-    </div>
 </header>
