@@ -62,23 +62,40 @@
 
             <!-- Header Section -->
             <div class="flex items-center justify-between">
+
                 <h3 class="text-base sm:text-lg font-bold text-brand-navy tracking-tight">
                     Booking Terbaru
                 </h3>
 
                 <a href="{{ route('customer.bookingService') }}"
-                    class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-brand-navy text-white text-xs sm:text-sm font-semibold hover:bg-brand-gold transition-colors duration-200 shadow-sm">
-                    <i data-lucide="plus" class="w-4 h-4"></i> Buat Booking Baru </a>
+                    class="inline-flex items-center justify-center gap-2
+                   px-4 py-2 rounded-md
+                   bg-brand-navy text-white
+                   text-xs sm:text-sm font-semibold
+                   hover:bg-brand-gold
+                   transition-colors duration-200
+                   shadow-sm">
+
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+
+                    Buat Booking Baru
+
+                </a>
+
             </div>
+
 
             <!-- Bookings List -->
             <div class="space-y-3">
+
                 @forelse ($latestBookings as $booking)
                     @php
                         $statusClasses = match (strtolower($booking->status)) {
                             'pending' => 'bg-amber-50 text-amber-700 border-amber-200',
                             'confirmed' => 'bg-blue-50 text-blue-700 border-blue-200',
                             'in_progress', 'sedang diproses' => 'bg-purple-50 text-purple-700 border-purple-200',
+                            'rejected' => 'bg-red-50 text-red-700 border-red-200',
+                            'cancelled' => 'bg-slate-50 text-slate-600 border-slate-200',
                             default => 'bg-ui-main text-brand-steel border-ui-border',
                         };
 
@@ -86,49 +103,138 @@
                             'pending' => 'Menunggu Konfirmasi',
                             'confirmed' => 'Terkonfirmasi',
                             'in_progress', 'sedang diproses' => 'Sedang Diproses',
+                            'rejected' => 'Ditolak',
+                            'cancelled' => 'Dibatalkan',
                             default => ucfirst($booking->status),
                         };
                     @endphp
 
-                    <div
-                        class="border border-ui-border bg-ui-main/30 rounded-lg p-4 transition-all hover:border-brand-steel/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
+                    <!-- Booking Item -->
+                    <div
+                        class="border border-ui-border
+                       bg-ui-main/30
+                       rounded-lg p-4
+                       transition-all
+                       hover:border-brand-steel/40
+                       flex flex-col
+                       sm:flex-row
+                       sm:items-center
+                       justify-between
+                       gap-3">
+
+                        <!-- Booking Information -->
                         <div class="space-y-1">
+
                             <div class="flex items-center gap-2">
-                                <span class="font-mono text-xs font-bold text-brand-steel tracking-wide">
-                                    {{ $booking->booking_code }}
-                                </span>
+
                                 <span
-                                    class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border {{ $statusClasses }}">
-                                    {{ $statusLabels }}
+                                    class="font-mono text-xs font-bold
+                                   text-brand-steel tracking-wide">
+
+                                    {{ $booking->booking_code }}
+
                                 </span>
+
+                                <span
+                                    class="inline-flex items-center
+                                   px-2 py-0.5
+                                   rounded-full
+                                   text-[10px] font-medium
+                                   border
+                                   {{ $statusClasses }}">
+
+                                    {{ $statusLabels }}
+
+                                </span>
+
                             </div>
 
+
                             <h4 class="text-sm font-bold text-brand-navy">
-                                {{ $booking->vehicle->license_plate ?? 'B 1234 XYZ' }} —
-                                {{ $booking->vehicle->brand ?? '' }} {{ $booking->vehicle->model ?? '' }}
+
+                                {{ $booking->vehicle->license_plate ?? '' }}
+                                -
+
+                                {{ $booking->vehicle->brand ?? '' }}
+                                {{ $booking->vehicle->model ?? '' }}
+
                             </h4>
 
-                            <p class="text-xs text-brand-steel flex items-center gap-1.5">
-                                <span>{{ $booking->service_type }}</span>
-                                <span>•</span>
+
+                            <p
+                                class="text-xs text-brand-steel
+                               flex items-center gap-1.5">
+
                                 <span>
-                                    {{ \Carbon\Carbon::parse($booking->booking_date)->format('Y-m-d') }} pukul
-                                    {{ $booking->booking_time }}
+                                    {{ $booking->service_type }}
                                 </span>
+
+                                <span>•</span>
+
+                                <span>
+
+                                    {{ \Carbon\Carbon::parse($booking->booking_date)->format('Y-m-d') }}
+
+                                    pukul
+
+                                    {{ $booking->booking_time }}
+
+                                </span>
+
                             </p>
+
                         </div>
 
+
+                        <!-- Rejection Action -->
+                        @if (strtolower($booking->status) === 'rejected')
+                            <button type="button"
+                                onclick="openRejectionReason(
+                            @js($booking->booking_code),
+                            @js($booking->rejection_reason)
+                        )"
+                                class="inline-flex items-center
+                               justify-center
+                               px-3 py-2
+                               text-xs font-semibold
+                               text-red-700
+                               bg-red-50
+                               border border-red-200
+                               rounded-lg
+                               hover:bg-red-100
+                               transition-colors">
+
+                                Alasan Penolakan
+
+                            </button>
+                        @endif
+
                     </div>
+
+
                 @empty
+
+                    <!-- Empty State -->
                     <div
-                        class="py-8 text-center text-xs sm:text-sm text-brand-steel bg-ui-main/40 border border-dashed border-ui-border rounded-lg">
+                        class="py-8
+                       text-center
+                       text-xs sm:text-sm
+                       text-brand-steel
+                       bg-ui-main/40
+                       border border-dashed
+                       border-ui-border
+                       rounded-lg">
+
                         Belum ada data booking terbaru.
+
                     </div>
                 @endforelse
+
             </div>
 
         </div>
+
 
         <!-- CURRENT SERVICE -->
         <div class="bg-ui-card border border-ui-border rounded-xl shadow-xs p-5 sm:p-6 space-y-4">
@@ -211,5 +317,74 @@
 
 
     </section>
+
+    <!-- Rejection Reason Modal -->
+    <div id="rejection-reason-modal"
+        class="hidden fixed inset-0 z-50 items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+
+        <div id="rejection-reason-modal-box"
+            class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-ui-border
+               scale-95 opacity-0 transition-all duration-200">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between px-5 py-4 border-b border-ui-border">
+
+                <div>
+                    <h2 class="text-base font-bold text-brand-navy">
+                        Alasan Penolakan
+                    </h2>
+
+                    <p id="rejection-booking-code" class="text-xs text-brand-steel mt-1">
+                    </p>
+                </div>
+
+                <button type="button" onclick="closeRejectionReason()"
+                    class="inline-flex items-center justify-center
+                       w-8 h-8 rounded-lg
+                       text-brand-steel
+                       hover:bg-ui-main
+                       transition-colors">
+
+                    <i data-lucide="x" class="w-4 h-4"></i>
+
+                </button>
+
+            </div>
+
+            <!-- Content -->
+            <div class="px-5 py-5">
+
+                <div class="rounded-xl bg-red-50 border border-red-100 px-4 py-4">
+
+                    <p id="rejection-reason-message" class="text-sm leading-relaxed text-red-700">
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-end px-5 py-4
+                    bg-gray-50 border-t border-ui-border">
+
+                <button type="button" onclick="closeRejectionReason()"
+                    class="px-4 py-2
+                       text-sm font-semibold
+                       text-brand-navy
+                       bg-white
+                       border border-ui-border
+                       rounded-lg
+                       hover:bg-ui-main
+                       transition-colors">
+
+                    Tutup
+
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
 
 </x-layouts.customer>
