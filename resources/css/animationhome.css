@@ -1,0 +1,535 @@
+ /* Definisi Animasi Utama */
+ @keyframes feedUp {
+     from {
+         opacity: 0;
+         transform: translateY(30px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ /* Class pembantu untuk memicu animasi pada elemen anak */
+ .animate-item {
+     opacity: 0;
+     /* Sembunyi dulu sebelum jalan */
+     animation: feedUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+ }
+
+ /* Pengaturan Jeda (Delay) supaya muncul satu-satu */
+ .delay-1 {
+     animation-delay: 0.2s;
+ }
+
+ .delay-2 {
+     animation-delay: 0.4s;
+ }
+
+ .delay-3 {
+     animation-delay: 0.6s;
+ }
+
+ .delay-4 {
+     animation-delay: 0.8s;
+ }
+
+ .delay-5 {
+     animation-delay: 1s;
+ }
+
+ /* Khusus Logo Background biar munculnya zoom out halus */
+ @keyframes logoZoom {
+     from {
+         opacity: 0;
+         transform: translate(-50%, -50%) scale(1.2);
+     }
+
+     to {
+         opacity: 0.07;
+         transform: translate(-50%, -50%) scale(1);
+     }
+ }
+
+ .animate-logo {
+     animation: logoZoom 2s ease-out forwards;
+ }
+
+           /* SCROLL ANIMATION ENGINE */
+ [data-scroll] {
+     opacity: 0;
+     transition-property: opacity, transform;
+     transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+     transition-duration: 0.8s;
+ }
+
+ [data-scroll="fade-up"] {
+     transform: translateY(50px);
+ }
+
+ [data-scroll="fade-down"] {
+     transform: translateY(-50px);
+ }
+
+ [data-scroll="fade-left"] {
+     transform: translateX(-60px);
+ }
+
+ [data-scroll="fade-right"] {
+     transform: translateX(60px);
+ }
+
+ [data-scroll="zoom-in"] {
+     transform: scale(0.85);
+ }
+
+ [data-scroll="flip"] {
+     transform: rotateX(20deg) translateY(40px);
+ }
+
+ [data-scroll].is-visible {
+     opacity: 1 !important;
+     transform: none !important;
+ }
+
+ /* Stagger delays for children */
+ .stagger-children>*:nth-child(1) {
+     transition-delay: 0s;
+ }
+
+ .stagger-children>*:nth-child(2) {
+     transition-delay: 0.12s;
+ }
+
+ .stagger-children>*:nth-child(3) {
+     transition-delay: 0.24s;
+ }
+
+ .stagger-children>*:nth-child(4) {
+     transition-delay: 0.36s;
+ }
+
+ .stagger-children>*:nth-child(5) {
+     transition-delay: 0.48s;
+ }
+
+           /* HERO PAGE LOAD ANIMATIONS */
+ @keyframes heroSlideUp {
+     from {
+         opacity: 0;
+         transform: translateY(40px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ @keyframes heroPulse {
+
+     0%,
+     100% {
+         transform: scaleX(1);
+         opacity: 0.5;
+     }
+
+     50% {
+         transform: scaleX(1.05);
+         opacity: 1;
+     }
+ }
+
+ @keyframes logoFade {
+     from {
+         opacity: 0;
+         transform: translate(-50%, -50%) scale(1.15);
+     }
+
+     to {
+         opacity: 0.07;
+         transform: translate(-50%, -50%) scale(1);
+     }
+ }
+
+ @keyframes float {
+
+     0%,
+     100% {
+         transform: translateY(0px);
+     }
+
+     50% {
+         transform: translateY(-10px);
+     }
+ }
+
+ @keyframes scrollLine {
+     0% {
+         transform: scaleY(0);
+         transform-origin: top;
+     }
+
+     50% {
+         transform: scaleY(1);
+         transform-origin: top;
+     }
+
+     51% {
+         transform: scaleY(1);
+         transform-origin: bottom;
+     }
+
+     100% {
+         transform: scaleY(0);
+         transform-origin: bottom;
+     }
+ }
+
+ @keyframes ping {
+
+     75%,
+     100% {
+         transform: scale(2);
+         opacity: 0;
+     }
+ }
+
+ .hero-el {
+     opacity: 0;
+     animation: heroSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+ }
+
+ .delay-100 {
+     animation-delay: 0.1s;
+ }
+
+ .delay-200 {
+     animation-delay: 0.2s;
+ }
+
+ .delay-350 {
+     animation-delay: 0.35s;
+ }
+
+ .delay-500 {
+     animation-delay: 0.5s;
+ }
+
+ .delay-650 {
+     animation-delay: 0.65s;
+ }
+
+ .delay-800 {
+     animation-delay: 0.8s;
+ }
+
+ .delay-950 {
+     animation-delay: 0.95s;
+ }
+
+ .logo-bg {
+     animation: logoFade 2s ease-out forwards;
+ }
+
+ .float-card {
+     animation: float 4s ease-in-out infinite;
+ }
+
+ .float-card-2 {
+     animation: float 4s ease-in-out 1s infinite;
+ }
+
+ .scroll-line {
+     animation: scrollLine 2s ease-in-out infinite;
+ }
+
+ /* ============================================
+           GLASS & GRADIENTS
+        ============================================ */
+ .glass-nav {
+     background: rgba(27, 38, 59, 0.92);
+     backdrop-filter: blur(20px);
+     -webkit-backdrop-filter: blur(20px);
+ }
+
+ .glass-card {
+     background: rgba(255, 255, 255, 0.06);
+     backdrop-filter: blur(16px);
+     -webkit-backdrop-filter: blur(16px);
+ }
+
+ .text-gold-gradient {
+     background: linear-gradient(135deg, #c58e4b 0%, #e8b96a 50%, #c58e4b 100%);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+ }
+
+ .glow-gold {
+     box-shadow: 0 0 40px rgba(197, 142, 75, 0.35);
+ }
+
+ .glow-navy {
+     box-shadow: 0 20px 60px rgba(27, 38, 59, 0.25);
+ }
+
+ /* ============================================
+           MOBILE MENU ANIMATION
+        ============================================ */
+ #mobile-menu {
+     max-height: 0;
+     overflow: hidden;
+     transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ #mobile-menu.open {
+     max-height: 800px;
+ }
+
+ /* ============================================
+           PROGRESS TRACKER LINE
+        ============================================ */
+ .tracker-line {
+     position: absolute;
+     top: 20px;
+     left: calc(12.5% + 10px);
+     width: calc(75% - 20px);
+     height: 2px;
+     background: #dee2e6;
+     z-index: 0;
+ }
+
+ .tracker-line-fill {
+     width: 50%;
+     height: 100%;
+     background: linear-gradient(90deg, #c58e4b, #e8b96a);
+     border-radius: 2px;
+ }
+
+ /* ============================================
+           HOVER EFFECTS
+        ============================================ */
+ .btn-primary {
+     position: relative;
+     overflow: hidden;
+     transition: all 0.3s ease;
+ }
+
+ .btn-primary::before {
+     content: '';
+     position: absolute;
+     inset: 0;
+     background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+     transform: translateX(-100%);
+     transition: transform 0.5s ease;
+ }
+
+ .btn-primary:hover::before {
+     transform: translateX(100%);
+ }
+
+ .service-card {
+     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+ }
+
+ .service-card:hover {
+     transform: translateY(-8px);
+ }
+
+ /* ============================================
+           ACCORDION
+        ============================================ */
+ .faq-content {
+     max-height: 0;
+     overflow: hidden;
+     transition: max-height 0.35s ease, padding 0.35s ease;
+ }
+
+ .faq-content.open {
+     max-height: 200px;
+     padding-bottom: 1.5rem;
+ }
+
+ .faq-chevron {
+     transition: transform 0.35s ease;
+ }
+
+ .faq-chevron.rotated {
+     transform: rotate(180deg);
+ }
+
+ /* CUSTOM SCROLLBAR */
+ ::-webkit-scrollbar {
+     width: 6px;
+ }
+
+ ::-webkit-scrollbar-track {
+     background: #1b263b;
+ }
+
+ ::-webkit-scrollbar-thumb {
+     background: #c58e4b;
+     border-radius: 3px;
+ }
+
+ /* ============================================
+           RESPONSIVE TYPOGRAPHY SCALE
+        ============================================ */
+ .hero-title {
+     font-size: clamp(2.8rem, 10vw, 8rem);
+     line-height: 0.9;
+     letter-spacing: -0.02em;
+ }
+
+ .section-title {
+     font-size: clamp(2rem, 5vw, 3.5rem);
+     line-height: 1.05;
+ }
+
+ .mega-title {
+     font-size: clamp(2.5rem, 6vw, 5rem);
+     line-height: 1;
+ }
+
+ /* ============================================
+           PING ANIMATION
+        ============================================ */
+ .ping-dot {
+     animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+ }
+
+ /* ============================================
+           GALLERY HOVER
+        ============================================ */
+ .gallery-item img {
+     transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+ }
+
+ .gallery-item:hover img {
+     transform: scale(1.08);
+ }
+
+ .gallery-overlay {
+     background: linear-gradient(to top, rgba(27, 38, 59, 0.95) 0%, transparent 60%);
+ }
+
+ /* ============================================
+           CARD SHINE EFFECT
+        ============================================ */
+ .shine-effect {
+     position: relative;
+     overflow: hidden;
+ }
+
+ .shine-effect::after {
+     content: '';
+     position: absolute;
+     top: -50%;
+     left: -60%;
+     width: 30%;
+     height: 200%;
+     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+     transform: skewX(-20deg);
+     transition: left 0.6s ease;
+ }
+
+ .shine-effect:hover::after {
+     left: 130%;
+ }
+
+/* MOBILE SAFE PADDING */
+ @supports(padding: max(0px)) {
+     .safe-bottom {
+         padding-bottom: max(2rem, env(safe-area-inset-bottom));
+     }
+ }
+
+ /* Tab highlight active */
+ .nav-link {
+     position: relative;
+ }
+
+ .nav-link::after {
+     content: '';
+     position: absolute;
+     bottom: -4px;
+     left: 0;
+     width: 0;
+     height: 2px;
+     background: #c58e4b;
+     transition: width 0.3s ease;
+ }
+
+ .nav-link:hover::after {
+     width: 100%;
+ }
+
+ /* Testimonial card */
+ .testi-card {
+     transition: all 0.4s ease;
+ }
+
+ .testi-card:hover {
+     transform: translateY(-4px);
+ }
+
+ /* Number counter animation */
+ @keyframes countUp {
+     from {
+         opacity: 0;
+         transform: translateY(20px);
+     }
+
+     to {
+         opacity: 1;
+         transform: translateY(0);
+     }
+ }
+
+ .stat-number {
+     animation: countUp 0.6s ease forwards;
+ }
+
+ /* untuk anchor animasi */
+ .scroll-container-lu {
+     overflow-anchor: none;
+ }
+
+ .testimonial-track {
+     display: flex;
+     gap: 1.5rem;
+     /* Jarak antar kartu */
+     width: 100%;
+ }
+
+ .testimonial-card {
+     flex: 0 0 calc(100% / 1);
+     /* Mobile */
+ }
+
+ @media (min-width: 768px) {
+     .testimonial-card {
+         flex: 0 0 calc(50% - 0.75rem);
+     }
+
+     /* Tablet */
+ }
+
+ @media (min-width: 1024px) {
+     .testimonial-card {
+         flex: 0 0 calc(33.333% - 1rem);
+     }
+
+     /* Desktop */
+ }
+
+ /* Pastikan container relative */
+ .relative {
+     position: relative;
+ }
+
+ .overflow-hidden {
+     overflow: hidden;
+ }
