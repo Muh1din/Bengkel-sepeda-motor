@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Our Works & Projects | Nirwana Garage</title>
+
+    <!-- Google Font Instrument Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet" />
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [
+                            "Instrument Sans",
+                            "ui-sans-serif",
+                            "system-ui",
+                            "sans-serif",
+                        ],
+                    },
+                    colors: {
+                        brand: {
+                            navy: "#1b263b",
+                            gold: "#c58e4b",
+                            silver: "#bdc3c7",
+                            steel: "#5d7b93",
+                        },
+                        ui: {
+                            main: "#f8f9fa",
+                            card: "#ffffff",
+                            text: "#2d3436",
+                            border: "#dee2e6",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: "Instrument Sans", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .glass-nav {
+            background: rgba(27, 38, 59, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #mobile-menu.open {
+            max-height: 800px;
+        }
+
+        /* Scrollbar Hide Utility */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom Scrollbar Page */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1b263b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c58e4b;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body class="bg-ui-main text-ui-text font-sans flex flex-col min-h-screen">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav id="navbar" class="fixed w-full z-50 glass-nav border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 sm:h-20 items-center">
+                <!-- Logo -->
+                <a href="index.html#home" class="shrink-0">
+                    <span
+                        class="text-xl sm:text-2xl font-black tracking-tighter italic text-white font-display">Nirwana<span
+                            class="text-brand-gold">Garage</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6 lg:space-x-8 items-center text-sm font-medium">
+                    <a href="index.html#home"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Home</a>
+                    <a href="index.html#layanan"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Layanan</a>
+                    <a href="projects.html" class="text-brand-gold font-bold transition-colors duration-200">Galeri</a>
+                    <a href="index.html#pricelist"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">List Harga</a>
+                    <a href="index.html#testimoni"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Testimoni</a>
+                    <a href="index.html#tracking"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Tracking</a>
+                    <a href="index.html#tentang"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Tentang Kami</a>
+                    <a href="index.html#faq"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">FAQ</a>
+                    <a href="index.html#kontak"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Kontak</a>
+
+                    <button type="button" onclick="openBookingModal()"
+                        class="bg-brand-gold px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all duration-300 hover:bg-amber-500 cursor-pointer">
+                        Booking
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <button id="menu-btn"
+                    class="md:hidden text-white focus:outline-none p-2 rounded-lg hover:bg-white/10 transition cursor-pointer"
+                    aria-label="Toggle Menu">
+                    <div id="ham-icon" class="space-y-1.5 transition-all duration-300">
+                        <span class="block w-6 h-0.5 bg-white transition-all duration-300" id="bar1"></span>
+                        <span class="block w-6 h-0.5 bg-white transition-all duration-300" id="bar2"></span>
+                        <span class="block w-6 h-0.5 bg-brand-gold transition-all duration-300" id="bar3"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-brand-navy/98 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col space-y-1">
+                <a href="index.html#home"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-house text-brand-gold w-5"></i>
+                    Home
+                </a>
+                <a href="index.html#layanan"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-screwdriver-wrench text-brand-gold w-5"></i>
+                    Layanan
+                </a>
+                <a href="projects.html"
+                    class="text-brand-gold font-bold py-3 px-4 rounded-xl hover:bg-white/5 transition flex items-center gap-3">
+                    <i class="fa-solid fa-images text-brand-gold w-5"></i>
+                    Galeri
+                </a>
+                <a href="index.html#pricelist"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-tags text-brand-gold w-5"></i>
+                    List Harga
+                </a>
+                <a href="index.html#testimoni"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-comment-dots text-brand-gold w-5"></i>
+                    Testimoni
+                </a>
+                <a href="index.html#tracking"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-location-crosshairs text-brand-gold w-5"></i>
+                    Tracking
+                </a>
+                <a href="index.html#tentang"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-info-circle text-brand-gold w-5"></i>
+                    Tentang Kami
+                </a>
+                <a href="index.html#faq"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-question-circle text-brand-gold w-5"></i>
+                    FAQ
+                </a>
+                <a href="index.html#kontak"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-headset text-brand-gold w-5"></i>
+                    Kontak
+                </a>
+                <button type="button" onclick="openBookingModal()"
+                    class="mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center w-full cursor-pointer">
+                    <i class="fa-solid fa-calendar-check w-5"></i> Booking
+                    Sekarang
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HEADER SECTION ================= -->
+    <header class="relative overflow-hidden bg-brand-navy pt-28 pb-16 md:pt-36 md:pb-24">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0"
+                style="background-image: radial-gradient(circle at 2px 2px, #bdc3c7 1px, transparent 0); background-size: 40px 40px;">
+            </div>
+        </div>
+
+        <div class="relative z-10 mx-auto max-w-6xl px-6 text-center">
+            <h1 class="text-5xl font-black uppercase tracking-tighter text-white md:text-7xl">
+                OUR <span class="italic text-brand-gold">WORKS.</span>
+            </h1>
+
+            <p class="mx-auto mt-6 max-w-2xl text-brand-silver text-sm sm:text-base">
+                Kumpulan karya terbaik dari workshop Nirwana Garage.
+                Dari restorasi klasik hingga mesin spesifikasi balap.
+            </p>
+        </div>
+    </header>
+
+    <!-- ================= CATEGORY FILTER ================= -->
+    <div class="relative z-20 mx-auto -mt-8 max-w-6xl px-6">
+        <div
+            class="flex flex-nowrap gap-2 overflow-x-auto whitespace-nowrap rounded-2xl border border-ui-border/50 bg-white p-2 shadow-xl scrollbar-hide md:flex-wrap md:justify-center md:overflow-visible">
+
+            <!-- All Category (Active) -->
+            <a href="projects.html"
+                class="shrink-0 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all bg-brand-gold text-white shadow-lg">
+                Semua
+            </a>
+
+            <!-- Individual Categories -->
+            <a href="projects.html?category=restorasi"
+                class="shrink-0 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all text-brand-navy hover:bg-ui-main">
+                Restorasi Full
+            </a>
+
+            <a href="projects.html?category=repaint"
+                class="shrink-0 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all text-brand-navy hover:bg-ui-main">
+                Repaint & Body Work
+            </a>
+
+            <a href="projects.html?category=bore-up"
+                class="shrink-0 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all text-brand-navy hover:bg-ui-main">
+                Bore Up & Engine
+            </a>
+
+            <a href="projects.html?category=cvt"
+                class="shrink-0 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all text-brand-navy hover:bg-ui-main">
+                Upgrade Kirian (CVT)
+            </a>
+
+            <a href="projects.html?category=detailing"
+                class="shrink-0 rounded-xl px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all text-brand-navy hover:bg-ui-main">
+                Service & Detailing
+            </a>
+        </div>
+    </div>
+
+    <!-- ================= PROJECT LIST ================= -->
+    <main class="mx-auto max-w-6xl px-6 py-16 grow">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+            <!-- PROJECT CARD 1 -->
+            <article
+                class="group overflow-hidden rounded-[2.5rem] border border-ui-border bg-white shadow-sm transition-all duration-500 hover:shadow-2xl">
+                <div class="relative h-64 overflow-hidden bg-ui-main sm:h-72">
+                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800"
+                        alt="Restorasi Yamaha RX-King 1997"
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy">
+
+                    <div class="absolute left-6 top-6">
+                        <span
+                            class="rounded-full bg-brand-gold px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                            Restorasi Full
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <h2 class="mb-2 text-2xl font-black uppercase text-brand-navy">
+                        RX-King 1997 Original Spec
+                    </h2>
+
+                    <p class="mb-6 text-sm leading-relaxed text-brand-steel">
+                        Restorasi total hingga baut terjauh menggunakan sparepart original YMH Japan & Local OEM.
+                    </p>
+
+                    <div class="flex items-center justify-between border-t border-ui-border pt-6">
+                        <span class="text-xs font-semibold text-brand-steel">
+                            Yamaha RX-King
+                        </span>
+
+                        <a href="project-detail.html"
+                            class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-gold transition-all hover:gap-3">
+                            Detail
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT CARD 2 -->
+            <article
+                class="group overflow-hidden rounded-[2.5rem] border border-ui-border bg-white shadow-sm transition-all duration-500 hover:shadow-2xl">
+                <div class="relative h-64 overflow-hidden bg-ui-main sm:h-72">
+                    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800"
+                        alt="Repaint Candy Red Kawasaki ZX25R"
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy">
+
+                    <div class="absolute left-6 top-6">
+                        <span
+                            class="rounded-full bg-brand-gold px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                            Repaint
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <h2 class="mb-2 text-2xl font-black uppercase text-brand-navy">
+                        ZX25R Candy Red Effect
+                    </h2>
+
+                    <p class="mb-6 text-sm leading-relaxed text-brand-steel">
+                        Repaint bodi halus dengan cat polyurethane grade premium dan finishing wet-look.
+                    </p>
+
+                    <div class="flex items-center justify-between border-t border-ui-border pt-6">
+                        <span class="text-xs font-semibold text-brand-steel">
+                            Kawasaki ZX25R
+                        </span>
+
+                        <a href="project-detail.html"
+                            class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-gold transition-all hover:gap-3">
+                            Detail
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT CARD 3 -->
+            <article
+                class="group overflow-hidden rounded-[2.5rem] border border-ui-border bg-white shadow-sm transition-all duration-500 hover:shadow-2xl">
+                <div class="relative h-64 overflow-hidden bg-ui-main sm:h-72">
+                    <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?auto=format&fit=crop&q=80&w=800"
+                        alt="Bore Up NMAX 183cc Harian"
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy">
+
+                    <div class="absolute left-6 top-6">
+                        <span
+                            class="rounded-full bg-brand-gold px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                            Bore Up
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <h2 class="mb-2 text-2xl font-black uppercase text-brand-navy">
+                        NMAX 183cc Daily Spec
+                    </h2>
+
+                    <p class="mb-6 text-sm leading-relaxed text-brand-steel">
+                        Upgrade blok keramik, noken as custom, dan ECU programmable untuk kenyamanan turing.
+                    </p>
+
+                    <div class="flex items-center justify-between border-t border-ui-border pt-6">
+                        <span class="text-xs font-semibold text-brand-steel">
+                            Yamaha NMAX 155
+                        </span>
+
+                        <a href="project-detail.html"
+                            class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-gold transition-all hover:gap-3">
+                            Detail
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT CARD 4 -->
+            <article
+                class="group overflow-hidden rounded-[2.5rem] border border-ui-border bg-white shadow-sm transition-all duration-500 hover:shadow-2xl">
+                <div class="relative h-64 overflow-hidden bg-ui-main sm:h-72">
+                    <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=800"
+                        alt="Vespa Sprint Carbon Detail"
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy">
+
+                    <div class="absolute left-6 top-6">
+                        <span
+                            class="rounded-full bg-brand-gold px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                            Upgrade CVT
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <h2 class="mb-2 text-2xl font-black uppercase text-brand-navy">
+                        Vespa Sprint 3V CVT Ultimate
+                    </h2>
+
+                    <p class="mb-6 text-sm leading-relaxed text-brand-steel">
+                        Modifikasi pulley bubut kerok kartel, mangkok kampas pantek, dan belt kawahara zero-drag.
+                    </p>
+
+                    <div class="flex items-center justify-between border-t border-ui-border pt-6">
+                        <span class="text-xs font-semibold text-brand-steel">
+                            Vespa Sprint 150
+                        </span>
+
+                        <a href="project-detail.html"
+                            class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-gold transition-all hover:gap-3">
+                            Detail
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT CARD 5 -->
+            <article
+                class="group overflow-hidden rounded-[2.5rem] border border-ui-border bg-white shadow-sm transition-all duration-500 hover:shadow-2xl">
+                <div class="relative h-64 overflow-hidden bg-ui-main sm:h-72">
+                    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800"
+                        alt="Restorasi Honda NSR 150 SP"
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy">
+
+                    <div class="absolute left-6 top-6">
+                        <span
+                            class="rounded-full bg-brand-gold px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                            Restorasi Full
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <h2 class="mb-2 text-2xl font-black uppercase text-brand-navy">
+                        NSR 150 SP Repsol Livery
+                    </h2>
+
+                    <p class="mb-6 text-sm leading-relaxed text-brand-steel">
+                        Restorasi bodi fairing, servis RC Valve, kelistrikan utuh, dan repaint sesuai livery ikonik
+                        Repsol.
+                    </p>
+
+                    <div class="flex items-center justify-between border-t border-ui-border pt-6">
+                        <span class="text-xs font-semibold text-brand-steel">
+                            Honda NSR 150 SP
+                        </span>
+
+                        <a href="project-detail.html"
+                            class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-gold transition-all hover:gap-3">
+                            Detail
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT CARD 6 -->
+            <article
+                class="group overflow-hidden rounded-[2.5rem] border border-ui-border bg-white shadow-sm transition-all duration-500 hover:shadow-2xl">
+                <div class="relative h-64 overflow-hidden bg-ui-main sm:h-72">
+                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800"
+                        alt="Detailing Ceramic Coating Aerox 155"
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy">
+
+                    <div class="absolute left-6 top-6">
+                        <span
+                            class="rounded-full bg-brand-gold px-4 py-2 text-[10px] font-black uppercase tracking-widest text-white shadow-lg">
+                            Service & Detailing
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-8">
+                    <h2 class="mb-2 text-2xl font-black uppercase text-brand-navy">
+                        Aerox 155 Ceramic Coating 9H
+                    </h2>
+
+                    <p class="mb-6 text-sm leading-relaxed text-brand-steel">
+                        Pembersihan jamur bodi, polishing 3-step, hingga proteksi bodi dengan lapisan nano ceramic
+                        coating 9H.
+                    </p>
+
+                    <div class="flex items-center justify-between border-t border-ui-border pt-6">
+                        <span class="text-xs font-semibold text-brand-steel">
+                            Yamaha Aerox 155
+                        </span>
+
+                        <a href="project-detail.html"
+                            class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-gold transition-all hover:gap-3">
+                            Detail
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- ================= PAGINATION ================= -->
+        <nav class="mt-16 flex flex-wrap items-center justify-center gap-4" aria-label="Navigasi halaman proyek">
+
+            <!-- PREVIOUS (DISABLED) -->
+            <span
+                class="flex h-12 w-12 cursor-not-allowed items-center justify-center rounded-full border border-ui-border opacity-40"
+                aria-disabled="true">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </span>
+
+            <!-- PAGE NUMBERS -->
+            <a href="projects.html?page=1"
+                class="flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm font-black transition-all bg-brand-navy text-white"
+                aria-current="page">
+                1
+            </a>
+
+            <a href="projects.html?page=2"
+                class="flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm font-black transition-all text-brand-steel hover:bg-ui-main">
+                2
+            </a>
+
+            <a href="projects.html?page=3"
+                class="flex h-10 min-w-10 items-center justify-center rounded-lg px-3 text-sm font-black transition-all text-brand-steel hover:bg-ui-main">
+                3
+            </a>
+
+            <!-- NEXT LINK -->
+            <a href="projects.html?page=2"
+                class="flex h-12 w-12 items-center justify-center rounded-full border border-ui-border transition-all hover:bg-brand-gold hover:text-white"
+                aria-label="Halaman berikutnya">
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        </nav>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-brand-navy text-white pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="md:col-span-2">
+                    <span class="text-2xl font-black italic">Nirwana<span class="text-brand-gold">Garage</span></span>
+                    <p class="mt-4 text-brand-silver text-sm max-w-sm">
+                        Bengkel spesialis restorasi, repaint, dan peningkatan performa sepeda motor dengan standar
+                        presisi tinggi.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-brand-gold mb-4">Navigasi</h4>
+                    <ul class="space-y-2 text-sm text-brand-silver">
+                        <li><a href="index.html#home" class="hover:text-white transition">Home</a></li>
+                        <li><a href="index.html#layanan" class="hover:text-white transition">Layanan</a></li>
+                        <li><a href="projects.html" class="hover:text-white transition">Galeri Proyek</a></li>
+                        <li><a href="index.html#tracking" class="hover:text-white transition">Tracking Progres</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-brand-gold mb-4">Workshop</h4>
+                    <p class="text-sm text-brand-silver leading-relaxed">
+                        Jl. Raya Workshop Nirwana No. 88<br>
+                        Banten, Indonesia<br>
+                        <span class="text-white font-bold">WA: 0857-1767-6292</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-5">
+                <div class="text-[10px] font-bold text-brand-silver uppercase tracking-[0.15em] text-center sm:text-left">
+                    &copy; 2026 Nirwana Garage. <span class="text-white/20 ml-1">Crafted for Excellence.</span>
+                </div>
+        </div>
+    </footer>
+
+    <!-- ================= BOOKING MODAL ================= -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4"
+        onclick="closeBookingModal(event)">
+        <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    Mulai Booking Servis
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Pilih cara yang paling nyaman untuk melanjutkan booking servis kendaraanmu.
+                </p>
+            </div>
+
+            <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                <h3 class="font-bold text-gray-900">Daftar atau Login</h3>
+                <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                    Dengan akun Nirwana Garage, kamu bisa menyimpan data kendaraan, melihat riwayat servis, dan
+                    mengelola booking.
+                </p>
+                <a href="login.html"
+                    class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90">
+                    Daftar / Login
+                </a>
+            </div>
+
+            <div class="my-5 flex items-center gap-3">
+                <div class="h-px flex-1 bg-gray-200"></div>
+                <span class="text-xs font-medium text-gray-400">ATAU</span>
+                <div class="h-px flex-1 bg-gray-200"></div>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-gray-900">Lanjutkan sebagai Guest</h3>
+                <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                    Tidak perlu membuat akun. Kamu bisa langsung booking sebagai tamu.
+                </p>
+                <a href="index.html#booking" onclick="closeBookingModal()"
+                    class="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50">
+                    Booking Tanpa Login
+                </a>
+            </div>
+
+            <button type="button" onclick="closeBookingModal()"
+                class="mt-4 w-full py-2 text-sm font-medium text-gray-500 transition hover:text-gray-800 cursor-pointer">
+                Batal
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT CONTROLLERS ================= -->
+    <script>
+        // Modal Open & Close Logic
+        function openBookingModal() {
+            const modal = document.getElementById("bookingModal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function closeBookingModal(event) {
+            if (
+                !event ||
+                event.target.id === "bookingModal" ||
+                event.type === "click"
+            ) {
+                const modal = document.getElementById("bookingModal");
+                if (modal) {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }
+            }
+        }
+
+        // Mobile Menu Controller
+        const menuBtn = document.getElementById("menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        let menuOpen = false;
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener("click", () => {
+                menuOpen = !menuOpen;
+                mobileMenu.classList.toggle("hidden", !menuOpen);
+                mobileMenu.classList.toggle("open", menuOpen);
+            });
+
+            mobileMenu.querySelectorAll("a, button").forEach((link) => {
+                link.addEventListener("click", () => {
+                    menuOpen = false;
+                    mobileMenu.classList.add("hidden");
+                    mobileMenu.classList.remove("open");
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,3046 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-ui-main">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nirwana Garage | Owner Dashboard</title>
+
+    <!-- Tailwind Play CDN & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- CDN Chart.js & Script Inisialisasi Grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Instrument Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#1b263b',
+                            gold: '#c58e4b',
+                            silver: '#bdc3c7',
+                            steel: '#5d7b93',
+                        },
+                        ui: {
+                            main: '#f8f9fa',
+                            card: '#ffffff',
+                            text: '#2d3436',
+                            border: '#e2e8f0'
+                        }
+                    },
+                    zIndex: {
+                        100: '100',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="font-sans antialiased min-h-screen bg-ui-main text-ui-text flex flex-col md:flex-row relative overflow-x-hidden">
+
+    <!-- ================= SIDEBAR OWNER ================= -->
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 bg-brand-navy text-white shrink-0 no-print flex flex-col justify-between h-screen overflow-y-auto transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
+
+        <div>
+            <!-- Brand Header -->
+            <div
+                class="h-16 flex items-center justify-between px-6 bg-brand-navy border-b border-slate-700/50 sticky top-0 z-10">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-xs shrink-0">
+                        NG
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base leading-none text-white">NIRWANA GARAGE</h1>
+                    </div>
+                </div>
+                <!-- Close Button Mobile -->
+                <button id="close-sidebar-btn" type="button"
+                    class="md:hidden text-brand-silver hover:text-white p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1">
+                <!-- Main Menu Header -->
+                <div class="px-3 py-2 text-xs font-semibold text-brand-silver uppercase tracking-wider">Main Menu</div>
+
+                <!-- 1. Dashboard -->
+                <a href="#owner-dashboard" onclick="switchTab('owner-dashboard')" id="nav-owner-dashboard"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
+                    <span class="truncate">Dashboard</span>
+                </a>
+
+                <!-- 2. Booking -->
+                <a href="#owner-bookings" onclick="switchTab('owner-bookings')" id="nav-owner-bookings"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2zm4 11l2 2 5-5">
+                        </path>
+                    </svg>
+                    <span class="truncate">Booking</span>
+                </a>
+
+                <!-- 3. Work Order -->
+                <a href="#owner-work-orders" onclick="switchTab('owner-work-orders')" id="nav-owner-work-orders"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 7h6m-6 4h6">
+                        </path>
+                    </svg>
+                    <span class="truncate">Work Order</span>
+                </a>
+
+                <!-- 4. Aktivitas Kendaraan -->
+                <a href="#owner-vehicle-activities" onclick="switchTab('owner-vehicle-activities')"
+                    id="nav-owner-vehicle-activities"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    <span class="truncate">Aktivitas Kendaraan</span>
+                </a>
+
+                <!-- 5. Inventory -->
+                <a href="#owner-inventory" onclick="switchTab('owner-inventory')" id="nav-owner-inventory"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 4h18v4H3V4zm2 4v12h14V8M10 12h4m-4 4h4">
+                        </path>
+                    </svg>
+                    <span class="truncate">Inventory</span>
+                </a>
+
+                <!-- 6. Laporan WO -->
+                <a href="#owner-reports-wo" onclick="switchTab('owner-reports-wo')" id="nav-owner-reports-wo"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3v18h18M9 17V9m5 8V5m5 12v-5">
+                        </path>
+                    </svg>
+                    <span class="truncate">Laporan WO</span>
+                </a>
+
+                <!-- 7. Penggunaan Barang -->
+                <a href="#owner-reports-items" onclick="switchTab('owner-reports-items')" id="nav-owner-reports-items"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 7h6m-6 4h6">
+                        </path>
+                    </svg>
+                    <span class="truncate">Penggunaan Barang</span>
+                </a>
+
+                <!-- 8. Kelola Akun -->
+                <a href="#owner-employees" onclick="switchTab('owner-employees')" id="nav-owner-employees"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.196-2.04M17 20H7m10 0v-2c0-.726-.194-1.406-.535-1.99M7 20H2v-2a3 3 0 015.196-2.04M7 20v-2c0-.726.194-1.406.535-1.99m0 0a5.002 5.002 0 019.93 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                    <span class="truncate">Kelola Akun</span>
+                </a>
+
+                <!-- 9. Statistik Pengunjung Website -->
+                <a href="#owner-visitor-stats" onclick="switchTab('owner-visitor-stats')" id="nav-owner-visitor-stats"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 shrink-0"></i>
+                    <span class="truncate">Statistik Pengunjung</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Profile Bottom -->
+        <div class="p-4 border-t border-slate-700/50 bg-brand-navy sticky bottom-0 z-10">
+            <!-- Profile Dropdown Card -->
+            <div id="profile-card"
+                class="hidden absolute bottom-full left-4 right-4 mb-4 bg-slate-800 rounded-xl p-4 shadow-xl border border-slate-700 transition-all duration-200 z-50">
+                <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
+                    <div
+                        class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-sm shrink-0">
+                        OW
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-sm font-bold text-white truncate">Pemilik Bengkel</div>
+                        <div class="text-xs text-brand-silver truncate">owner@nirwanagarage.com</div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="button" id="logout-button"
+                        class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-slate-700/50 transition-colors font-medium">
+                        <i data-lucide="log-out" class="w-4 h-4 shrink-0"></i>
+                        <span>Keluar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Button Trigger -->
+            <div id="profile-trigger"
+                class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none">
+                <div
+                    class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
+                    OW
+                </div>
+                <div class="min-w-0 flex-1">
+                    <div class="text-sm font-medium text-white truncate">Pemilik Bengkel</div>
+                    <div class="text-xs text-brand-silver truncate">owner@nirwanagarage.com</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT WRAPPER ================= -->
+    <div class="flex-1 md:pl-64 flex flex-col min-w-0 min-h-screen transition-all duration-300">
+
+        <!-- Header Component -->
+        <header
+            class="h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-6 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-3.5">
+                <!-- Tombol Hamburger Mobile -->
+                <button id="open-sidebar-btn" type="button"
+                    class="md:hidden p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200 active:scale-95">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Judul Halaman Dinamis -->
+                <div class="flex items-center gap-2">
+                    <h1 id="page-title" class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-none">
+                        Dashboard Owner
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Body -->
+        <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8">
+
+            <!-- 1. TAB: DASHBOARD OWNER -->
+            <section id="tab-owner-dashboard" class="tab-content space-y-6">
+            
+                <div>
+                    <p class="mt-1 text-sm text-brand-steel">
+                        Ringkasan operasional Nirwana Garage.
+                    </p>
+                </div>
+            
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-brand-steel">
+                                Total Booking
+                            </p>
+                            <i data-lucide="calendar-check" class="h-5 w-5 text-brand-steel"></i>
+                        </div>
+                        <p class="mt-4 text-3xl font-bold text-brand-navy">
+                            142
+                        </p>
+                        <p class="mt-2 text-xs text-brand-steel">
+                            Seluruh booking terdaftar
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-brand-steel">
+                                Booking Menunggu
+                            </p>
+                            <i data-lucide="clock" class="h-5 w-5 text-amber-500"></i>
+                        </div>
+                        <p class="mt-4 text-3xl font-bold text-brand-navy">
+                            8
+                        </p>
+                        <p class="mt-2 text-xs text-brand-steel">
+                            Menunggu konfirmasi
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-brand-steel">
+                                Kendaraan Diproses
+                            </p>
+                            <i data-lucide="wrench" class="h-5 w-5 text-blue-500"></i>
+                        </div>
+                        <p class="mt-4 text-3xl font-bold text-brand-navy">
+                            5
+                        </p>
+                        <p class="mt-2 text-xs text-brand-steel">
+                            Work Order belum selesai
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-brand-steel">
+                                Work Order Selesai
+                            </p>
+                            <i data-lucide="check-circle" class="h-5 w-5 text-emerald-500"></i>
+                        </div>
+                        <p class="mt-4 text-3xl font-bold text-brand-navy">
+                            128
+                        </p>
+                        <p class="mt-2 text-xs text-brand-steel">
+                            Pekerjaan telah diselesaikan
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-brand-steel">
+                                Total Material
+                            </p>
+                            <i data-lucide="package" class="h-5 w-5 text-brand-steel"></i>
+                        </div>
+                        <p class="mt-4 text-3xl font-bold text-brand-navy">
+                            124
+                        </p>
+                        <p class="mt-2 text-xs text-brand-steel">
+                            Jenis material terdaftar
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm font-medium text-brand-steel">
+                                Material Stok Menipis
+                            </p>
+                            <i data-lucide="alert-triangle" class="h-5 w-5 text-red-500"></i>
+                        </div>
+                        <p class="mt-4 text-3xl font-bold text-brand-navy">
+                            5
+                        </p>
+                        <p class="mt-2 text-xs text-brand-steel">
+                            Stok mencapai batas minimum
+                        </p>
+                    </div>
+            
+                </div>
+            
+                <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="mb-6">
+                            <h3 class="text-base font-semibold text-brand-navy">
+                                Tren Operasional
+                            </h3>
+                            <p class="mt-1 text-xs text-brand-steel">
+                                Booking masuk dan Work Order selesai selama tujuh hari terakhir.
+                            </p>
+                        </div>
+                        <div class="relative h-72">
+                            <canvas id="operationalChart"></canvas>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="mb-6">
+                            <h3 class="text-base font-semibold text-brand-navy">
+                                Status Work Order
+                            </h3>
+                            <p class="mt-1 text-xs text-brand-steel">
+                                Distribusi seluruh Work Order berdasarkan status saat ini.
+                            </p>
+                        </div>
+                        <div class="relative h-72">
+                            <canvas id="workOrderStatusChart"></canvas>
+                        </div>
+                    </div>
+            
+                </div>
+            
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                    <div class="flex items-center justify-between border-b border-ui-border bg-white px-5 py-4">
+                        <div>
+                            <h3 class="text-base font-semibold text-brand-navy">
+                                Aktivitas Pekerjaan Kendaraan
+                            </h3>
+                            <p class="mt-0.5 text-xs text-brand-steel">
+                                Daftar pekerjaan kendaraan terbaru.
+                            </p>
+                        </div>
+                        <i data-lucide="clipboard-list" class="h-5 w-5 text-brand-steel"></i>
+                    </div>
+            
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-ui-main text-xs uppercase text-brand-steel font-semibold border-b border-ui-border">
+                                <tr>
+                                    <th class="px-5 py-3">Kode WO</th>
+                                    <th class="px-5 py-3">Kendaraan</th>
+                                    <th class="px-5 py-3">Jenis Servis</th>
+                                    <th class="px-5 py-3">Mekanik</th>
+                                    <th class="px-5 py-3">Status</th>
+                                    <th class="px-5 py-3">Waktu Masuk</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody class="divide-y divide-ui-border">
+            
+                                <!-- Row 1 -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                        WO-20261015-001
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <p class="font-medium text-ui-text">Honda CBR 250R</p>
+                                        <p class="mt-0.5 text-xs text-brand-steel font-mono">B 4567 XYZ</p>
+                                    </td>
+                                    <td class="px-5 py-4 text-ui-text">
+                                        Servis Berkala & Ganti Oli
+                                    </td>
+                                    <td class="px-5 py-4 text-ui-text">
+                                        Slamet Riyadi
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-blue-100 border border-blue-200 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                                            Dalam Proses
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        15 Okt 2026 09:30
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 2 -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                        WO-20261014-003
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <p class="font-medium text-ui-text">Yamaha Vixion Lightning</p>
+                                        <p class="mt-0.5 text-xs text-brand-steel font-mono">B 3123 KLG</p>
+                                    </td>
+                                    <td class="px-5 py-4 text-ui-text">
+                                        Tune Up & Ganti Kampas Rem
+                                    </td>
+                                    <td class="px-5 py-4 text-ui-text">
+                                        Budi Santoso
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-emerald-100 border border-emerald-200 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                                            Selesai
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        14 Okt 2026 14:15
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 3 -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                        WO-20261014-002
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <p class="font-medium text-ui-text">Honda Vario 150 eSP</p>
+                                        <p class="mt-0.5 text-xs text-brand-steel font-mono">B 6890 PQR</p>
+                                    </td>
+                                    <td class="px-5 py-4 text-ui-text">
+                                        Servis CVT Full
+                                    </td>
+                                    <td class="px-5 py-4 text-ui-text">
+                                        Belum ditugaskan
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-amber-100 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                                            Menunggu
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        14 Okt 2026 10:00
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                    <div class="border-t border-ui-border bg-white px-5 py-3">
+                        <p class="text-xs text-brand-steel">
+                            Menampilkan maksimal 5 Work Order terbaru.
+                        </p>
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- 2. TAB: BOOKING -->
+            <section id="tab-owner-bookings" class="tab-content space-y-6 hidden">
+            
+                <div>
+                    <p class="mt-1 text-sm text-brand-steel">
+                        Pantau seluruh booking layanan yang terdaftar di Nirwana Garage.
+                    </p>
+                </div>
+            
+                <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <p class="text-sm font-medium text-brand-steel">
+                                Total Booking Ditampilkan
+                            </p>
+            
+                            <p class="mt-2 text-3xl font-bold text-brand-navy">
+                                142
+                            </p>
+            
+                            <p class="mt-1 text-xs text-brand-steel">
+                                Seluruh booking yang tercatat dalam sistem
+                            </p>
+                        </div>
+            
+                        <div
+                            class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
+                            <i data-lucide="calendar-check" class="h-6 w-6"></i>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                    <div class="border-b border-ui-border bg-white px-5 py-4">
+                        <h3 class="font-bold text-brand-navy text-base">
+                            Daftar Booking
+                        </h3>
+            
+                        <p class="mt-0.5 text-xs text-brand-steel">
+                            Informasi booking pelanggan yang tersimpan di sistem.
+                        </p>
+                    </div>
+            
+                    <div class="overflow-x-auto">
+                        <table class="w-full whitespace-nowrap text-left text-sm">
+            
+                            <thead
+                                class="bg-ui-main text-xs font-semibold uppercase tracking-wider text-brand-steel border-b border-ui-border">
+                                <tr>
+                                    <th class="px-5 py-4">Booking</th>
+                                    <th class="px-5 py-4">Pelanggan</th>
+                                    <th class="px-5 py-4">Kendaraan</th>
+                                    <th class="px-5 py-4">Layanan</th>
+                                    <th class="px-5 py-4">Jadwal</th>
+                                    <th class="px-5 py-4">Status</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody class="divide-y divide-ui-border">
+            
+                                <!-- Row 1: CONFIRMED -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy">
+                                            BKG-20261015-001
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Budi Santoso
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text font-mono">
+                                            B 4567 XYZ
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">
+                                            Servis Berkala & Ganti Oli
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            15 Okt 2026
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            09:00 WIB
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                                            Dikonfirmasi
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 2: IN_PROGRESS -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy">
+                                            BKG-20261015-002
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Joko Widodo
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text font-mono">
+                                            B 3123 KLG
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">
+                                            Tune Up & Ganti Kampas Rem
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            15 Okt 2026
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            10:30 WIB
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-violet-50 text-violet-700 ring-1 ring-inset ring-violet-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-violet-600"></span>
+                                            Diproses
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 3: PENDING -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy">
+                                            BKG-20261015-003
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Siti Aminah
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text font-mono">
+                                            B 6890 PQR
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">
+                                            Servis CVT Full
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            16 Okt 2026
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            13:00 WIB
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-amber-600"></span>
+                                            Menunggu
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 4: COMPLETED -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy">
+                                            BKG-20261014-001
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Ahmad Yani
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text font-mono">
+                                            B 1234 ABC
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">
+                                            Ganti Ban & Balancing
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            14 Okt 2026
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            14:00 WIB
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+                                            Selesai
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 5: CANCELLED / REJECTED -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy">
+                                            BKG-20261013-005
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Rian Pratama
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text font-mono">
+                                            D 9988 EFG
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">
+                                            Cek Kelistrikan
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            13 Okt 2026
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            11:00 WIB
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-red-600"></span>
+                                            Ditolak
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- 3. TAB: WORK ORDER -->
+            <section id="tab-owner-work-orders" class="tab-content space-y-6 hidden">
+            
+                <div class="border-b border-ui-border pb-4">
+                    <h2 class="text-2xl font-bold text-brand-navy">Monitoring Work Order</h2>
+                    <p class="mt-1 text-sm text-brand-steel">
+                        Pantau pekerjaan servis dan pengerjaan kendaraan di Nirwana Garage.
+                    </p>
+                </div>
+            
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-sm font-medium text-brand-steel">
+                            Total Work Order
+                        </p>
+                        <p class="mt-2 text-3xl font-bold text-brand-navy">
+                            133
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-sm font-medium text-brand-steel">
+                            Work Order Aktif
+                        </p>
+                        <p class="mt-2 text-3xl font-bold text-blue-600">
+                            5
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-sm font-medium text-brand-steel">
+                            Work Order Selesai
+                        </p>
+                        <p class="mt-2 text-3xl font-bold text-emerald-600">
+                            128
+                        </p>
+                    </div>
+            
+                </div>
+            
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                    <div class="border-b border-ui-border bg-white px-5 py-4">
+                        <h3 class="font-bold text-brand-navy text-base">
+                            Daftar Work Order
+                        </h3>
+                        <p class="mt-0.5 text-xs text-brand-steel">
+                            Informasi pekerjaan kendaraan yang tercatat dalam sistem.
+                        </p>
+                    </div>
+            
+                    <div class="flex flex-col gap-3 border-b border-ui-border p-4 bg-white sm:flex-row">
+                        <div class="flex-1">
+                            <input type="text" id="owner-wo-search" oninput="filterOwnerWorkOrders()"
+                                placeholder="Cari kode WO, booking, atau plat nomor..."
+                                class="w-full rounded-lg border border-ui-border px-4 py-2.5 text-sm text-ui-text outline-none transition placeholder:text-gray-400 focus:border-brand-navy focus:ring-1 focus:ring-brand-navy">
+                        </div>
+            
+                        <div>
+                            <select id="owner-wo-status-filter" onchange="filterOwnerWorkOrders()"
+                                class="w-full rounded-lg border border-ui-border bg-white px-4 py-2.5 text-sm text-ui-text outline-none transition focus:border-brand-navy sm:w-48">
+                                <option value="">Semua Status</option>
+                                <option value="IN_PROGRESS">Sedang Dikerjakan</option>
+                                <option value="COMPLETED">Selesai</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="overflow-x-auto">
+                        <table class="w-full whitespace-nowrap text-left text-sm">
+            
+                            <thead
+                                class="bg-ui-main text-xs font-semibold uppercase tracking-wider text-brand-steel border-b border-ui-border">
+                                <tr>
+                                    <th class="px-5 py-4">Kode Work Order</th>
+                                    <th class="px-5 py-4">Kode Booking</th>
+                                    <th class="px-5 py-4">Kendaraan</th>
+                                    <th class="px-5 py-4">Mekanik</th>
+                                    <th class="px-5 py-4">Tanggal Diterima</th>
+                                    <th class="px-5 py-4">Status</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody id="owner-wo-table-body" class="divide-y divide-ui-border">
+            
+                                <!-- Row 1: IN_PROGRESS -->
+                                <tr class="owner-wo-row transition-colors hover:bg-ui-main/50"
+                                    data-search="wo-20261015-001 bkg-20261015-001 b 4567 xyz slamet riyadi"
+                                    data-status="IN_PROGRESS">
+                                    <td class="px-5 py-4">
+                                        <span class="font-semibold text-brand-navy">WO-20261015-001</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-brand-steel">BKG-20261015-001</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="font-medium text-ui-text font-mono">B 4567 XYZ</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">Slamet Riyadi</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">15 Okt 2026</span>
+                                        <p class="mt-0.5 text-xs text-brand-steel">09:30 WIB</p>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                                            Sedang Dikerjakan
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 2: IN_PROGRESS -->
+                                <tr class="owner-wo-row transition-colors hover:bg-ui-main/50"
+                                    data-search="wo-20261015-002 bkg-20261015-002 b 3123 klg budi santoso"
+                                    data-status="IN_PROGRESS">
+                                    <td class="px-5 py-4">
+                                        <span class="font-semibold text-brand-navy">WO-20261015-002</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-brand-steel">BKG-20261015-002</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="font-medium text-ui-text font-mono">B 3123 KLG</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">Budi Santoso</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">15 Okt 2026</span>
+                                        <p class="mt-0.5 text-xs text-brand-steel">10:45 WIB</p>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                                            Sedang Dikerjakan
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 3: COMPLETED -->
+                                <tr class="owner-wo-row transition-colors hover:bg-ui-main/50"
+                                    data-search="wo-20261014-001 bkg-20261014-001 b 1234 abc slamet riyadi" data-status="COMPLETED">
+                                    <td class="px-5 py-4">
+                                        <span class="font-semibold text-brand-navy">WO-20261014-001</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-brand-steel">BKG-20261014-001</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="font-medium text-ui-text font-mono">B 1234 ABC</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">Slamet Riyadi</span>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span class="text-ui-text">14 Okt 2026</span>
+                                        <p class="mt-0.5 text-xs text-brand-steel">14:20 WIB</p>
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+                                            Selesai
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- No Results Row -->
+                                <tr id="owner-wo-no-results" class="hidden">
+                                    <td colspan="6" class="px-5 py-10 text-center text-sm text-brand-steel">
+                                        Tidak ada Work Order yang sesuai dengan pencarian.
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- 4. TAB: AKTIVITAS KENDARAAN -->
+            <section id="tab-owner-vehicle-activities" class="tab-content space-y-6 hidden">
+            
+                <div>
+                    <p class="mt-1 text-sm text-brand-steel">
+                        Pantau riwayat aktivitas kendaraan yang tercatat di Nirwana Garage.
+                    </p>
+                </div>
+            
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                    <div class="border-b border-ui-border bg-white px-5 py-4">
+                        <h3 class="font-bold text-brand-navy text-base">
+                            Riwayat Aktivitas Kendaraan
+                        </h3>
+                        <p class="mt-0.5 text-xs text-brand-steel">
+                            Informasi booking, pemeriksaan, dan pengerjaan kendaraan.
+                        </p>
+                    </div>
+            
+                    <div class="overflow-x-auto">
+                        <table class="w-full whitespace-nowrap text-left text-sm">
+            
+                            <thead
+                                class="bg-ui-main text-xs font-semibold uppercase tracking-wider text-brand-steel border-b border-ui-border">
+                                <tr>
+                                    <th class="px-5 py-4">Kendaraan</th>
+                                    <th class="px-5 py-4">Pelanggan</th>
+                                    <th class="px-5 py-4">Booking</th>
+                                    <th class="px-5 py-4">Pemeriksaan</th>
+                                    <th class="px-5 py-4">Work Order</th>
+                                    <th class="px-5 py-4">Aktivitas Terakhir</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody class="divide-y divide-ui-border">
+            
+                                <!-- Row 1: IN_PROGRESS -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy font-mono">
+                                            B 4567 XYZ
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Honda CBR 250R
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span class="font-medium text-ui-text">
+                                            Budi Santoso
+                                        </span>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-brand-navy">
+                                            BKG-20261015-001
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Servis Berkala & Ganti Oli
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Slamet Riyadi
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-emerald-600 font-medium">
+                                            Selesai Diperiksa
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-brand-navy">
+                                            WO-20261015-001
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Slamet Riyadi
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-violet-50 text-violet-700 ring-1 ring-inset ring-violet-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-violet-600"></span>
+                                            Diproses
+                                        </span>
+                                        <div class="mt-1.5 text-xs text-brand-steel">
+                                            15 Okt 2026 09:30
+                                        </div>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 2: COMPLETED -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy font-mono">
+                                            B 3123 KLG
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Yamaha Vixion Lightning
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span class="font-medium text-ui-text">
+                                            Joko Widodo
+                                        </span>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-brand-navy">
+                                            BKG-20261014-002
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Tune Up & Ganti Kampas Rem
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-ui-text">
+                                            Budi Santoso
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-emerald-600 font-medium">
+                                            Selesai Diperiksa
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-brand-navy">
+                                            WO-20261014-003
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Budi Santoso
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+                                            Selesai
+                                        </span>
+                                        <div class="mt-1.5 text-xs text-brand-steel">
+                                            14 Okt 2026 14:15
+                                        </div>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 3: PENDING -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+
+                                    <td class="px-5 py-4">
+                                        <div class="font-semibold text-brand-navy font-mono">
+                                            B 6890 PQR
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Honda Vario 150 eSP
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span class="font-medium text-ui-text">
+                                            Siti Aminah
+                                        </span>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <div class="font-medium text-brand-navy">
+                                            BKG-20261015-003
+                                        </div>
+                                        <div class="mt-0.5 text-xs text-brand-steel">
+                                            Servis CVT Full
+                                        </div>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span class="text-brand-steel">
+                                            Belum ada pemeriksaan
+                                        </span>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span class="text-brand-steel">
+                                            Belum ada Work Order
+                                        </span>
+                                    </td>
+            
+                                    <td class="px-5 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20">
+                                            <span class="mr-1.5 h-1.5 w-1.5 rounded-full bg-amber-600"></span>
+                                            Menunggu
+                                        </span>
+                                        <div class="mt-1.5 text-xs text-brand-steel">
+                                            15 Okt 2026 10:00
+                                        </div>
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- 5. TAB: INVENTORY -->
+            <section id="tab-owner-inventory" class="tab-content space-y-6 hidden">
+            
+                <div>
+                    <p class="mt-1 text-sm text-brand-steel">
+                        Monitor persediaan material dan aktivitas pergerakan stok bengkel Nirwana Garage.
+                    </p>
+                </div>
+            
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                            Total Jenis Barang
+                        </p>
+            
+                        <div class="mt-3 flex items-center justify-between">
+                            <p class="text-3xl font-bold text-brand-navy">
+                                124
+                            </p>
+            
+                            <div class="rounded-lg bg-blue-50 p-3 text-blue-600 border border-blue-100">
+                                <i data-lucide="boxes" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                            Stok Menipis
+                        </p>
+            
+                        <div class="mt-3 flex items-center justify-between">
+                            <p class="text-3xl font-bold text-amber-600">
+                                5
+                            </p>
+            
+                            <div class="rounded-lg bg-amber-50 p-3 text-amber-600 border border-amber-100">
+                                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                            Stok Habis
+                        </p>
+            
+                        <div class="mt-3 flex items-center justify-between">
+                            <p class="text-3xl font-bold text-red-600">
+                                1
+                            </p>
+            
+                            <div class="rounded-lg bg-red-50 p-3 text-red-600 border border-red-100">
+                                <i data-lucide="package-x" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                            Total Pergerakan Stok
+                        </p>
+            
+                        <div class="mt-3 flex items-center justify-between">
+                            <p class="text-3xl font-bold text-brand-navy">
+                                86
+                            </p>
+            
+                            <div class="rounded-lg bg-ui-main p-3 text-brand-navy border border-ui-border">
+                                <i data-lucide="arrow-left-right" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                    <div
+                        class="flex flex-col gap-3 border-b border-ui-border bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h3 class="font-bold text-brand-navy text-base">
+                                Persediaan Barang
+                            </h3>
+            
+                            <p class="mt-0.5 text-xs text-brand-steel">
+                                Daftar material dan kondisi stok saat ini.
+                            </p>
+                        </div>
+            
+                        <span class="text-xs font-semibold text-brand-steel">
+                            124 Jenis Barang
+                        </span>
+                    </div>
+            
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+            
+                            <thead
+                                class="bg-ui-main text-xs uppercase tracking-wider text-brand-steel font-semibold border-b border-ui-border">
+                                <tr>
+                                    <th class="whitespace-nowrap px-5 py-4">Material</th>
+                                    <th class="whitespace-nowrap px-5 py-4">Barcode</th>
+                                    <th class="whitespace-nowrap px-5 py-4">Kategori</th>
+                                    <th class="whitespace-nowrap px-5 py-4 text-right">Stok Saat Ini</th>
+                                    <th class="whitespace-nowrap px-5 py-4 text-right">Stok Minimum</th>
+                                    <th class="whitespace-nowrap px-5 py-4">Status</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody class="divide-y divide-ui-border">
+            
+                                <!-- Row 1: Aman -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <p class="font-semibold text-brand-navy">
+                                            Oli Mesin AHM MPX 1 0.8L
+                                        </p>
+                                        <p class="mt-0.5 max-w-xs truncate text-xs text-brand-steel">
+                                            Oli sintetis untuk sepeda motor bebek dan matic.
+                                        </p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 font-mono text-xs text-brand-steel">
+                                        BRC-889012
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Oli & Pelumas
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-brand-navy">
+                                        45 <span class="font-normal text-brand-steel text-xs">botol</span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right text-brand-steel">
+                                        10 botol
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-emerald-100 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
+                                            Aman
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 2: Menipis -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <p class="font-semibold text-brand-navy">
+                                            Kampas Rem Depan Vario 150
+                                        </p>
+                                        <p class="mt-0.5 max-w-xs truncate text-xs text-brand-steel">
+                                            Suku cadang pengereman depan original AHM.
+                                        </p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 font-mono text-xs text-brand-steel">
+                                        BRC-445566
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Sparepart Fast Moving
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-amber-600">
+                                        2 <span class="font-normal text-brand-steel text-xs">pcs</span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right text-brand-steel">
+                                        5 pcs
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-amber-100 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-800">
+                                            Menipis
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                                <!-- Row 3: Habis -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="px-5 py-4">
+                                        <p class="font-semibold text-brand-navy">
+                                            Busi NGK Platinum CPR6EA-9
+                                        </p>
+                                        <p class="mt-0.5 max-w-xs truncate text-xs text-brand-steel">
+                                            Busi pengapian kualitas tinggi untuk motor injeksi.
+                                        </p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 font-mono text-xs text-brand-steel">
+                                        BRC-112233
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Sparepart Fast Moving
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-red-600">
+                                        0 <span class="font-normal text-brand-steel text-xs">pcs</span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right text-brand-steel">
+                                        8 pcs
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-red-100 border border-red-200 px-3 py-1 text-xs font-semibold text-red-700">
+                                            Habis
+                                        </span>
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                </div>
+            
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                    <div class="border-b border-ui-border bg-white p-5">
+                        <h3 class="font-bold text-brand-navy text-base">
+                            Riwayat Pergerakan Stok
+                        </h3>
+            
+                        <p class="mt-0.5 text-xs text-brand-steel">
+                            Sepuluh transaksi stok terbaru di sistem.
+                        </p>
+                    </div>
+            
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+            
+                            <thead
+                                class="bg-ui-main text-xs uppercase tracking-wider text-brand-steel font-semibold border-b border-ui-border">
+                                <tr>
+                                    <th class="whitespace-nowrap px-5 py-4">Tanggal & Waktu</th>
+                                    <th class="whitespace-nowrap px-5 py-4">Material</th>
+                                    <th class="whitespace-nowrap px-5 py-4">Jenis Transaksi</th>
+                                    <th class="whitespace-nowrap px-5 py-4 text-right">Jumlah</th>
+                                    <th class="whitespace-nowrap px-5 py-4 text-right">Stok Sebelum</th>
+                                    <th class="whitespace-nowrap px-5 py-4 text-right">Stok Sesudah</th>
+                                    <th class="whitespace-nowrap px-5 py-4">Pengguna</th>
+                                </tr>
+                            </thead>
+            
+                            <tbody class="divide-y divide-ui-border">
+            
+                                <!-- Movement 1: Stock In -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        15 Okt 2026, 09:30
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <p class="font-semibold text-brand-navy">
+                                            Oli Mesin AHM MPX 1 0.8L
+                                        </p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-green-50 border border-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                            Barang Masuk
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-green-600">
+                                        +20
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right text-brand-steel">
+                                        25
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-brand-navy">
+                                        45
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Admin Garage
+                                    </td>
+                                </tr>
+            
+                                <!-- Movement 2: Stock Out -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        15 Okt 2026, 11:15
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <p class="font-semibold text-brand-navy">
+                                            Kampas Rem Depan Vario 150
+                                        </p>
+                                        <p class="mt-0.5 text-xs text-brand-steel">
+                                            WO: WO-20261015-001
+                                        </p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-red-50 border border-red-200 px-3 py-1 text-xs font-semibold text-red-700">
+                                            Barang Keluar
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-red-600">
+                                        -1
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right text-brand-steel">
+                                        3
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-brand-navy">
+                                        2
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Admin Garage
+                                    </td>
+                                </tr>
+            
+                                <!-- Movement 3: Adjustment -->
+                                <tr class="transition-colors hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        14 Okt 2026, 16:45
+                                    </td>
+                                    <td class="px-5 py-4">
+                                        <p class="font-semibold text-brand-navy">
+                                            Busi NGK Platinum CPR6EA-9
+                                        </p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-xs font-semibold text-blue-700">
+                                            Penyesuaian
+                                        </span>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-brand-gold">
+                                        -1
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right text-brand-steel">
+                                        1
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-right font-bold text-brand-navy">
+                                        0
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Admin Garage
+                                    </td>
+                                </tr>
+            
+                            </tbody>
+                        </table>
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- 6. TAB: LAPORAN WO -->
+        <section id="tab-owner-reports-wo" class="tab-content space-y-6 hidden">
+        
+            <div class="space-y-6">
+        
+                <div>
+                    <p class="mt-1 text-sm text-brand-steel">
+                        Ringkasan pengerjaan kendaraan berdasarkan periode.
+                    </p>
+                </div>
+        
+                <form onsubmit="event.preventDefault(); alert('Filter periode diterapkan!');"
+                    class="flex flex-col gap-3 rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm sm:flex-row sm:items-end">
+                    <div class="flex-1">
+                        <label for="wo_report_start"
+                            class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                            Tanggal Mulai
+                        </label>
+                        <input type="date" id="wo_report_start" value="2026-10-01"
+                            class="w-full rounded-lg border border-ui-border px-3 py-2 text-sm text-ui-text outline-none focus:border-brand-navy">
+                    </div>
+        
+                    <div class="flex-1">
+                        <label for="wo_report_end"
+                            class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                            Tanggal Akhir
+                        </label>
+                        <input type="date" id="wo_report_end" value="2026-10-15"
+                            class="w-full rounded-lg border border-ui-border px-3 py-2 text-sm text-ui-text outline-none focus:border-brand-navy">
+                    </div>
+        
+                    <div class="flex gap-2">
+                        <button type="submit"
+                            class="rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 shadow-sm">
+                            Terapkan
+                        </button>
+                        <button type="reset"
+                            class="rounded-lg border border-ui-border bg-white px-4 py-2 text-sm font-medium text-brand-steel transition hover:bg-ui-main">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+        
+                <div>
+                    <h3 class="mb-3 text-sm font-bold text-brand-navy">
+                        Ringkasan Work Order
+                    </h3>
+        
+                    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        
+                        <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                Total Work Order
+                            </p>
+                            <p class="mt-2 text-2xl font-bold text-brand-navy">
+                                133
+                            </p>
+                            <div class="mt-3 h-1 w-10 rounded-full bg-brand-navy"></div>
+                        </div>
+        
+                        <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                Sedang Dikerjakan
+                            </p>
+                            <p class="mt-2 text-2xl font-bold text-blue-600">
+                                5
+                            </p>
+                            <div class="mt-3 h-1 w-10 rounded-full bg-blue-600"></div>
+                        </div>
+        
+                        <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                Selesai
+                            </p>
+                            <p class="mt-2 text-2xl font-bold text-emerald-600">
+                                128
+                            </p>
+                            <div class="mt-3 h-1 w-10 rounded-full bg-emerald-600"></div>
+                        </div>
+        
+                        <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                Belum Diterima
+                            </p>
+                            <p class="mt-2 text-2xl font-bold text-amber-600">
+                                0
+                            </p>
+                            <div class="mt-3 h-1 w-10 rounded-full bg-amber-500"></div>
+                        </div>
+        
+                    </div>
+                </div>
+        
+                <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+        
+                    <div
+                        class="flex flex-col gap-1 border-b border-ui-border bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                        <h3 class="font-bold text-brand-navy text-base">
+                            Detail Work Order
+                        </h3>
+                        <p class="text-xs font-semibold text-brand-steel">
+                            01 Okt 2026 — 15 Okt 2026 <span class="mx-1">·</span> 133 data
+                        </p>
+                    </div>
+        
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+        
+                            <thead
+                                class="bg-ui-main text-xs uppercase tracking-wider text-brand-steel font-semibold border-b border-ui-border">
+                                <tr>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Kode WO</th>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Kendaraan</th>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Pelanggan</th>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Mekanik</th>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Tanggal Dibuat</th>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Tanggal Selesai</th>
+                                    <th class="whitespace-nowrap px-5 py-3.5">Status</th>
+                                </tr>
+                            </thead>
+        
+                            <tbody class="divide-y divide-ui-border">
+        
+                                <!-- Row 1 -->
+                                <tr class="transition hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                        WO-20261015-001
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        <p class="font-mono font-semibold text-brand-navy">B 4567 XYZ</p>
+                                        <p class="mt-0.5 text-xs text-brand-steel">Honda CBR 250R</p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Budi Santoso
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Slamet Riyadi
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        15 Okt 2026
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        -
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-blue-50 border border-blue-200 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                                            Sedang Dikerjakan
+                                        </span>
+                                    </td>
+                                </tr>
+        
+                                <!-- Row 2 -->
+                                <tr class="transition hover:bg-ui-main/50">
+                                    <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                        WO-20261014-001
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        <p class="font-mono font-semibold text-brand-navy">B 1234 ABC</p>
+                                        <p class="mt-0.5 text-xs text-brand-steel">Yamaha NMAX 155</p>
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Ahmad Yani
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-ui-text">
+                                        Slamet Riyadi
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        14 Okt 2026
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                        14 Okt 2026
+                                    </td>
+                                    <td class="whitespace-nowrap px-5 py-4">
+                                        <span
+                                            class="inline-flex rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                                            Selesai
+                                        </span>
+                                    </td>
+                                </tr>
+        
+                            </tbody>
+                        </table>
+                    </div>
+        
+                </div>
+        
+            </div>
+        
+        </section>
+
+            <!-- 7. TAB: PENGGUNAAN BARANG -->
+            <section id="tab-owner-reports-items" class="tab-content space-y-6 hidden">
+            
+                <div class="space-y-6">
+            
+                    <div>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Ringkasan penggunaan barang dan pengeluaran stok inventory bengkel.
+                        </p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                        <form onsubmit="event.preventDefault(); alert('Filter penggunaan barang diterapkan!');"
+                            class="flex flex-col gap-4 sm:flex-row sm:items-end">
+                            <div class="flex-1">
+                                <label for="item_report_start"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Dari Tanggal
+                                </label>
+                                <input type="date" id="item_report_start" value="2026-10-01"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div class="flex-1">
+                                <label for="item_report_end"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Sampai Tanggal
+                                </label>
+                                <input type="date" id="item_report_end" value="2026-10-15"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div class="flex gap-2">
+                                <button type="submit"
+                                    class="rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 shadow-sm">
+                                    Terapkan
+                                </button>
+                                <button type="reset"
+                                    class="rounded-lg border border-ui-border bg-white px-4 py-2 text-sm font-medium text-brand-steel transition hover:bg-ui-main">
+                                    Reset
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+            
+                    <div>
+                        <h3 class="mb-3 text-sm font-bold text-brand-navy">
+                            Ringkasan Penggunaan Barang
+                        </h3>
+            
+                        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Total Transaksi
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-brand-navy">
+                                    42
+                                </p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-brand-navy"></div>
+                            </div>
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Total Barang Keluar
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-blue-700">
+                                    58 Unit
+                                </p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-blue-600"></div>
+                            </div>
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Jenis Barang
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-emerald-700">
+                                    14
+                                </p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-emerald-600"></div>
+                            </div>
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Work Order Terkait
+                                </p>
+                                <p class="mt-2 text-2xl font-bold text-amber-700">
+                                    36
+                                </p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-amber-500"></div>
+                            </div>
+            
+                        </div>
+                    </div>
+            
+                    <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                        <div class="border-b border-ui-border bg-white px-5 py-4">
+                            <h3 class="font-bold text-brand-navy text-base">
+                                Riwayat Penggunaan Barang
+                            </h3>
+                        </div>
+            
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead
+                                    class="bg-ui-main text-xs uppercase tracking-wider text-brand-steel font-semibold border-b border-ui-border">
+                                    <tr>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Tanggal</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Nama Barang</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Kategori</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Jumlah</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Work Order</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Petugas</th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody class="divide-y divide-ui-border">
+            
+                                    <!-- Row 1 -->
+                                    <tr class="transition hover:bg-ui-main/50">
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            15/10/2026
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">
+                                                Oli Mesin AHM MPX 1 0.8L
+                                            </p>
+                                            <p class="mt-0.5 text-xs font-mono text-brand-steel">
+                                                BRC-889012
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4 text-ui-text">
+                                            Oli & Pelumas
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 font-bold text-brand-navy">
+                                            1 botol
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                            WO-20261015-001
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            Admin Garage
+                                        </td>
+                                    </tr>
+            
+                                    <!-- Row 2 -->
+                                    <tr class="transition hover:bg-ui-main/50">
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            14/10/2026
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">
+                                                Kampas Rem Depan Vario 150
+                                            </p>
+                                            <p class="mt-0.5 text-xs font-mono text-brand-steel">
+                                                BRC-445566
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4 text-ui-text">
+                                            Sparepart Fast Moving
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 font-bold text-brand-navy">
+                                            1 pcs
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 font-semibold text-brand-navy">
+                                            WO-20261014-001
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            Admin Garage
+                                        </td>
+                                    </tr>
+            
+                                </tbody>
+                            </table>
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- 8. TAB: KELOLA AKUN -->
+            <section id="tab-owner-employees" class="tab-content space-y-6 hidden">
+            
+                <!-- ================= SUB-VIEW 1: INDEX / LIST PEGAWAI ================= -->
+                <div id="emp-view-index" class="space-y-6">
+            
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <p class="mt-1 text-sm text-brand-steel">
+                                Kelola akun Service Advisor, Mekanik, dan Admin Nirwana Garage.
+                            </p>
+                        </div>
+            
+                        <button type="button" onclick="showEmployeeSubView('create')"
+                            class="inline-flex items-center justify-center rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 shadow-sm gap-2">
+                            <i data-lucide="user-plus" class="w-4 h-4"></i>
+                            <span>+ Tambah Pegawai</span>
+                        </button>
+                    </div>
+            
+                    <div>
+                        <h3 class="mb-3 text-sm font-bold text-brand-navy">
+                            Ringkasan Pegawai
+                        </h3>
+            
+                        <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">Total Pegawai</p>
+                                <p class="mt-2 text-2xl font-bold text-brand-navy">8</p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-brand-navy"></div>
+                            </div>
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">Service Advisor</p>
+                                <p class="mt-2 text-2xl font-bold text-blue-700">2</p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-blue-600"></div>
+                            </div>
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">Mekanik</p>
+                                <p class="mt-2 text-2xl font-bold text-emerald-700">4</p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-emerald-600"></div>
+                            </div>
+            
+                            <div class="rounded-xl border border-ui-border bg-ui-card p-4 shadow-sm">
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">Admin</p>
+                                <p class="mt-2 text-2xl font-bold text-amber-700">2</p>
+                                <div class="mt-3 h-1 w-10 rounded-full bg-amber-500"></div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="overflow-hidden rounded-xl border border-ui-border bg-ui-card shadow-sm">
+            
+                        <div class="border-b border-ui-border bg-white px-5 py-4">
+                            <h3 class="font-bold text-brand-navy text-base">Daftar Pegawai</h3>
+                        </div>
+            
+                        <div class="flex flex-col gap-3 border-b border-ui-border p-4 bg-white sm:flex-row">
+                            <div class="flex-1">
+                                <input type="search" id="searchEmployee" oninput="filterEmployeesClient()"
+                                    placeholder="Cari nama, email, atau nomor telepon..."
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div class="sm:w-52">
+                                <select id="filterRole" onchange="filterEmployeesClient()"
+                                    class="w-full rounded-lg border border-ui-border bg-white px-3 py-2 text-sm text-ui-text outline-none focus:border-brand-navy">
+                                    <option value="">Semua Role</option>
+                                    <option value="ServiceAdvisor">Service Advisor</option>
+                                    <option value="Mechanic">Mekanik</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+            
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+            
+                                <thead
+                                    class="bg-ui-main text-xs uppercase tracking-wider text-brand-steel font-semibold border-b border-ui-border">
+                                    <tr>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Pegawai</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Nomor Telepon</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Role</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Terdaftar</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5">Status</th>
+                                        <th class="whitespace-nowrap px-5 py-3.5 text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody id="employeeTableBody" class="divide-y divide-ui-border">
+            
+                                    <!-- Row 1: Slamet Riyadi (Mechanic) -->
+                                    <tr class="employee-row transition hover:bg-ui-main/50" data-name="slamet riyadi"
+                                        data-email="slamet@nirwanagarage.com" data-phone="081234567890" data-role="Mechanic">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">Slamet Riyadi</p>
+                                            <p class="mt-0.5 text-xs text-brand-steel">slamet@nirwanagarage.com</p>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-ui-text font-mono text-xs">
+                                            081234567890
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="inline-flex rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                                                Mekanik
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            10/01/2026
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-emerald-100 border border-emerald-200 px-2.5 py-1 text-xs font-semibold text-emerald-800">
+                                                Aktif
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button type="button"
+                                                    onclick="openResetPasswordView('Slamet Riyadi', 'slamet@nirwanagarage.com', 'Mekanik')"
+                                                    class="inline-flex items-center rounded-lg border border-ui-border bg-white px-3 py-1.5 text-xs font-semibold text-brand-navy hover:bg-ui-main transition shadow-sm">
+                                                    Reset Password
+                                                </button>
+                                                <button type="button"
+                                                    onclick="openEditEmployeeView('Slamet Riyadi', 'slamet@nirwanagarage.com', '081234567890', 'Mechanic')"
+                                                    class="inline-flex items-center rounded-lg bg-brand-navy px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 transition shadow-sm">
+                                                    Edit
+                                                </button>
+                                                <button type="button"
+                                                    onclick="confirm('Yakin ingin menonaktifkan akun pegawai ini?') && alert('Status pegawai berhasil diperbarui!')"
+                                                    class="inline-flex items-center rounded-lg bg-red-50 border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-100 transition shadow-sm">
+                                                    Nonaktifkan
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+            
+                                    <!-- Row 2: Budi Santoso (Service Advisor) -->
+                                    <tr class="employee-row transition hover:bg-ui-main/50" data-name="budi santoso"
+                                        data-email="budi@nirwanagarage.com" data-phone="081987654321" data-role="ServiceAdvisor">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">Budi Santoso</p>
+                                            <p class="mt-0.5 text-xs text-brand-steel">budi@nirwanagarage.com</p>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-ui-text font-mono text-xs">
+                                            081987654321
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="inline-flex rounded-full bg-blue-50 border border-blue-200 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                                                Service Advisor
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            12/01/2026
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-emerald-100 border border-emerald-200 px-2.5 py-1 text-xs font-semibold text-emerald-800">
+                                                Aktif
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button type="button"
+                                                    onclick="openResetPasswordView('Budi Santoso', 'budi@nirwanagarage.com', 'Service Advisor')"
+                                                    class="inline-flex items-center rounded-lg border border-ui-border bg-white px-3 py-1.5 text-xs font-semibold text-brand-navy hover:bg-ui-main transition shadow-sm">
+                                                    Reset Password
+                                                </button>
+                                                <button type="button"
+                                                    onclick="openEditEmployeeView('Budi Santoso', 'budi@nirwanagarage.com', '081987654321', 'ServiceAdvisor')"
+                                                    class="inline-flex items-center rounded-lg bg-brand-navy px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 transition shadow-sm">
+                                                    Edit
+                                                </button>
+                                                <button type="button"
+                                                    onclick="confirm('Yakin ingin menonaktifkan akun pegawai ini?') && alert('Status pegawai berhasil diperbarui!')"
+                                                    class="inline-flex items-center rounded-lg bg-red-50 border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-100 transition shadow-sm">
+                                                    Nonaktifkan
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+            
+                                    <!-- Row 3: Admin Garage (Admin) -->
+                                    <tr class="employee-row transition hover:bg-ui-main/50" data-name="admin garage"
+                                        data-email="admin@nirwanagarage.com" data-phone="085544332211" data-role="Admin">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">Admin Garage</p>
+                                            <p class="mt-0.5 text-xs text-brand-steel">admin@nirwanagarage.com</p>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-ui-text font-mono text-xs">
+                                            085544332211
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="inline-flex rounded-full bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                                                Admin
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-brand-steel">
+                                            01/01/2026
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-emerald-100 border border-emerald-200 px-2.5 py-1 text-xs font-semibold text-emerald-800">
+                                                Aktif
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <div class="flex items-center justify-end gap-2">
+                                                <button type="button"
+                                                    onclick="openResetPasswordView('Admin Garage', 'admin@nirwanagarage.com', 'Admin')"
+                                                    class="inline-flex items-center rounded-lg border border-ui-border bg-white px-3 py-1.5 text-xs font-semibold text-brand-navy hover:bg-ui-main transition shadow-sm">
+                                                    Reset Password
+                                                </button>
+                                                <button type="button"
+                                                    onclick="openEditEmployeeView('Admin Garage', 'admin@nirwanagarage.com', '085544332211', 'Admin')"
+                                                    class="inline-flex items-center rounded-lg bg-brand-navy px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800 transition shadow-sm">
+                                                    Edit
+                                                </button>
+                                                <button type="button"
+                                                    onclick="confirm('Yakin ingin menonaktifkan akun pegawai ini?') && alert('Status pegawai berhasil diperbarui!')"
+                                                    class="inline-flex items-center rounded-lg bg-red-50 border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-100 transition shadow-sm">
+                                                    Nonaktifkan
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+            
+                                    <!-- No Search Results Row -->
+                                    <tr id="noSearchResults" class="hidden">
+                                        <td colspan="6" class="px-5 py-10 text-center text-sm text-brand-steel">
+                                            Tidak ada pegawai yang sesuai dengan pencarian.
+                                        </td>
+                                    </tr>
+            
+                                </tbody>
+                            </table>
+                        </div>
+            
+                        <!-- Footer Info -->
+                        <div class="border-t border-ui-border px-5 py-3 text-xs text-brand-steel bg-white">
+                            Menampilkan 1 – 3 dari 8 pegawai.
+                        </div>
+            
+                    </div>
+                </div>
+            
+            
+                <!-- ================= SUB-VIEW 2: TAMBAH PEGAWAI ================= -->
+                <div id="emp-view-create" class="space-y-5 hidden">
+                    <div>
+                        <button type="button" onclick="showEmployeeSubView('index')"
+                            class="text-sm font-semibold text-brand-steel hover:text-brand-navy transition">
+                            &larr; Kembali ke daftar pegawai
+                        </button>
+                        <h2 class="mt-2 text-xl font-bold text-brand-navy">Tambah Pegawai Baru</h2>
+                        <p class="mt-1 text-xs text-brand-steel">Buat akun baru untuk Service Advisor, Mekanik, atau Admin.</p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-5 py-4 bg-white">
+                            <h3 class="text-sm font-bold text-brand-navy">Informasi Akun Pegawai</h3>
+                        </div>
+            
+                        <form
+                            onsubmit="event.preventDefault(); alert('Pegawai baru berhasil disimpan!'); showEmployeeSubView('index');"
+                            class="space-y-5 p-5">
+                            <div>
+                                <label for="create_emp_name"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Nama Lengkap <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="create_emp_name" required placeholder="Masukkan nama lengkap"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="create_emp_email"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" id="create_emp_email" required placeholder="pegawai@nirwanagarage.com"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="create_emp_phone"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Nomor Telepon
+                                </label>
+                                <input type="tel" id="create_emp_phone" placeholder="08xxxxxxxxxx"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="create_emp_role"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Jabatan / Role <span class="text-red-500">*</span>
+                                </label>
+                                <select id="create_emp_role" required
+                                    class="w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                                    <option value="">Pilih Jabatan</option>
+                                    <option value="ServiceAdvisor">Service Advisor</option>
+                                    <option value="Mechanic">Mekanik</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+            
+                            <div>
+                                <label for="create_emp_password"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Password Awal <span class="text-red-500">*</span>
+                                </label>
+                                <input type="password" id="create_emp_password" required minlength="8"
+                                    placeholder="Minimal 8 karakter"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                                <p class="mt-1 text-xs text-brand-steel">Password akan disimpan secara aman ke dalam sistem.</p>
+                            </div>
+            
+                            <div>
+                                <label for="create_emp_password_confirm"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Konfirmasi Password <span class="text-red-500">*</span>
+                                </label>
+                                <input type="password" id="create_emp_password_confirm" required minlength="8"
+                                    placeholder="Masukkan ulang password"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div class="flex flex-col-reverse gap-3 border-t border-ui-border pt-5 sm:flex-row sm:justify-end">
+                                <button type="button" onclick="showEmployeeSubView('index')"
+                                    class="inline-flex items-center justify-center rounded-lg border border-ui-border px-4 py-2.5 text-sm font-medium text-brand-steel hover:bg-ui-main transition">
+                                    Batal
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 transition shadow-sm">
+                                    Simpan Pegawai
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            
+            
+                <!-- ================= SUB-VIEW 3: EDIT PEGAWAI ================= -->
+                <div id="emp-view-edit" class="space-y-5 hidden">
+                    <div>
+                        <button type="button" onclick="showEmployeeSubView('index')"
+                            class="text-sm font-semibold text-brand-steel hover:text-brand-navy transition">
+                            &larr; Kembali ke daftar pegawai
+                        </button>
+                        <h2 class="mt-2 text-xl font-bold text-brand-navy">Edit Akun Pegawai</h2>
+                        <p class="mt-1 text-xs text-brand-steel">Perbarui informasi data diri dan jabatan pegawai.</p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-5 py-4 bg-white">
+                            <h3 class="text-sm font-bold text-brand-navy">Informasi Akun Pegawai</h3>
+                        </div>
+            
+                        <form
+                            onsubmit="event.preventDefault(); alert('Perubahan pegawai berhasil disimpan!'); showEmployeeSubView('index');"
+                            class="space-y-5 p-5">
+                            <div>
+                                <label for="edit_emp_name"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Nama Lengkap <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" id="edit_emp_name" required
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="edit_emp_email"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Email <span class="text-red-500">*</span>
+                                </label>
+                                <input type="email" id="edit_emp_email" required
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="edit_emp_phone"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Nomor Telepon
+                                </label>
+                                <input type="tel" id="edit_emp_phone"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="edit_emp_role"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Jabatan / Role <span class="text-red-500">*</span>
+                                </label>
+                                <select id="edit_emp_role" required
+                                    class="w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                                    <option value="ServiceAdvisor">Service Advisor</option>
+                                    <option value="Mechanic">Mekanik</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+            
+                            <div class="rounded-lg border border-ui-border bg-ui-main p-4">
+                                <p class="text-xs font-semibold text-brand-navy uppercase tracking-wider">Informasi Password</p>
+                                <p class="mt-1 text-xs text-brand-steel leading-relaxed">
+                                    Perubahan informasi pegawai tidak akan mengubah password akun. Gunakan fitur **Reset Password**
+                                    jika diperlukan.
+                                </p>
+                            </div>
+            
+                            <div class="flex flex-col-reverse gap-3 border-t border-ui-border pt-5 sm:flex-row sm:justify-end">
+                                <button type="button" onclick="showEmployeeSubView('index')"
+                                    class="inline-flex items-center justify-center rounded-lg border border-ui-border px-4 py-2.5 text-sm font-medium text-brand-steel hover:bg-ui-main transition">
+                                    Batal
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 transition shadow-sm">
+                                    Simpan Perubahan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            
+            
+                <!-- ================= SUB-VIEW 4: RESET PASSWORD PEGAWAI ================= -->
+                <div id="emp-view-reset" class="space-y-5 hidden">
+                    <div>
+                        <p class="mt-1 text-xs text-brand-steel">Tetapkan password baru untuk akun pegawai terdaftar.</p>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold text-brand-navy uppercase tracking-wider mb-3">Informasi Pegawai Target
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-xs text-brand-steel">Nama Pegawai</p>
+                                <p id="reset_info_name" class="font-semibold text-brand-navy mt-0.5">-</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-brand-steel">Email</p>
+                                <p id="reset_info_email" class="font-semibold text-brand-navy mt-0.5">-</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-brand-steel">Jabatan / Role</p>
+                                <p id="reset_info_role" class="font-semibold text-brand-navy mt-0.5">-</p>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-5 py-4 bg-white">
+                            <h3 class="text-sm font-bold text-brand-navy">Password Baru</h3>
+                        </div>
+            
+                        <form
+                            onsubmit="event.preventDefault(); alert('Password pegawai berhasil direset!'); showEmployeeSubView('index');"
+                            class="space-y-5 p-5">
+                            <div>
+                                <label for="reset_new_password"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Password Baru <span class="text-red-500">*</span>
+                                </label>
+                                <input type="password" id="reset_new_password" required minlength="8"
+                                    placeholder="Minimal 8 karakter"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div>
+                                <label for="reset_new_password_confirm"
+                                    class="mb-1.5 block text-xs font-semibold text-brand-navy uppercase tracking-wider">
+                                    Konfirmasi Password Baru <span class="text-red-500">*</span>
+                                </label>
+                                <input type="password" id="reset_new_password_confirm" required minlength="8"
+                                    placeholder="Masukkan ulang password baru"
+                                    class="w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm text-ui-text outline-none focus:border-brand-navy">
+                            </div>
+            
+                            <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 text-xs text-amber-800 leading-relaxed">
+                                <span class="font-semibold">Peringatan Keamanan:</span> Setelah password direset, berikan password
+                                baru kepada pegawai melalui saluran komunikasi yang aman.
+                            </div>
+            
+                            <div class="flex flex-col-reverse gap-3 border-t border-ui-border pt-5 sm:flex-row sm:justify-end">
+                                <button type="button" onclick="showEmployeeSubView('index')"
+                                    class="inline-flex items-center justify-center rounded-lg border border-ui-border px-4 py-2.5 text-sm font-medium text-brand-steel hover:bg-ui-main transition">
+                                    Batal
+                                </button>
+                                <button type="submit"
+                                    class="inline-flex items-center justify-center rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 transition shadow-sm">
+                                    Reset Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            
+            </section>
+
+            <!-- 9. TAB: STATISTIK PENGJUNG WEBSITE -->
+            <section id="tab-owner-visitor-stats" class="tab-content space-y-6 hidden">
+            
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Analisis lalu lintas pengunjung, halaman populer, dan sumber trafik website Nirwana Garage.
+                        </p>
+                    </div>
+            
+                    <div class="flex items-center gap-2">
+                        <select id="visitor-period-filter" onchange="updateVisitorChartPeriod(this.value)"
+                            class="rounded-lg border border-ui-border bg-white px-3 py-2 text-sm text-ui-text font-medium outline-none focus:border-brand-navy shadow-sm">
+                            <option value="7d">7 Hari Terakhir</option>
+                            <option value="30d" selected>30 Hari Terakhir</option>
+                            <option value="90d">3 Bulan Terakhir</option>
+                            <option value="1y">1 Tahun Terakhir</option>
+                        </select>
+                        <button type="button" onclick="alert('Laporan statistik pengunjung berhasil diunduh (PDF)!')"
+                            class="inline-flex items-center gap-2 rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 shadow-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>Eksport PDF</span>
+                        </button>
+                    </div>
+                </div>
+            
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+                    <div class="bg-ui-card p-5 rounded-xl border border-ui-border shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">Total Pengunjung Bulan Ini
+                            </p>
+                            <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-brand-navy mt-3">12.450</p>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1.5 flex items-center gap-1">
+                            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                            <span>↑ 18% dibanding bulan lalu</span>
+                        </p>
+                    </div>
+            
+                    <div class="bg-ui-card p-5 rounded-xl border border-ui-border shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">Pengunjung Unik (Unique)</p>
+                            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                <i data-lucide="user-check" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-indigo-600 mt-3">8.320</p>
+                        <p class="text-xs text-brand-steel mt-1.5">66.8% dari total sesi pengunjung</p>
+                    </div>
+            
+                    <div class="bg-ui-card p-5 rounded-xl border border-ui-border shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">Total Halaman Dilihat</p>
+                            <div class="w-8 h-8 rounded-lg bg-amber-50 text-brand-gold flex items-center justify-center">
+                                <i data-lucide="mouse-pointer-click" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-brand-gold mt-3">34.180</p>
+                        <p class="text-xs text-brand-steel mt-1.5">Rata-rata 2.74 halaman / sesi</p>
+                    </div>
+            
+                    <div class="bg-ui-card p-5 rounded-xl border border-ui-border shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">Rata-rata Durasi Sesi</p>
+                            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-brand-navy mt-3">3m 42s</p>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1.5 flex items-center gap-1">
+                            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                            <span>+12 detik dari minggu lalu</span>
+                        </p>
+                    </div>
+                </div>
+            
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            
+                    <div class="xl:col-span-2 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="text-base font-bold text-brand-navy">Tren Lalu Lintas Pengunjung</h3>
+                                <p class="text-xs text-brand-steel mt-0.5">Grafik harian total kunjungan dan sesi unik.</p>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs font-semibold">
+                                <span class="flex items-center gap-1.5 text-brand-navy">
+                                    <span class="w-3 h-3 rounded-full bg-brand-navy inline-block"></span> Total Visits
+                                </span>
+                                <span class="flex items-center gap-1.5 text-brand-gold">
+                                    <span class="w-3 h-3 rounded-full bg-brand-gold inline-block"></span> Unique Visits
+                                </span>
+                            </div>
+                        </div>
+                        <div class="relative h-72">
+                            <canvas id="visitorTrafficChart"></canvas>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-base font-bold text-brand-navy">Sumber Trafik</h3>
+                            <p class="text-xs text-brand-steel mt-0.5">Asal kedatangan pengunjung website.</p>
+                            <div class="relative h-56 mt-4">
+                                <canvas id="visitorSourceChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-4 border-t border-ui-border text-xs text-brand-steel">
+                            <div><span class="font-bold text-brand-navy">Direct:</span> 42%</div>
+                            <div><span class="font-bold text-brand-navy">Google Organic:</span> 35%</div>
+                            <div><span class="font-bold text-brand-navy">Social Media:</span> 15%</div>
+                            <div><span class="font-bold text-brand-navy">Referral:</span> 8%</div>
+                        </div>
+                    </div>
+            
+                </div>
+            
+                <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            
+                    <div class="xl:col-span-2 rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border bg-white px-5 py-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="font-bold text-brand-navy text-base">Halaman Populer</h3>
+                                <p class="mt-0.5 text-xs text-brand-steel">Daftar halaman yang paling banyak diakses oleh calon
+                                    pelanggan.</p>
+                            </div>
+                            <span
+                                class="text-xs font-semibold text-brand-steel bg-ui-main px-2.5 py-1 rounded-full border border-ui-border">5
+                                Teratas</span>
+                        </div>
+            
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead
+                                    class="bg-ui-main text-xs uppercase tracking-wider text-brand-steel font-semibold border-b border-ui-border">
+                                    <tr>
+                                        <th class="px-5 py-3.5">Halaman (URL)</th>
+                                        <th class="px-5 py-3.5 text-right">Pageviews</th>
+                                        <th class="px-5 py-3.5 text-right">Pengunjung Unik</th>
+                                        <th class="px-5 py-3.5 text-right">Rata-rata Waktu</th>
+                                        <th class="px-5 py-3.5 text-right">Bounce Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-ui-border">
+                                    <tr class="hover:bg-ui-main/50 transition-colors">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">/ (Beranda / Homepage)</p>
+                                            <p class="text-xs text-brand-steel font-mono">nirwanagarage.com/</p>
+                                        </td>
+                                        <td class="px-5 py-4 text-right font-bold text-brand-navy">14.820</td>
+                                        <td class="px-5 py-4 text-right text-ui-text">6.120</td>
+                                        <td class="px-5 py-4 text-right text-brand-steel">1m 45s</td>
+                                        <td class="px-5 py-4 text-right font-semibold text-emerald-600">28.4%</td>
+                                    </tr>
+                                    <tr class="hover:bg-ui-main/50 transition-colors">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">/booking (Form Booking Online)</p>
+                                            <p class="text-xs text-brand-steel font-mono">nirwanagarage.com/booking</p>
+                                        </td>
+                                        <td class="px-5 py-4 text-right font-bold text-brand-navy">9.450</td>
+                                        <td class="px-5 py-4 text-right text-ui-text">4.890</td>
+                                        <td class="px-5 py-4 text-right text-brand-steel">4m 12s</td>
+                                        <td class="px-5 py-4 text-right font-semibold text-emerald-600">18.2%</td>
+                                    </tr>
+                                    <tr class="hover:bg-ui-main/50 transition-colors">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">/layanan-servis (Daftar Layanan)</p>
+                                            <p class="text-xs text-brand-steel font-mono">nirwanagarage.com/layanan-servis</p>
+                                        </td>
+                                        <td class="px-5 py-4 text-right font-bold text-brand-navy">5.120</td>
+                                        <td class="px-5 py-4 text-right text-ui-text">2.340</td>
+                                        <td class="px-5 py-4 text-right text-brand-steel">2m 30s</td>
+                                        <td class="px-5 py-4 text-right font-semibold text-amber-600">35.1%</td>
+                                    </tr>
+                                    <tr class="hover:bg-ui-main/50 transition-colors">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">/portofolio (Galeri Pengerjaan)</p>
+                                            <p class="text-xs text-brand-steel font-mono">nirwanagarage.com/portofolio</p>
+                                        </td>
+                                        <td class="px-5 py-4 text-right font-bold text-brand-navy">3.240</td>
+                                        <td class="px-5 py-4 text-right text-ui-text">1.820</td>
+                                        <td class="px-5 py-4 text-right text-brand-steel">3m 15s</td>
+                                        <td class="px-5 py-4 text-right font-semibold text-emerald-600">22.8%</td>
+                                    </tr>
+                                    <tr class="hover:bg-ui-main/50 transition-colors">
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-brand-navy">/kontak-lokasi (Lokasi Bengkel)</p>
+                                            <p class="text-xs text-brand-steel font-mono">nirwanagarage.com/kontak-lokasi</p>
+                                        </td>
+                                        <td class="px-5 py-4 text-right font-bold text-brand-navy">1.550</td>
+                                        <td class="px-5 py-4 text-right text-ui-text">980</td>
+                                        <td class="px-5 py-4 text-right text-brand-steel">1m 10s</td>
+                                        <td class="px-5 py-4 text-right font-semibold text-amber-600">41.0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-brand-navy text-base">Perangkat & Lokasi Utama</h3>
+                            <p class="mt-0.5 text-xs text-brand-steel">Persentase akses tipe perangkat pengguna.</p>
+            
+                            <div class="mt-5 space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-brand-navy flex items-center gap-1.5"><i data-lucide="smartphone"
+                                                class="w-3.5 h-3.5 text-brand-gold"></i> Smartphone (Mobile)</span>
+                                        <span class="text-brand-navy font-bold">78%</span>
+                                    </div>
+                                    <div class="w-full bg-ui-main h-2.5 rounded-full overflow-hidden border border-ui-border">
+                                        <div class="bg-brand-gold h-full rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+            
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-brand-navy flex items-center gap-1.5"><i data-lucide="monitor"
+                                                class="w-3.5 h-3.5 text-brand-navy"></i> Laptop / Desktop</span>
+                                        <span class="text-brand-navy font-bold">18%</span>
+                                    </div>
+                                    <div class="w-full bg-ui-main h-2.5 rounded-full overflow-hidden border border-ui-border">
+                                        <div class="bg-brand-navy h-full rounded-full" style="width: 18%"></div>
+                                    </div>
+                                </div>
+            
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-brand-navy flex items-center gap-1.5"><i data-lucide="tablet"
+                                                class="w-3.5 h-3.5 text-brand-steel"></i> Tablet / iPad</span>
+                                        <span class="text-brand-navy font-bold">4%</span>
+                                    </div>
+                                    <div class="w-full bg-ui-main h-2.5 rounded-full overflow-hidden border border-ui-border">
+                                        <div class="bg-brand-steel h-full rounded-full" style="width: 4%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="pt-4 border-t border-ui-border mt-5">
+                            <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider mb-2">Kota Pengunjung
+                                Terbanyak</p>
+                            <div class="flex flex-wrap gap-1.5">
+                                <span
+                                    class="px-2.5 py-1 rounded-full bg-ui-main border border-ui-border text-xs font-semibold text-brand-navy">Jakarta
+                                    (45%)</span>
+                                <span
+                                    class="px-2.5 py-1 rounded-full bg-ui-main border border-ui-border text-xs font-semibold text-brand-navy">Tangerang
+                                    (22%)</span>
+                                <span
+                                    class="px-2.5 py-1 rounded-full bg-ui-main border border-ui-border text-xs font-semibold text-brand-navy">Bekasi
+                                    (14%)</span>
+                                <span
+                                    class="px-2.5 py-1 rounded-full bg-ui-main border border-ui-border text-xs font-semibold text-brand-navy">Depok
+                                    (9%)</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ================= MODAL LOGOUT (DI TENGAH LAYAR) ================= -->
+    <div id="logout-modal"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-brand-navy/50 backdrop-blur-sm px-4">
+        <div class="w-full max-w-sm bg-ui-card rounded-xl shadow-2xl border border-ui-border p-5 m-auto">
+            <div class="flex items-center gap-3 mb-5">
+                <div
+                    class="w-10 h-10 rounded-full bg-amber-50 text-brand-gold border border-amber-200 flex items-center justify-center shrink-0">
+                    <i data-lucide="log-out" class="w-5 h-5 text-brand-gold"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-semibold text-brand-navy">
+                        Konfirmasi Keluar
+                    </h2>
+                    <p class="text-xs text-brand-steel mt-0.5">
+                        Apakah Anda yakin ingin keluar dari akun?
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button type="button" id="logout-cancel"
+                    class="px-4 py-2 rounded-md text-sm font-medium text-brand-steel border border-ui-border hover:bg-ui-main transition-colors">
+                    Batal
+                </button>
+                <button type="button" id="logout-confirm"
+                    class="px-4 py-2 rounded-md text-sm font-medium text-white bg-brand-navy hover:bg-brand-gold transition-colors duration-200">
+                    Keluar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // Inisialisasi Icon Lucide
+        lucide.createIcons();
+
+        // 1. Sidebar & Mobile Toggle Controls
+        const sidebar = document.getElementById('sidebar');
+        const openSidebarBtn = document.getElementById('open-sidebar-btn');
+        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+        if (openSidebarBtn) {
+            openSidebarBtn.addEventListener('click', () => sidebar.classList.remove('-translate-x-full'));
+        }
+        if (closeSidebarBtn) {
+            closeSidebarBtn.addEventListener('click', () => sidebar.classList.add('-translate-x-full'));
+        }
+
+        // 2. Profile Dropdown Toggle
+        const profileTrigger = document.getElementById('profile-trigger');
+        const profileCard = document.getElementById('profile-card');
+
+        if (profileTrigger) {
+            profileTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileCard.classList.toggle('hidden');
+            });
+        }
+        document.addEventListener('click', (e) => {
+            if (profileCard && !profileCard.contains(e.target) && !profileTrigger.contains(e.target)) {
+                profileCard.classList.add('hidden');
+            }
+        });
+
+        // 3. Logout Modal & Redirect Controls
+        const logoutButton = document.getElementById('logout-button');
+        const logoutModal = document.getElementById('logout-modal');
+        const logoutCancel = document.getElementById('logout-cancel');
+        const logoutConfirm = document.getElementById('logout-confirm');
+
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => {
+                profileCard.classList.add('hidden');
+                logoutModal.classList.remove('hidden');
+            });
+        }
+        if (logoutCancel) {
+            logoutCancel.addEventListener('click', () => logoutModal.classList.add('hidden'));
+        }
+        if (logoutConfirm) {
+            logoutConfirm.addEventListener('click', () => {
+                window.location.href = "/public/design/auth/login.html";
+            });
+        }
+
+        // 4. Tab Switching Logic
+        function switchTab(tabId) {
+            // Sembunyikan semua section tab
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+
+            // Tampilkan section target
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Perbarui Judul Header secara Dinamis
+            const pageTitles = {
+                'owner-dashboard': 'Dashboard Owner',
+                'owner-bookings': 'Booking Servis',
+                'owner-work-orders': 'Work Order',
+                'owner-vehicle-activities': 'Aktivitas Kendaraan',
+                'owner-inventory': 'Persediaan Inventory',
+                'owner-reports-wo': 'Laporan Work Order',
+                'owner-reports-items': 'Penggunaan Barang',
+                'owner-employees': 'Kelola Akun',
+                'owner-visitor-stats': 'Statistik Pengunjung Website'
+            };
+
+            const titleEl = document.getElementById('page-title');
+            if (titleEl) {
+                titleEl.innerText = pageTitles[tabId] || 'Dashboard Owner';
+            }
+
+            // Reset dan Highlight Menu Sidebar yang Aktif
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.className = "nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800";
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = "nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold";
+            }
+
+            // Tutup sidebar otomatis pada mode mobile
+            if (sidebar) {
+                sidebar.classList.add('-translate-x-full');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Dashboard
+                document.addEventListener("DOMContentLoaded", function () {
+                    // 1. Operational Line Chart
+                    const ctxOp = document.getElementById('operationalChart');
+                if (ctxOp) {
+                    new Chart(ctxOp, {
+                        type: 'line',
+                        data: {
+                            labels: ['09 Okt', '10 Okt', '11 Okt', '12 Okt', '13 Okt', '14 Okt', '15 Okt'],
+                            datasets: [
+                                {
+                                    label: 'Booking Masuk',
+                                    data: [5, 8, 12, 7, 9, 14, 8],
+                                    borderColor: '#c58e4b',
+                                    backgroundColor: 'rgba(197, 142, 75, 0.1)',
+                                    borderWidth: 2,
+                                    fill: true,
+                                    tension: 0.3
+                                },
+                                {
+                                    label: 'WO Selesai',
+                                    data: [4, 7, 10, 8, 8, 12, 6],
+                                    borderColor: '#1b263b',
+                                    backgroundColor: 'rgba(27, 38, 59, 0.05)',
+                                    borderWidth: 2,
+                                    fill: true,
+                                    tension: 0.3
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            },
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                    }
+
+                // 2. Work Order Status Doughnut Chart
+                const ctxStatus = document.getElementById('workOrderStatusChart');
+                if (ctxStatus) {
+                    new Chart(ctxStatus, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Menunggu', 'Dalam Proses', 'Selesai', 'Dibatalkan'],
+                            datasets: [{
+                                data: [8, 5, 128, 1],
+                                backgroundColor: [
+                                    '#f59e0b', // Amber
+                                    '#3b82f6', // Blue
+                                    '#10b981', // Emerald
+                                    '#ef4444'  // Red
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            }
+                        }
+                    });
+                    }
+                });
+
+               
+                        function filterOwnerWorkOrders() {
+                    const query = document.getElementById('owner-wo-search').value.toLowerCase().trim();
+                        const selectedStatus = document.getElementById('owner-wo-status-filter').value;
+                        const rows = document.querySelectorAll('.owner-wo-row');
+                        let visibleCount = 0;
+
+                    rows.forEach(row => {
+                        const rowData = row.getAttribute('data-search') || '';
+                        const rowStatus = row.getAttribute('data-status') || '';
+
+                        const matchesQuery = query === '' || rowData.includes(query);
+                        const matchesStatus = selectedStatus === '' || rowStatus === selectedStatus;
+
+                        if (matchesQuery && matchesStatus) {
+                            row.classList.remove('hidden');
+                        visibleCount++;
+                        } else {
+                            row.classList.add('hidden');
+                        }
+                    });
+
+                        const noResults = document.getElementById('owner-wo-no-results');
+                        if (visibleCount === 0) {
+                            noResults.classList.remove('hidden');
+                    } else {
+                            noResults.classList.add('hidden');
+                    }
+                }
+
+                // kelola akun
+
+                <!-- Script Controller Sub-View Manajemen Pegawai -->
+                    function showEmployeeSubView(viewName) {
+                        document.getElementById('emp-view-index').classList.add('hidden');
+                        document.getElementById('emp-view-create').classList.add('hidden');
+                        document.getElementById('emp-view-edit').classList.add('hidden');
+                        document.getElementById('emp-view-reset').classList.add('hidden');
+
+                        const targetView = document.getElementById(`emp-view-${viewName}`);
+                        if (targetView) {
+                            targetView.classList.remove('hidden');
+                        }
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+
+                    function openEditEmployeeView(name, email, phone, role) {
+                        document.getElementById('edit_emp_name').value = name;
+                        document.getElementById('edit_emp_email').value = email;
+                        document.getElementById('edit_emp_phone').value = phone;
+                        document.getElementById('edit_emp_role').value = role;
+                        showEmployeeSubView('edit');
+                    }
+
+                    function openResetPasswordView(name, email, role) {
+                        document.getElementById('reset_info_name').innerText = name;
+                        document.getElementById('reset_info_email').innerText = email;
+                        document.getElementById('reset_info_role').innerText = role;
+                        document.getElementById('reset_new_password').value = '';
+                        document.getElementById('reset_new_password_confirm').value = '';
+                        showEmployeeSubView('reset');
+                    }
+
+                    function filterEmployeesClient() {
+                        const keyword = document.getElementById('searchEmployee').value.toLowerCase().trim();
+                        const selectedRole = document.getElementById('filterRole').value;
+                        const rows = document.querySelectorAll('.employee-row');
+                        let visibleCount = 0;
+
+                        rows.forEach(row => {
+                            const name = row.getAttribute('data-name') || '';
+                            const email = row.getAttribute('data-email') || '';
+                            const phone = row.getAttribute('data-phone') || '';
+                            const role = row.getAttribute('data-role') || '';
+
+                            const matchesSearch = name.includes(keyword) || email.includes(keyword) || phone.includes(keyword);
+                            const matchesRole = selectedRole === '' || role === selectedRole;
+
+                            if (matchesSearch && matchesRole) {
+                                row.classList.remove('hidden');
+                                visibleCount++;
+                            } else {
+                                row.classList.add('hidden');
+                            }
+                        });
+
+                        const noResults = document.getElementById('noSearchResults');
+                        if (visibleCount === 0) {
+                            noResults.classList.remove('hidden');
+                        } else {
+                            noResults.classList.add('hidden');
+                        }
+                    }
+
+                    // statistik pengunujung
+                    let visitorTrafficChartInstance = null;
+                        let visitorSourceChartInstance = null;
+
+                        function initVisitorCharts() {
+                            // 1. Line Chart: Tren Lalu Lintas Pengunjung
+                            const ctxTraffic = document.getElementById('visitorTrafficChart');
+                            if (ctxTraffic) {
+                                if (visitorTrafficChartInstance) visitorTrafficChartInstance.destroy();
+
+                                visitorTrafficChartInstance = new Chart(ctxTraffic, {
+                                    type: 'line',
+                                    data: {
+                                        labels: ['01 Okt', '03 Okt', '05 Okt', '07 Okt', '09 Okt', '11 Okt', '13 Okt', '15 Okt'],
+                                        datasets: [
+                                            {
+                                                label: 'Total Visits',
+                                                data: [380, 420, 510, 490, 620, 780, 850, 920],
+                                                borderColor: '#1b263b',
+                                                backgroundColor: 'rgba(27, 38, 59, 0.08)',
+                                                borderWidth: 2.5,
+                                                fill: true,
+                                                tension: 0.35
+                                            },
+                                            {
+                                                label: 'Unique Visits',
+                                                data: [250, 290, 340, 310, 410, 520, 580, 610],
+                                                borderColor: '#c58e4b',
+                                                backgroundColor: 'rgba(197, 142, 75, 0.05)',
+                                                borderWidth: 2,
+                                                borderDash: [4, 4],
+                                                fill: true,
+                                                tension: 0.35
+                                            }
+                                        ]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: { display: false }
+                                        },
+                                        scales: {
+                                            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                                            x: { grid: { display: false } }
+                                        }
+                                    }
+                                });
+                            }
+
+                            // 2. Doughnut Chart: Sumber Trafik Pengunjung
+                            const ctxSource = document.getElementById('visitorSourceChart');
+                            if (ctxSource) {
+                                if (visitorSourceChartInstance) visitorSourceChartInstance.destroy();
+
+                                visitorSourceChartInstance = new Chart(ctxSource, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: ['Direct', 'Google Organic', 'Social Media', 'Referral'],
+                                        datasets: [{
+                                            data: [42, 35, 15, 8],
+                                            backgroundColor: [
+                                                '#1b263b', // Navy
+                                                '#c58e4b', // Gold
+                                                '#3b82f6', // Blue
+                                                '#94a3b8'  // Slate
+                                            ],
+                                            borderWidth: 2,
+                                            borderColor: '#ffffff'
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        plugins: {
+                                            legend: { position: 'bottom' }
+                                        },
+                                        cutout: '70%'
+                                    }
+                                });
+                            }
+                        }
+
+                        // Fungsi trigger saat filter periode dipilih
+                        function updateVisitorChartPeriod(period) {
+                            alert('Memuat data statistik statistik untuk periode: ' + period);
+                            // Simulasi update chart dapat ditambahkan di sini
+                        }
+
+                        // Panggil chart saat dokumen selesai dimuat
+                        document.addEventListener("DOMContentLoaded", function () {
+                            initVisitorCharts();
+                        });
+    </script>
+</body>
+
+</html>

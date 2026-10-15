@@ -1,0 +1,3236 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+        />
+        <title>Nirwana Garage | Premium Motorcycle Repaint & Performance</title>
+
+        <!-- 1. Google Font Instrument Sans Lengkap (Variasi Weight 400 hingga 900) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- FontAwesome Icons -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <!-- 2. Tailwind Play CDN Konfigurasi Kustom Font -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: [
+                                "Instrument Sans",
+                                "ui-sans-serif",
+                                "system-ui",
+                                "sans-serif",
+                                "Apple Color Emoji",
+                                "Segoe UI Emoji",
+                                "Segoe UI Symbol",
+                                "Noto Color Emoji",
+                            ],
+                        },
+                        colors: {
+                            brand: {
+                                navy: "#1b263b",
+                                gold: "#c58e4b",
+                                silver: "#bdc3c7",
+                                steel: "#5d7b93",
+                            },
+                            ui: {
+                                main: "#f8f9fa",
+                                card: "#ffffff",
+                                text: "#2d3436",
+                                border: "#dee2e6",
+                            },
+                        },
+                    },
+                },
+            };
+        </script>
+
+        <style>
+            /* Tanpa merusak render font-weight alami browser */
+            body {
+                font-family: "Instrument Sans", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            /* ANIMATION & GLASS STYLE */
+            /* Definisi Animasi Utama */
+            @keyframes feedUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Class pembantu untuk memicu animasi pada elemen anak */
+            .animate-item {
+                opacity: 0;
+                /* Sembunyi dulu sebelum jalan */
+                animation: feedUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            }
+
+            /* Pengaturan Jeda (Delay) supaya muncul satu-satu */
+            .delay-1 {
+                animation-delay: 0.2s;
+            }
+
+            .delay-2 {
+                animation-delay: 0.4s;
+            }
+
+            .delay-3 {
+                animation-delay: 0.6s;
+            }
+
+            .delay-4 {
+                animation-delay: 0.8s;
+            }
+
+            .delay-5 {
+                animation-delay: 1s;
+            }
+
+            /* Khusus Logo Background biar munculnya zoom out halus */
+            @keyframes logoZoom {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(1.2);
+                }
+
+                to {
+                    opacity: 0.07;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+            }
+
+            .animate-logo {
+                animation: logoZoom 2s ease-out forwards;
+            }
+
+            /* SCROLL ANIMATION ENGINE */
+            [data-scroll] {
+                opacity: 0;
+                transition-property: opacity, transform;
+                transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+                transition-duration: 0.8s;
+            }
+
+            [data-scroll="fade-up"] {
+                transform: translateY(50px);
+            }
+
+            [data-scroll="fade-down"] {
+                transform: translateY(-50px);
+            }
+
+            [data-scroll="fade-left"] {
+                transform: translateX(-60px);
+            }
+
+            [data-scroll="fade-right"] {
+                transform: translateX(60px);
+            }
+
+            [data-scroll="zoom-in"] {
+                transform: scale(0.85);
+            }
+
+            [data-scroll="flip"] {
+                transform: rotateX(20deg) translateY(40px);
+            }
+
+            [data-scroll].is-visible {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            /* Stagger delays for children */
+            .stagger-children > *:nth-child(1) {
+                transition-delay: 0s;
+            }
+
+            .stagger-children > *:nth-child(2) {
+                transition-delay: 0.12s;
+            }
+
+            .stagger-children > *:nth-child(3) {
+                transition-delay: 0.24s;
+            }
+
+            .stagger-children > *:nth-child(4) {
+                transition-delay: 0.36s;
+            }
+
+            .stagger-children > *:nth-child(5) {
+                transition-delay: 0.48s;
+            }
+
+            /* HERO PAGE LOAD ANIMATIONS */
+            @keyframes heroSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(40px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes heroPulse {
+                0%,
+                100% {
+                    transform: scaleX(1);
+                    opacity: 0.5;
+                }
+
+                50% {
+                    transform: scaleX(1.05);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes logoFade {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(1.15);
+                }
+
+                to {
+                    opacity: 0.07;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+            }
+
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            @keyframes scrollLine {
+                0% {
+                    transform: scaleY(0);
+                    transform-origin: top;
+                }
+
+                50% {
+                    transform: scaleY(1);
+                    transform-origin: top;
+                }
+
+                51% {
+                    transform: scaleY(1);
+                    transform-origin: bottom;
+                }
+
+                100% {
+                    transform: scaleY(0);
+                    transform-origin: bottom;
+                }
+            }
+
+            @keyframes ping {
+                75%,
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+
+            .hero-el {
+                opacity: 0;
+                animation: heroSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1)
+                    forwards;
+            }
+
+            .delay-100 {
+                animation-delay: 0.1s;
+            }
+
+            .delay-200 {
+                animation-delay: 0.2s;
+            }
+
+            .delay-350 {
+                animation-delay: 0.35s;
+            }
+
+            .delay-500 {
+                animation-delay: 0.5s;
+            }
+
+            .delay-650 {
+                animation-delay: 0.65s;
+            }
+
+            .delay-800 {
+                animation-delay: 0.8s;
+            }
+
+            .delay-950 {
+                animation-delay: 0.95s;
+            }
+
+            .logo-bg {
+                animation: logoFade 2s ease-out forwards;
+            }
+
+            .float-card {
+                animation: float 4s ease-in-out infinite;
+            }
+
+            .float-card-2 {
+                animation: float 4s ease-in-out 1s infinite;
+            }
+
+            .scroll-line {
+                animation: scrollLine 2s ease-in-out infinite;
+            }
+
+            /* ============================================
+           GLASS & GRADIENTS
+        ============================================ */
+            .glass-nav {
+                background: rgba(27, 38, 59, 0.92);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
+
+            .glass-card {
+                background: rgba(255, 255, 255, 0.06);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+            }
+
+            .text-gold-gradient {
+                background: linear-gradient(
+                    135deg,
+                    #c58e4b 0%,
+                    #e8b96a 50%,
+                    #c58e4b 100%
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .glow-gold {
+                box-shadow: 0 0 40px rgba(197, 142, 75, 0.35);
+            }
+
+            .glow-navy {
+                box-shadow: 0 20px 60px rgba(27, 38, 59, 0.25);
+            }
+
+            /* ============================================
+           MOBILE MENU ANIMATION
+        ============================================ */
+            #mobile-menu {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            #mobile-menu.open {
+                max-height: 800px;
+            }
+
+            /* ============================================
+           PROGRESS TRACKER LINE
+        ============================================ */
+            .tracker-line {
+                position: absolute;
+                top: 20px;
+                left: calc(12.5% + 10px);
+                width: calc(75% - 20px);
+                height: 2px;
+                background: #dee2e6;
+                z-index: 0;
+            }
+
+            .tracker-line-fill {
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(90deg, #c58e4b, #e8b96a);
+                border-radius: 2px;
+            }
+
+            /* ============================================
+           HOVER EFFECTS
+        ============================================ */
+            .btn-primary {
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .btn-primary::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    45deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    transparent 70%
+                );
+                transform: translateX(-100%);
+                transition: transform 0.5s ease;
+            }
+
+            .btn-primary:hover::before {
+                transform: translateX(100%);
+            }
+
+            .service-card {
+                transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .service-card:hover {
+                transform: translateY(-8px);
+            }
+
+            /* ============================================
+           ACCORDION
+        ============================================ */
+            .faq-content {
+                max-height: 0;
+                overflow: hidden;
+                transition:
+                    max-height 0.35s ease,
+                    padding 0.35s ease;
+            }
+
+            .faq-content.open {
+                max-height: 200px;
+                padding-bottom: 1.5rem;
+            }
+
+            .faq-chevron {
+                transition: transform 0.35s ease;
+            }
+
+            .faq-chevron.rotated {
+                transform: rotate(180deg);
+            }
+
+            /* CUSTOM SCROLLBAR */
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #1b263b;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #c58e4b;
+                border-radius: 3px;
+            }
+
+            /* ============================================
+           RESPONSIVE TYPOGRAPHY SCALE
+        ============================================ */
+            .hero-title {
+                font-size: clamp(2.8rem, 10vw, 8rem);
+                line-height: 0.9;
+                letter-spacing: -0.02em;
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 5vw, 3.5rem);
+                line-height: 1.05;
+            }
+
+            .mega-title {
+                font-size: clamp(2.5rem, 6vw, 5rem);
+                line-height: 1;
+            }
+
+            /* ============================================
+           PING ANIMATION
+        ============================================ */
+            .ping-dot {
+                animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+            }
+
+            /* ============================================
+           GALLERY HOVER
+        ============================================ */
+            .gallery-item img {
+                transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            .gallery-item:hover img {
+                transform: scale(1.08);
+            }
+
+            .gallery-overlay {
+                background: linear-gradient(
+                    to top,
+                    rgba(27, 38, 59, 0.95) 0%,
+                    transparent 60%
+                );
+            }
+
+            /* ============================================
+           CARD SHINE EFFECT
+        ============================================ */
+            .shine-effect {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .shine-effect::after {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 30%;
+                height: 200%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.08),
+                    transparent
+                );
+                transform: skewX(-20deg);
+                transition: left 0.6s ease;
+            }
+
+            .shine-effect:hover::after {
+                left: 130%;
+            }
+
+            /* MOBILE SAFE PADDING */
+            @supports (padding: max(0px)) {
+                .safe-bottom {
+                    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+                }
+            }
+
+            /* Tab highlight active */
+            .nav-link {
+                position: relative;
+            }
+
+            .nav-link::after {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #c58e4b;
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+            /* Testimonial card */
+            .testi-card {
+                transition: all 0.4s ease;
+            }
+
+            .testi-card:hover {
+                transform: translateY(-4px);
+            }
+
+            /* Number counter animation */
+            @keyframes countUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .stat-number {
+                animation: countUp 0.6s ease forwards;
+            }
+
+            /* untuk anchor animasi */
+            .scroll-container-lu {
+                overflow-anchor: none;
+            }
+
+            .testimonial-track {
+                display: flex;
+                gap: 1.5rem;
+                /* Jarak antar kartu */
+                width: 100%;
+            }
+
+            .testimonial-card {
+                flex: 0 0 calc(100% / 1);
+                /* Mobile */
+            }
+
+            @media (min-width: 768px) {
+                .testimonial-card {
+                    flex: 0 0 calc(50% - 0.75rem);
+                }
+
+                /* Tablet */
+            }
+
+            @media (min-width: 1024px) {
+                .testimonial-card {
+                    flex: 0 0 calc(33.333% - 1rem);
+                }
+
+                /* Desktop */
+            }
+
+            /* Pastikan container relative */
+            .relative {
+                position: relative;
+            }
+
+            .overflow-hidden {
+                overflow: hidden;
+            }
+
+            @media print {
+                body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                }
+
+                .no-print,
+                aside,
+                sidebar,
+                header,
+                .filter-section,
+                button,
+                .action-buttons {
+                    display: none !important;
+                }
+
+                main {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    width: 100% !important;
+                }
+
+                .print-full-width {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+
+                .card-print {
+                    border: 1px solid #ccc !important;
+                    box-shadow: none !important;
+                    break-inside: avoid;
+                }
+            }
+        </style>
+    </head>
+
+    <body class="bg-ui-main text-ui-text font-sans">
+        <!-- NAVIGATION COMPONENT -->
+        <!-- ================= NAVIGATION COMPONENT (STATIC MOCKUP) ================= -->
+        <nav
+            id="navbar"
+            class="fixed w-full z-50 glass-nav border-b border-white/10 transition-all duration-300"
+         >
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 sm:h-20 items-center">
+                    <!-- Logo -->
+                    <a href="#home" class="shrink-0">
+                        <span
+                            class="text-xl sm:text-2xl font-black tracking-tighter italic text-white font-display"
+                            >Nirwana<span class="text-brand-gold"
+                                >Garage</span
+                            ></span
+                        >
+                    </a>
+
+                    <!-- Desktop Menu -->
+                    <div
+                        class="hidden md:flex space-x-6 lg:space-x-8 items-center text-sm font-medium"
+                    >
+                        <a
+                            href="#home"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Home</a
+                        >
+                        <a
+                            href="#layanan"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Layanan</a
+                        >
+                        <a
+                            href="#galeri"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Galeri</a
+                        >
+                        <a
+                            href="#pricelist"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >List Harga</a
+                        >
+                        <a
+                            href="#testimoni"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Testimoni</a
+                        >
+                        <a
+                            href="#tracking"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Tracking</a
+                        >
+                        <a
+                            href="#tentang"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200 block min-[640px]:max-[1024px]:hidden lg:block"
+                            >Tentang Kami</a
+                        >
+                        <a
+                            href="#faq"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200 block min-[640px]:max-[1024px]:hidden lg:block"
+                            >FAQ</a
+                        >
+                        <a
+                            href="#kontak"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200 block min-[640px]:max-[1024px]:hidden lg:block"
+                            >Kontak</a
+                        >
+
+                        <button
+                            type="button"
+                            onclick="openBookingModal()"
+                            class="btn-primary bg-brand-gold px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all duration-300 ease-out hover:bg-amber-500 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 cursor-pointer"
+                        >
+                            Booking
+                        </button>
+                    </div>
+
+                    <!-- Mobile Hamburger -->
+                    <button
+                        id="menu-btn"
+                        class="md:hidden text-white focus:outline-none p-2 rounded-lg hover:bg-white/10 transition cursor-pointer"
+                        aria-label="Toggle Menu"
+                    >
+                        <div
+                            id="ham-icon"
+                            class="space-y-1.5 transition-all duration-300"
+                        >
+                            <span
+                                class="block w-6 h-0.5 bg-white transition-all duration-300"
+                                id="bar1"
+                            ></span>
+                            <span
+                                class="block w-6 h-0.5 bg-white transition-all duration-300"
+                                id="bar2"
+                            ></span>
+                            <span
+                                class="block w-6 h-0.5 bg-brand-gold transition-all duration-300"
+                                id="bar3"
+                            ></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div
+                id="mobile-menu"
+                class="md:hidden bg-brand-navy/98 border-t border-white/10"
+            >
+                <div
+                    class="max-w-7xl mx-auto px-4 py-4 flex flex-col space-y-1"
+                >
+                    <a
+                        href="#home"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i class="fa-solid fa-house text-brand-gold w-5"></i>
+                        Home
+                    </a>
+                    <a
+                        href="#layanan"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fa-screwdriver-wrench text-brand-gold w-5"
+                        ></i>
+                        Layanan
+                    </a>
+                    <a
+                        href="#galeri"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i class="fa-solid fa-images text-brand-gold w-5"></i>
+                        Galeri
+                    </a>
+                    <a
+                        href="#pricelist"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i class="fa-solid fas fa-tags text-brand-gold w-5"></i>
+                        List Harga
+                    </a>
+                    <a
+                        href="#testimoni"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-comment-dots text-brand-gold w-5"
+                        ></i>
+                        Testimoni
+                    </a>
+                    <a
+                        href="#tracking"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fa-location-crosshairs text-brand-gold w-5"
+                        ></i>
+                        Tracking
+                    </a>
+                    <a
+                        href="#tentang"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-info-circle text-brand-gold w-5"
+                        ></i>
+                        Tentang Kami
+                    </a>
+                    <a
+                        href="#blog"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-newspaper text-brand-gold w-5"
+                        ></i>
+                        Blog
+                    </a>
+                    <a
+                        href="#faq"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-question-circle text-brand-gold w-5"
+                        ></i>
+                        FAQ
+                    </a>
+                    <a
+                        href="#kontak"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-headset text-brand-gold w-5"
+                        ></i>
+                        Kontak
+                    </a>
+                    <button
+                        type="button"
+                        onclick="openBookingModal()"
+                        class="mobile-link mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center w-full cursor-pointer"
+                    >
+                        <i class="fa-solid fa-calendar-check w-5"></i> Booking
+                        Sekarang
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Modal Confirm Booking -->
+        <div
+            id="bookingModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4 booking-modal-overlay"
+            onclick="closeBookingModal(event)"
+        >
+            <div
+                class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl booking-modal-content"
+                onclick="event.stopPropagation()"
+            >
+                <!-- Header -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Mulai Booking Servis
+                    </h2>
+
+                    <p class="mt-2 text-sm text-gray-600">
+                        Pilih cara yang paling nyaman untuk melanjutkan booking
+                        servis kendaraanmu.
+                    </p>
+                </div>
+
+                <!-- Register / Login -->
+                <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                    <h3 class="font-bold text-gray-900">Daftar atau Login</h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Dengan akun Nirwana Garage, kamu bisa menyimpan data
+                        kendaraan, melihat riwayat servis, dan mengelola booking
+                        dengan lebih mudah.
+                    </p>
+
+                    <ul class="mt-4 space-y-2 text-sm text-gray-700">
+                        <li>✓ Simpan data kendaraan</li>
+                        <li>✓ Akses riwayat servis</li>
+                        <li>✓ Pantau dan kelola booking</li>
+                    </ul>
+
+                <a href="/public/design/auth/login.html"
+                    class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90">
+                    Daftar / Login
+                </a>
+                </div>
+
+                <!-- Separator -->
+                <div class="my-5 flex items-center gap-3">
+                    <div class="h-px flex-1 bg-gray-200"></div>
+
+                    <span class="text-xs font-medium text-gray-400">
+                        ATAU
+                    </span>
+
+                    <div class="h-px flex-1 bg-gray-200"></div>
+                </div>
+
+                <!-- Guest Booking -->
+                <div>
+                    <h3 class="font-bold text-gray-900">
+                        Lanjutkan sebagai Guest
+                    </h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Tidak perlu membuat akun. Kamu bisa langsung melakukan
+                        booking dan melacak status servis menggunakan kode
+                        booking.
+                    </p>
+
+                    <a
+                        href="booking.html"
+                        onclick="closeBookingModal()"
+                        class="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50"
+                    >
+                        Booking Tanpa Login
+                    </a>
+                </div>
+
+                <!-- Close Button -->
+                <button
+                    type="button"
+                    onclick="closeBookingModal()"
+                    class="mt-4 w-full py-2 text-sm font-medium text-gray-500 transition hover:text-gray-800 cursor-pointer"
+                >
+                    Batal
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal Confirm Booking -->
+        <div
+            id="bookingModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4 booking-modal-overlay"
+            onclick="closeBookingModal(event)"
+         >
+            <div
+                class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl booking-modal-content"
+                onclick="event.stopPropagation()"
+            >
+                <!-- Header -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Mulai Booking Servis
+                    </h2>
+
+                    <p class="mt-2 text-sm text-gray-600">
+                        Pilih cara yang paling nyaman untuk melanjutkan booking
+                        servis kendaraanmu.
+                    </p>
+                </div>
+
+                <!-- Register / Login -->
+                <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                    <h3 class="font-bold text-gray-900">Daftar atau Login</h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Dengan akun Nirwana Garage, kamu bisa menyimpan data
+                        kendaraan, melihat riwayat servis, dan mengelola booking
+                        dengan lebih mudah.
+                    </p>
+
+                    <ul class="mt-4 space-y-2 text-sm text-gray-700">
+                        <li>✓ Simpan data kendaraan</li>
+                        <li>✓ Akses riwayat servis</li>
+                        <li>✓ Pantau dan kelola booking</li>
+                    </ul>
+
+                    <a
+                        href="login.html"
+                        class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90"
+                    >
+                        Daftar / Login
+                    </a>
+                </div>
+
+                <!-- Separator -->
+                <div class="my-5 flex items-center gap-3">
+                    <div class="h-px flex-1 bg-gray-200"></div>
+
+                    <span class="text-xs font-medium text-gray-400">
+                        ATAU
+                    </span>
+
+                    <div class="h-px flex-1 bg-gray-200"></div>
+                </div>
+
+                <!-- Guest Booking -->
+                <div>
+                    <h3 class="font-bold text-gray-900">
+                        Lanjutkan sebagai Guest
+                    </h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Tidak perlu membuat akun. Kamu bisa langsung melakukan
+                        booking dan melacak status servis menggunakan kode
+                        booking.
+                    </p>
+
+                    <a
+                        href="booking.html"
+                        
+                        class="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50"
+                    >
+                        Booking Tanpa Login
+                    </a>
+                </div>
+
+                <!-- Close Button -->
+                <button
+                    type="button"
+                    onclick="closeBookingModal()"
+                    class="mt-4 w-full py-2 text-sm font-medium text-gray-500 transition hover:text-gray-800 cursor-pointer"
+                >
+                    Batal
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN CONTAINER -->
+        <main class="overflow-x-hidden">
+            <section
+                id="home"
+                class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-brand-navy"
+            >
+                <!-- Ornamen Background -->
+                <div
+                    class="absolute top-0 right-0 w-1/2 h-full overflow-hidden opacity-20 pointer-events-none"
+                >
+                    <div
+                        class="absolute -top-24 -right-24 w-96 h-96 bg-brand-gold rounded-full blur-[150px]"
+                    ></div>
+                </div>
+
+                <div
+                    class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"
+                >
+                    <!-- Logo Background dengan Animasi Zoom -->
+                    <div
+                        class="animate-logo absolute top-[45%] left-[110%] -translate-x-1/2 w-[120%] max-w-none pointer-events-none -z-10 select-none grayscale mix-blend-overlay lg:top-1/2 lg:left-[75%] lg:translate-x-0 md:w-full lg:max-w-[900px]"
+                    >
+                        <img
+                            src="../../logo/logo.jpeg"
+                            alt="Nirwana Garage Logo"
+                            class="w-full h-full object-contain"
+                        />
+                    </div>
+
+                    <div
+                        class="grid lg:grid-cols-2 gap-12 items-center relative"
+                    >
+                        <!-- Left Side: Content -->
+                        <div class="max-w-2xl">
+                            <!-- Title (Delay 2) -->
+                            <h1
+                                class="animate-item delay-2 text-6xl md:text-8xl font-medium leading-[1.15] text-white tracking-tighter uppercase"
+                            >
+                                LEBIH <br />
+                                <span class="text-gradient-gold">DARI</span
+                                ><br />
+                                ESTETIKA.
+                            </h1>
+
+                            <!-- Paragraph (Delay 3) -->
+                            <p
+                                class="animate-item delay-3 mt-8 text-brand-silver text-lg md:text-xl leading-relaxed max-w-lg border-l-2 border-brand-gold pl-6 backdrop-blur-[2px]"
+                            >
+                                Nirwana Garage menghadirkan perpaduan sempurna
+                                antara
+                                <span class="text-white font-bold"
+                                    >Restorasi Presisi</span
+                                >
+                                dan
+                                <span class="text-white font-bold"
+                                    >Upgrade Performa</span
+                                >.
+                            </p>
+
+                            <!-- Buttons (Delay 4) -->
+                            <div
+                                class="animate-item delay-4 mt-10 flex flex-col sm:flex-row gap-5"
+                            >
+                                <a
+                                    href="#kontak"
+                                    class="group relative px-10 py-5 bg-brand-gold text-white text-center font-black rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(197,142,75,0.4)]"
+                                >
+                                    <span class="relative z-10"
+                                        >KONSULTASI</span
+                                    >
+                                </a>
+                                <a
+                                    href="#layanan"
+                                    class="px-10 py-5 border-2 border-brand-silver/20 text-white text-center font-bold rounded-2xl hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
+                                >
+                                    LIHAT LAYANAN
+                                </a>
+                            </div>
+
+                            <!-- Mobile: Booking Capacity Card -->
+                            <div class="mt-8 lg:hidden">
+                                <div
+                                    class="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 shadow-xl"
+                                >
+                                    <!-- Status -->
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-gold/20 text-xl"
+                                        >
+                                            ⚡
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div
+                                                class="text-white font-bold text-sm"
+                                            >
+                                                Slot Booking Terbuka
+                                            </div>
+                                            <p
+                                                class="mt-1 text-xs text-brand-silver"
+                                            >
+                                                Tersedia untuk booking baru
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Booking Information -->
+                                    <div class="mt-5 grid grid-cols-2 gap-3">
+                                        <div
+                                            class="rounded-xl border border-white/10 bg-black/10 p-3"
+                                        >
+                                            <p
+                                                class="text-xs text-brand-silver"
+                                            >
+                                                Sisa Slot
+                                            </p>
+                                            <p
+                                                class="mt-2 text-2xl font-black text-brand-gold"
+                                            >
+                                                4
+                                                <span
+                                                    class="text-xs font-medium text-brand-silver"
+                                                    >Slot</span
+                                                >
+                                            </p>
+                                        </div>
+                                        <div
+                                            class="rounded-xl border border-white/10 bg-black/10 p-3"
+                                        >
+                                            <p
+                                                class="text-xs text-brand-silver"
+                                            >
+                                                Sedang Dikerjakan
+                                            </p>
+                                            <p
+                                                class="mt-2 text-sm font-bold text-white leading-snug break-words"
+                                            >
+                                                Honda CBR 250R
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Booking Button -->
+                                    <button
+                                        type="button"
+                                        onclick="openBookingModal()"
+                                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all bg-brand-gold text-white hover:bg-brand-gold/90 cursor-pointer"
+                                    >
+                                        Booking Sekarang
+                                        <span aria-hidden="true">→</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT: Floating Cards (hidden on small screens) -->
+                        <div
+                            class="hidden lg:grid grid-cols-2 gap-5 relative animate-item delay-5"
+                        >
+                            <div
+                                class="glass-card float-card shine-effect p-7 rounded-3xl border border-white/10 mt-10 shadow-2xl"
+                            >
+                                <div
+                                    class="text-brand-gold font-display text-3xl mb-1"
+                                >
+                                    ULTRA
+                                </div>
+                                <div
+                                    class="text-brand-silver text-[9px] uppercase tracking-[0.2em] font-bold"
+                                >
+                                    Deep Gloss Restoration
+                                </div>
+                                <div
+                                    class="mt-4 w-8 h-0.5 bg-brand-gold/50"
+                                ></div>
+                                <p
+                                    class="text-brand-silver/70 text-xs mt-3 leading-relaxed"
+                                >
+                                    Cat premium multi-layer dengan sistem oven
+                                    curing.
+                                </p>
+                            </div>
+                            <div
+                                class="float-card-2 shine-effect p-7 rounded-3xl border border-white/10 shadow-2xl glass-card"
+                            >
+                                <div
+                                    class="text-brand-gold font-display text-3xl mb-1"
+                                >
+                                    PEAK
+                                </div>
+                                <div
+                                    class="text-brand-silver text-[9px] uppercase tracking-[0.2em] font-bold"
+                                >
+                                    Horsepower Optimization
+                                </div>
+                                <div
+                                    class="mt-4 w-8 h-0.5 bg-brand-gold/50"
+                                ></div>
+                                <p
+                                    class="text-brand-silver/70 text-xs mt-3 leading-relaxed"
+                                >
+                                    Bore up presisi untuk tenaga maksimal nan
+                                    durable.
+                                </p>
+                            </div>
+                            <div
+                                class="col-span-2 shine-effect p-6 rounded-3xl border border-white/10 shadow-2xl flex items-center gap-5 glass-card"
+                            >
+                                <div
+                                    class="w-14 h-14 bg-brand-gold/20 rounded-2xl flex items-center justify-center text-2xl"
+                                >
+                                    ⚡
+                                </div>
+                                <div>
+                                    <div class="text-white font-bold text-sm">
+                                        Slot Booking Terbuka
+                                    </div>
+                                    <div class="flex items-center gap-4 mt-1">
+                                        <p class="text-brand-silver text-xs">
+                                            Sisa:
+                                            <span
+                                                class="text-brand-gold font-bold"
+                                                >4 Slot</span
+                                            >
+                                        </p>
+                                        <span class="text-white/20">|</span>
+                                        <p class="text-brand-silver text-xs">
+                                            Progress:
+                                            <span class="text-white font-medium"
+                                                >Honda CBR 250R</span
+                                            >
+                                        </p>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onclick="openBookingModal()"
+                                    class="ml-auto px-4 py-2 bg-brand-gold/20 border border-brand-gold/40 text-brand-gold text-xs font-bold rounded-xl hover:bg-brand-gold hover:text-white transition-all whitespace-nowrap cursor-pointer"
+                                >
+                                    Ambil →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- service section -->
+
+            <section
+                id="layanan"
+                class="py-16 sm:py-20 lg:py-24 bg-ui-main relative overflow-hidden"
+            >
+                <div
+                    class="absolute top-0 left-0 w-full h-24 bg-linear-to-b from-brand-navy/8 to-transparent pointer-events-none"
+                ></div>
+
+                <div
+                    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+                >
+                    <!-- Header -->
+                    <div
+                        class="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6"
+                    >
+                        <div data-scroll="fade-left">
+                            <div
+                                class="flex items-center gap-3 text-brand-gold text-[11px] font-bold tracking-[0.3em] uppercase mb-3"
+                            >
+                                - Garage Services
+                            </div>
+                            <h3
+                                class="section-title font-display text-brand-navy uppercase"
+                            >
+                                SOLUSI
+                                <span class="text-gold-gradient italic"
+                                    >PERFORMA</span
+                                ><br class="hidden sm:block" />
+                                & ESTETIKA
+                            </h3>
+                        </div>
+                        <p
+                            data-scroll="fade-right"
+                            class="text-brand-steel font-medium max-w-xs border-l-4 border-brand-silver/30 pl-4 text-sm leading-relaxed"
+                        >
+                            Dari restorasi tampilan hingga peningkatan tenaga
+                            mesin, kami kerjakan dengan presisi tinggi.
+                        </p>
+                    </div>
+
+                    <!-- Service Grid -->
+                    <div
+                        class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 stagger-children"
+                    >
+                        <!-- Service 1: Paint -->
+                        <div
+                            data-scroll="fade-up"
+                            class="service-card group bg-white p-8 sm:p-10 rounded-3xl border border-ui-border hover:border-brand-gold/40 hover:shadow-2xl shine-effect relative overflow-hidden"
+                        >
+                            <div
+                                class="absolute top-0 right-0 w-28 h-28 bg-brand-gold/5 rounded-bl-full -mr-14 -mt-14 group-hover:bg-brand-gold/10 transition-colors"
+                            ></div>
+                            <div
+                                class="w-14 h-14 bg-brand-navy rounded-2xl flex items-center justify-center mb-7 transform group-hover:rotate-6 transition-transform duration-300"
+                            >
+                                <i
+                                    class="fa-solid fa-paint-roller text-brand-gold text-xl"
+                                ></i>
+                            </div>
+                            <h4
+                                class="text-xl sm:text-2xl font-display font-black text-brand-navy mb-3 uppercase"
+                            >
+                                Paint & Restorasi
+                            </h4>
+                            <p
+                                class="text-brand-steel leading-relaxed text-sm mb-6"
+                            >
+                                Kembalikan tampilan motor seperti baru atau
+                                custom warna premium dengan standar oven system.
+                            </p>
+                            <ul class="space-y-2.5">
+                                <li
+                                    class="flex items-center gap-3 text-sm font-bold text-brand-navy/70"
+                                >
+                                    <i
+                                        class="fa-solid fa-check text-brand-gold text-xs w-4"
+                                    ></i>
+                                    Full Body & Frame Repaint
+                                </li>
+                                <li
+                                    class="flex items-center gap-3 text-sm font-bold text-brand-navy/70"
+                                >
+                                    <i
+                                        class="fa-solid fa-check text-brand-gold text-xs w-4"
+                                    ></i>
+                                    Detailing Part & Baut
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Service 2: Tune Up (Highlight) -->
+                        <div
+                            data-scroll="fade-up"
+                            class="service-card group bg-brand-navy p-8 sm:p-10 rounded-3xl hover:shadow-[0_20px_60px_rgba(27,38,59,0.3)] shine-effect relative overflow-hidden"
+                        >
+                            <div
+                                class="absolute bottom-0 right-0 opacity-[0.07] text-[8rem] sm:text-[9rem] -mb-8 -mr-4 text-white italic font-display leading-none select-none"
+                            >
+                                HP
+                            </div>
+                            <div
+                                class="w-14 h-14 bg-brand-gold rounded-2xl flex items-center justify-center mb-7 transform group-hover:-rotate-6 transition-transform duration-300"
+                            >
+                                <i
+                                    class="fa-solid fa-screwdriver-wrench text-white text-xl"
+                                ></i>
+                            </div>
+                            <h4
+                                class="text-xl sm:text-2xl font-display font-black text-white mb-3 uppercase"
+                            >
+                                Performance Tune Up
+                            </h4>
+                            <p
+                                class="text-brand-silver leading-relaxed text-sm mb-6"
+                            >
+                                Optimasi mesin untuk penggunaan harian agar
+                                tarikan lebih responsif dan bensin tetap
+                                efisien.
+                            </p>
+                            <ul class="space-y-2.5">
+                                <li
+                                    class="flex items-center gap-3 text-sm font-bold text-brand-silver"
+                                >
+                                    <i
+                                        class="fa-solid fa-check text-brand-gold text-xs w-4"
+                                    ></i>
+                                    Pembersihan Throttle Body/Karbu
+                                </li>
+                                <li
+                                    class="flex items-center gap-3 text-sm font-bold text-brand-silver"
+                                >
+                                    <i
+                                        class="fa-solid fa-check text-brand-gold text-xs w-4"
+                                    ></i>
+                                    CVT/Drivetrain Maintenance
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Service 3: Bore Up -->
+                        <div
+                            data-scroll="fade-up"
+                            class="service-card group bg-white p-8 sm:p-10 rounded-3xl border border-ui-border hover:border-brand-gold/40 hover:shadow-2xl shine-effect relative overflow-hidden sm:col-span-2 lg:col-span-1"
+                        >
+                            <div
+                                class="absolute top-0 right-0 w-28 h-28 bg-brand-gold/5 rounded-bl-full -mr-14 -mt-14 group-hover:bg-brand-gold/10 transition-colors"
+                            ></div>
+                            <div
+                                class="w-14 h-14 bg-brand-navy rounded-2xl flex items-center justify-center mb-7 transform group-hover:rotate-6 transition-transform duration-300"
+                            >
+                                <i
+                                    class="fa-solid fa-bolt text-brand-gold text-xl"
+                                ></i>
+                            </div>
+                            <h4
+                                class="text-xl sm:text-2xl font-display font-black text-brand-navy mb-3 uppercase"
+                            >
+                                Bore Up & Stroke
+                            </h4>
+                            <p
+                                class="text-brand-steel leading-relaxed text-sm mb-6"
+                            >
+                                Tingkatkan kapasitas mesin untuk tenaga
+                                maksimal. Pengerjaan rapi dan perhitungan
+                                matang.
+                            </p>
+                            <ul class="space-y-2.5">
+                                <li
+                                    class="flex items-center gap-3 text-sm font-bold text-brand-navy/70"
+                                >
+                                    <i
+                                        class="fa-solid fa-check text-brand-gold text-xs w-4"
+                                    ></i>
+                                    Pemasangan Block & Piston Kit
+                                </li>
+                                <li
+                                    class="flex items-center gap-3 text-sm font-bold text-brand-navy/70"
+                                >
+                                    <i
+                                        class="fa-solid fa-check text-brand-gold text-xs w-4"
+                                    ></i>
+                                    Custom Noken As & Porting
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CTA Bottom -->
+                    <div
+                        data-scroll="fade-up"
+                        class="mt-12 sm:mt-16 p-6 sm:p-8 bg-brand-navy rounded-3xl border border-brand-gold/30 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-2xl"
+                    >
+                        <div
+                            class="flex items-center gap-4 sm:gap-5 text-center sm:text-left"
+                        >
+                            <div
+                                class="bg-brand-gold/20 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-xl sm:text-2xl shrink-0"
+                            >
+                                ⚡
+                            </div>
+                            <div>
+                                <p
+                                    class="text-white font-bold text-base sm:text-lg"
+                                >
+                                    Siap upgrade performa motor Abang?
+                                </p>
+                                <p
+                                    class="text-brand-silver text-xs sm:text-sm italic"
+                                >
+                                    Konsultasikan spek bore up yang sesuai
+                                    budget & kebutuhan harian.
+                                </p>
+                            </div>
+                        </div>
+                        <a
+                            href="#kontak"
+                            class="btn-primary w-full sm:w-auto text-center px-7 py-3 bg-brand-gold text-white font-black rounded-xl hover:scale-105 transition-transform text-sm"
+                        >
+                            KONSULTASI
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- gallery section -->
+
+            <!-- ================= GALLERY SECTION (STATIC MOCKUP) ================= -->
+            <section
+                id="galeri"
+                class="scroll-mt-20 py-8 sm:py-10 bg-brand-navy relative"
+            >
+                <!-- Background Decoration -->
+                <div
+                    class="absolute top-1/2 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-brand-gold/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none"
+                ></div>
+
+                <div
+                    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+                >
+                    <!-- Header -->
+                    <div class="text-center mb-6 sm:mb-8" data-scroll="fade-up">
+                        <div
+                            class="text-brand-gold text-[11px] font-bold tracking-[0.4em] uppercase mb-2"
+                        >
+                            Masterpiece Portfolio
+                        </div>
+
+                        <h3
+                            class="mega-title font-display text-white uppercase"
+                        >
+                            HASIL
+                            <span class="text-gold-gradient italic"
+                                >EKSEKUSI.</span
+                            >
+                        </h3>
+
+                        <div
+                            class="w-16 sm:w-24 h-0.5 bg-brand-gold mx-auto mt-4"
+                        ></div>
+                    </div>
+
+                    <!-- Gallery Grid -->
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[220px] sm:auto-rows-[260px] lg:auto-rows-[300px]"
+                    >
+                        <!-- Project Item 1 (Featured: Besar - Span 2 Kolom & 2 Baris) -->
+                        <div
+                            data-scroll="fade-left"
+                            class="gallery-item relative overflow-hidden rounded-3xl border border-white/10 group col-span-1 sm:col-span-2 row-span-1 sm:row-span-2"
+                        >
+                            <!-- Cover Image -->
+                            <img
+                                src="../../images/portfolio/project-1.jpg"
+                                alt="Restorasi Total Vespa Sprint"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                            />
+
+                            <!-- Image Overlay -->
+                            <div class="absolute inset-0 gallery-overlay"></div>
+
+                            <!-- Project Information -->
+                            <div
+                                class="absolute z-10 bottom-5 sm:bottom-8 left-5 sm:left-8"
+                            >
+                                <!-- Category -->
+                                <span
+                                    class="inline-block px-3 py-1 bg-brand-gold text-white text-[10px] font-bold rounded-full uppercase tracking-widest"
+                                >
+                                    Restorasi Presisi
+                                </span>
+                                <!-- Project Title -->
+                                <h4
+                                    class="text-lg sm:text-2xl mt-2 font-display font-black text-white uppercase"
+                                >
+                                    Vespa Sprint 150 3V ie
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 2 (Span 2 Kolom) -->
+                        <div
+                            data-scroll="fade-up"
+                            class="gallery-item relative overflow-hidden rounded-3xl border border-white/10 group col-span-1 sm:col-span-2"
+                        >
+                            <!-- Cover Image -->
+                            <img
+                                src="../../images/portfolio/project-2.jpg"
+                                alt="Engine Upgrade CBR 250R"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                            />
+
+                            <!-- Image Overlay -->
+                            <div class="absolute inset-0 gallery-overlay"></div>
+
+                            <!-- Project Information -->
+                            <div
+                                class="absolute z-10 bottom-5 sm:bottom-8 left-5 sm:left-8"
+                            >
+                                <!-- Category -->
+                                <span
+                                    class="inline-block px-3 py-1 bg-brand-navy border border-brand-gold text-brand-gold text-[10px] font-bold rounded-full uppercase tracking-widest"
+                                >
+                                    Upgrade Performa
+                                </span>
+                                <!-- Project Title -->
+                                <h4
+                                    class="text-lg sm:text-2xl mt-2 font-display font-black text-white uppercase"
+                                >
+                                    Honda CBR 250R Bore Up
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 3 (Normal Span) -->
+                        <div
+                            data-scroll="fade-up"
+                            class="gallery-item relative overflow-hidden rounded-3xl border border-white/10 group"
+                        >
+                            <!-- Cover Image -->
+                            <img
+                                src="../../images/portfolio/project-3.jpg"
+                                alt="Deep Gloss Painting"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                            />
+
+                            <!-- Image Overlay -->
+                            <div class="absolute inset-0 gallery-overlay"></div>
+
+                            <!-- Project Information -->
+                            <div class="absolute z-10 bottom-4 left-5">
+                                <!-- Project Title -->
+                                <h4
+                                    class="text-base sm:text-lg font-display font-black text-white uppercase italic"
+                                >
+                                    Custom Matte Black Finish
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Project Item 4 (Normal Span) -->
+                        <div
+                            data-scroll="fade-right"
+                            class="gallery-item relative overflow-hidden rounded-3xl border border-white/10 group"
+                        >
+                            <!-- Cover Image -->
+                            <img
+                                src="../../images/portfolio/project-4.jpg"
+                                alt="Suspension Tuning"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
+                            />
+
+                            <!-- Image Overlay -->
+                            <div class="absolute inset-0 gallery-overlay"></div>
+
+                            <!-- Project Information -->
+                            <div class="absolute z-10 bottom-4 left-5">
+                                <!-- Project Title -->
+                                <h4
+                                    class="text-base sm:text-lg font-display font-black text-white uppercase italic"
+                                >
+                                    Ohlins Suspension Setup
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View All Projects -->
+                    <div class="mt-6 sm:mt-8 text-center" data-scroll="fade-up">
+                        <a
+                            href="projects.html"
+                            class="inline-flex items-center gap-4 text-brand-silver hover:text-brand-gold font-bold transition-all group"
+                        >
+                            <span class="tracking-[0.2em] uppercase text-xs">
+                                Lihat Semua Proyek
+                            </span>
+                            <div
+                                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-brand-silver/20 flex items-center justify-center group-hover:border-brand-gold group-hover:bg-brand-gold/10 transition-all"
+                            >
+                                <i
+                                    class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform text-sm"
+                                ></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- price list -->
+            <!-- ================= PRICELIST SECTION (STATIC MOCKUP) ================= -->
+            <section id="pricelist" class="py-16 sm:py-20 lg:py-24 bg-ui-main relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Header -->
+                    <div class="text-center mb-12 sm:mb-16" data-scroll="fade-up">
+                        <div class="text-brand-navy text-[11px] font-bold tracking-[0.4em] uppercase mb-3">Investment for Your Ride
+                        </div>
+                        <h3 class="mega-title font-display text-brand-navy uppercase">PRICELIST <span
+                                class="text-gold-gradient italic">ESTIMASI.</span></h3>
+                        <p class="mt-3 text-brand-steel max-w-sm mx-auto text-xs sm:text-sm italic">*Harga final ditentukan setelah
+                            inspeksi kondisi unit di workshop.</p>
+                    </div>
+            
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-center stagger-children">
+            
+                        <!-- Category 1: Painting -->
+                        <div data-scroll="fade-up"
+                            class="bg-white rounded-[2.5rem] p-7 sm:p-8 border border-ui-border hover:shadow-2xl transition-all duration-500 flex flex-col service-card">
+                            <div class="mb-7">
+                                <h4
+                                    class="text-lg sm:text-xl font-display font-black text-brand-navy mb-1 uppercase tracking-tight">
+                                    Restorasi</h4>
+                                <p class="text-brand-steel text-[10px] font-bold uppercase tracking-widest">Estetika Maksimal</p>
+                            </div>
+                            <div class="space-y-4 grow">
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Repaint Velg</p>
+                                        <p class="text-[10px] text-brand-steel">Sepasang (Matic/Bebek)</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">400rb+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Full Body Halus</p>
+                                        <p class="text-[10px] text-brand-steel">Matic Kecil (Mio/Beat)</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">1.2jt+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Full Body Halus</p>
+                                        <p class="text-[10px] text-brand-steel">Matic Besar (NMAX/PCX)</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">1.8jt+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Bak Mesin/CVT</p>
+                                        <p class="text-[10px] text-brand-steel">Kanan-Kiri</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">350rb+</p>
+                                </div>
+                            </div>
+                            <a target="_blank"
+                                href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Repaint"
+                                class="mt-8 block text-center py-3.5 rounded-2xl bg-ui-main border border-brand-navy text-brand-navy font-black text-xs hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider">
+                                Tanya Admin
+                            </a>
+                        </div>
+            
+                        <!-- Category 2: Performance (Highlight) -->
+                        <div data-scroll="zoom-in"
+                            class="bg-brand-navy rounded-[2.5rem] p-7 sm:p-8 border border-brand-gold/50 shadow-2xl flex flex-col relative lg:scale-105 z-20">
+                            <div
+                                class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-gold text-white text-[10px] font-black px-5 py-1.5 rounded-full tracking-[0.15em] shadow-lg">
+                                POPULAR CHOICE
+                            </div>
+                            <div class="mb-7">
+                                <h4 class="text-lg sm:text-xl font-display font-black text-white mb-1 uppercase tracking-tight">
+                                    Performance</h4>
+                                <p class="text-brand-gold text-[10px] font-bold uppercase tracking-widest">Power & Reliability</p>
+                            </div>
+                            <div class="space-y-4 grow">
+                                <div class="flex justify-between items-end border-b border-white/10 pb-2">
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Tune Up Ultimate</p>
+                                        <p class="text-[10px] text-brand-silver italic">Gurun/TB/CVT Clean</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">250rb</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-white/10 pb-2">
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Bore Up Harian</p>
+                                        <p class="text-[10px] text-brand-silver italic">Inc. Jasa & Paking</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">800rb+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-white/10 pb-2">
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Bore Up Kirian</p>
+                                        <p class="text-[10px] text-brand-silver italic">Full Spek CVT</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">1.5jt+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-white/10 pb-2">
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Porting Polish</p>
+                                        <p class="text-[10px] text-brand-silver italic">CNC Look Finish</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">450rb+</p>
+                                </div>
+                            </div>
+                            <a target="_blank"
+                                href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Performance"
+                                class="btn-primary mt-8 block text-center py-3.5 rounded-2xl bg-brand-gold text-white font-black text-xs glow-gold hover:scale-105 transition-transform uppercase tracking-wider">
+                                Tanya Admin
+                            </a>
+                        </div>
+            
+                        <!-- Category 3: Carbon Fiber -->
+                        <div data-scroll="fade-up"
+                            class="bg-white rounded-[2.5rem] p-7 sm:p-8 border border-ui-border hover:shadow-2xl transition-all duration-500 flex flex-col service-card">
+                            <div class="mb-7">
+                                <h4
+                                    class="text-lg sm:text-xl font-display font-black text-brand-navy mb-1 uppercase tracking-tight">
+                                    Carbon Fiber
+                                </h4>
+                                <p class="text-brand-steel text-[10px] font-bold uppercase tracking-widest">Premium Aesthetic</p>
+                            </div>
+                            <div class="space-y-4 grow">
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Carbon Kevlar Woven</p>
+                                        <p class="text-[10px] text-brand-steel">Part Kecil (Cover/Spion)</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">250rb+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Carbon Forged</p>
+                                        <p class="text-[10px] text-brand-steel">Custom Finish</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">350rb+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Carbon Part Besar</p>
+                                        <p class="text-[10px] text-brand-steel">Body/Mudguard</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">500rb+</p>
+                                </div>
+                                <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
+                                    <div>
+                                        <p class="text-brand-navy font-bold text-sm">Coating Carbon</p>
+                                        <p class="text-[10px] text-brand-steel">Anti-UV & Glossy</p>
+                                    </div>
+                                    <p class="text-brand-gold font-black">150rb+</p>
+                                </div>
+                            </div>
+                            <a target="_blank"
+                                href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Carbon+Fiber"
+                                class="mt-8 block text-center py-3.5 rounded-2xl bg-ui-main border border-brand-navy text-brand-navy font-black text-xs hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider">
+                                Tanya Admin
+                            </a>
+                        </div>
+                    </div>
+            
+                    <p data-scroll="fade-up"
+                        class="mt-10 text-center text-brand-steel text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-info text-brand-gold"></i>
+                        Pengerjaan menggunakan material A-Class (Spies Hecker/Sikkens) & Sparepart Original.
+                    </p>
+                </div>
+            </section>
+
+            <!-- testimoni -->
+            <!-- ================= TESTIMONIAL SECTION (STATIC MOCKUP) ================= -->
+            <section id="testimoni" class="py-16 sm:py-20 lg:py-24 bg-brand-navy relative overflow-hidden">
+            
+                <!-- Background Blobs -->
+                <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <div class="absolute -top-20 -left-20 w-64 sm:w-96 h-64 sm:h-96 bg-brand-gold/10 rounded-full blur-[100px]">
+                    </div>
+                    <div class="absolute -bottom-20 -right-20 w-64 sm:w-96 h-64 sm:h-96 bg-brand-gold/5 rounded-full blur-[100px]">
+                    </div>
+                </div>
+            
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+                    <!-- Header -->
+                    <div class="text-center mb-14" data-scroll="fade-up">
+                        <div
+                            class="flex items-center justify-center gap-3 text-brand-gold text-[11px] font-bold tracking-[0.3em] uppercase mb-4">
+                            Voice of Riders
+                        </div>
+                        <h3 class="mega-title font-display text-white uppercase leading-none mb-5">
+                            KATA <span class="text-gold-gradient italic">MEREKA.</span>
+                        </h3>
+                        <p class="text-brand-silver text-sm max-w-xs mx-auto leading-relaxed">
+                            Kepercayaan adalah segalanya. Kami menjaga setiap detail pada standar tertinggi.
+                        </p>
+                    </div>
+            
+                    <!-- Slider -->
+                <!-- Slider Container -->
+                <div class="relative" data-scroll="fade-up">
+                    <!-- Kontainer Pembungkus: Mobile max-w-[320px] (1 Kartu), Desktop lg:max-w-[992px] (3 Kartu + Gap) -->
+                    <!-- Slider Container -->
+                    <div class="relative" data-scroll="fade-up">
+                        <!-- Kontainer Pembungkus: Mobile max-w-[320px] (1 Kartu), Tablet md:max-w-[656px] (2 Kartu), Desktop lg:max-w-[992px] (3 Kartu) -->
+                        <div class="overflow-hidden max-w-[320px] md:max-w-[656px] lg:max-w-[992px] mx-auto">
+                            <div id="testimonialTrack" class="flex gap-4 transition-transform duration-500 ease-in-out">
+                    
+                                <!-- Testimonial Item 1 -->
+                                <article
+                                    class="testi-card glass-card rounded-3xl p-7 border border-white/10 w-[320px] hover:border-brand-gold/30 transition-all duration-500 shrink-0">
+                                    <i class="fa-solid fa-quote-left text-brand-gold/20 text-3xl mb-4 block"></i>
+                                    <div class="text-brand-gold text-sm tracking-widest mb-4" aria-label="Rating 5 dari 5">
+                                        ★★★★★
+                                    </div>
+                                    <p class="text-brand-silver text-sm leading-relaxed italic mb-6">
+                                        "Hasil cat full body halus benar-benar flawless. Finishing oven curing nya bikin warna makin dalam &
+                                        glossy banget!"
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-black text-xs shrink-0">
+                                            AD
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-white font-black text-xs uppercase tracking-widest">
+                                                Aditya Pratama
+                                            </p>
+                                            <p class="text-brand-silver/50 text-xs mt-1">
+                                                12 OKT 2026
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                    
+                                <!-- Testimonial Item 2 -->
+                                <article
+                                    class="testi-card glass-card rounded-3xl p-7 border border-white/10 w-[320px] hover:border-brand-gold/30 transition-all duration-500 shrink-0">
+                                    <i class="fa-solid fa-quote-left text-brand-gold/20 text-3xl mb-4 block"></i>
+                                    <div class="text-brand-gold text-sm tracking-widest mb-4" aria-label="Rating 5 dari 5">
+                                        ★★★★★
+                                    </div>
+                                    <p class="text-brand-silver text-sm leading-relaxed italic mb-6">
+                                        "Bore up kirian di sini pengerjaannya sangat rapi & presisi. Motor harian makin responsif tanpa
+                                        mengorbankan kenyamanan."
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-black text-xs shrink-0">
+                                            RZ
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-white font-black text-xs uppercase tracking-widest">
+                                                Rizal Wijaya
+                                            </p>
+                                            <p class="text-brand-silver/50 text-xs mt-1">
+                                                05 OKT 2026
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                    
+                                <!-- Testimonial Item 3 -->
+                                <article
+                                    class="testi-card glass-card rounded-3xl p-7 border border-white/10 w-[320px] hover:border-brand-gold/30 transition-all duration-500 shrink-0">
+                                    <i class="fa-solid fa-quote-left text-brand-gold/20 text-3xl mb-4 block"></i>
+                                    <div class="text-brand-gold text-sm tracking-widest mb-4" aria-label="Rating 5 dari 5">
+                                        ★★★★★
+                                    </div>
+                                    <p class="text-brand-silver text-sm leading-relaxed italic mb-6">
+                                        "Layanan Carbon Forged di part CVT gokil abis, kelihatan padat & mewah banget. Recommended garage!"
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-black text-xs shrink-0">
+                                            BR
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-white font-black text-xs uppercase tracking-widest">
+                                                Bambang Ramadhan
+                                            </p>
+                                            <p class="text-brand-silver/50 text-xs mt-1">
+                                                28 SEP 2026
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                    
+                                <!-- Testimonial Item 4 (BARU) -->
+                                <article
+                                    class="testi-card glass-card rounded-3xl p-7 border border-white/10 w-[320px] hover:border-brand-gold/30 transition-all duration-500 shrink-0">
+                                    <i class="fa-solid fa-quote-left text-brand-gold/20 text-3xl mb-4 block"></i>
+                                    <div class="text-brand-gold text-sm tracking-widest mb-4" aria-label="Rating 5 dari 5">
+                                        ★★★★★
+                                    </div>
+                                    <p class="text-brand-silver text-sm leading-relaxed italic mb-6">
+                                        "Restorasi Vespa Sprint di sini bikin tampilannya kembali seperti baru keluar dari dealer. Detail
+                                        repaint velg & mesin sangat bersih!"
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-black text-xs shrink-0">
+                                            DN
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-white font-black text-xs uppercase tracking-widest">
+                                                Dion Nusantara
+                                            </p>
+                                            <p class="text-brand-silver/50 text-xs mt-1">
+                                                20 SEP 2026
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                    
+                                <!-- Testimonial Item 5 (BARU) -->
+                                <article
+                                    class="testi-card glass-card rounded-3xl p-7 border border-white/10 w-[320px] hover:border-brand-gold/30 transition-all duration-500 shrink-0">
+                                    <i class="fa-solid fa-quote-left text-brand-gold/20 text-3xl mb-4 block"></i>
+                                    <div class="text-brand-gold text-sm tracking-widest mb-4" aria-label="Rating 5 dari 5">
+                                        ★★★★★
+                                    </div>
+                                    <p class="text-brand-silver text-sm leading-relaxed italic mb-6">
+                                        "Settingan suspensi Ohlins & tune up ultimate-nya mantap banget. Tarikan makin enteng dan jauh lebih
+                                        nyaman buat konsumsi harian."
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-black text-xs shrink-0">
+                                            FK
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-white font-black text-xs uppercase tracking-widest">
+                                                Fikri Kurnia
+                                            </p>
+                                            <p class="text-brand-silver/50 text-xs mt-1">
+                                                15 SEP 2026
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                    
+                                <!-- Testimonial Item 6 (BARU) -->
+                                <article
+                                    class="testi-card glass-card rounded-3xl p-7 border border-white/10 w-[320px] hover:border-brand-gold/30 transition-all duration-500 shrink-0">
+                                    <i class="fa-solid fa-quote-left text-brand-gold/20 text-3xl mb-4 block"></i>
+                                    <div class="text-brand-gold text-sm tracking-widest mb-4" aria-label="Rating 5 dari 5">
+                                        ★★★★★
+                                    </div>
+                                    <p class="text-brand-silver text-sm leading-relaxed italic mb-6">
+                                        "Pelayanan admin ramah & transparan soal estimasi biaya. Hasil custom matte black finish pada motor
+                                        saya benar-benar rapi."
+                                    </p>
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold font-black text-xs shrink-0">
+                                            GH
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-white font-black text-xs uppercase tracking-widest">
+                                                Gilang Hendra
+                                            </p>
+                                            <p class="text-brand-silver/50 text-xs mt-1">
+                                                02 SEP 2026
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                    
+                            </div>
+                        </div>
+                    
+                        <!-- Navigation Arrows -->
+                        <button onclick="moveTestimonial(-1)"
+                            class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:border-brand-gold hover:text-brand-gold transition-all duration-300 z-10 bg-brand-navy cursor-pointer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 18l-6-6 6-6" />
+                            </svg>
+                        </button>
+                    
+                        <button onclick="moveTestimonial(1)"
+                            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:border-brand-gold hover:text-brand-gold transition-all duration-300 z-10 bg-brand-navy cursor-pointer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6" />
+                            </svg>
+                        </button>
+                    </div>
+                
+                    <!-- Navigation Arrows -->
+                    <button onclick="moveTestimonial(-1)"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-5 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:border-brand-gold hover:text-brand-gold transition-all duration-300 z-10 bg-brand-navy cursor-pointer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6" />
+                        </svg>
+                    </button>
+                
+                    <button onclick="moveTestimonial(1)"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-5 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:border-brand-gold hover:text-brand-gold transition-all duration-300 z-10 bg-brand-navy cursor-pointer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18l6-6-6-6" />
+                        </svg>
+                    </button>
+                </div>
+            
+                    <!-- Dots Container -->
+                    <div id="testimonialDots" class="flex justify-center gap-2 mt-8"></div>
+            
+                    <!-- Brand Bar -->
+                    <div class="mt-16 pt-8 border-t border-white/10 flex flex-wrap justify-center gap-6 sm:gap-12 opacity-20 hover:opacity-40 transition-all"
+                        data-scroll="fade-up">
+                        <span class="text-white font-display text-lg sm:text-2xl tracking-tighter uppercase">Performance</span>
+                        <span class="text-white font-display text-lg sm:text-2xl tracking-tighter uppercase">Precision</span>
+                        <span class="text-white font-display text-lg sm:text-2xl tracking-tighter uppercase">Restore</span>
+                        <span class="text-white font-display text-lg sm:text-2xl tracking-tighter uppercase">Culture</span>
+                    </div>
+            
+                </div>
+            </section>
+
+            <!-- tracking -->
+
+            <!-- ================= TRACKING SECTION (STATIC MOCKUP) ================= -->
+            <section id="tracking" class="py-16 sm:py-20 lg:py-24 bg-ui-main relative overflow-hidden">
+                <!-- Grid Pattern Overlay -->
+                <div class="absolute inset-0 opacity-[0.025] pointer-events-none"
+                    style="background-image: radial-gradient(#1b263b 1px, transparent 1px); background-size: 28px 28px;">
+                </div>
+            
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+                    <!-- Header -->
+                    <div class="text-center mb-10 sm:mb-12" data-scroll="fade-up">
+                        <div class="text-brand-navy text-[11px] font-bold tracking-[0.3em] uppercase mb-3">
+                            Real-time Update
+                        </div>
+            
+                        <h3 class="section-title font-display text-brand-navy uppercase">
+                            TRACKING
+                            <span class="text-gold-gradient italic">PROGRES.</span>
+                        </h3>
+            
+                        <p class="mt-3 text-brand-steel text-sm">
+                            Pantau pengerjaan unit Anda tanpa harus bolak-balik ke workshop.
+                        </p>
+                    </div>
+            
+                    <!-- Tracking Card Container -->
+                    <div data-scroll="zoom-in"
+                        class="bg-white rounded-[2.5rem] shadow-2xl shadow-brand-navy/5 border border-ui-border overflow-hidden">
+            
+                        <!-- Search Form -->
+                        <div class="p-6 sm:p-10 border-b border-ui-border bg-gradient-to-r from-ui-main to-white">
+            
+                            <form id="trackingForm" onsubmit="event.preventDefault();" class="space-y-4">
+            
+                                <label for="booking_code"
+                                    class="block text-brand-navy font-black text-[10px] uppercase tracking-widest">
+                                    Masukkan Kode Booking
+                                </label>
+            
+                                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            
+                                    <div class="relative grow">
+                                        <i
+                                            class="fa-solid fa-ticket absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-brand-steel text-sm"></i>
+            
+                                        <input id="booking_code" name="booking_code" type="text" placeholder="Contoh: BK-123456"
+                                            maxlength="9" autocomplete="off" required
+                                            class="w-full pl-11 sm:pl-14 pr-4 py-4 sm:py-5 bg-white border-2 border-ui-border rounded-2xl focus:border-brand-gold focus:outline-none font-bold text-brand-navy uppercase transition-all text-sm">
+                                    </div>
+            
+                                    <button id="tracking-submit" type="submit"
+                                        class="btn-primary bg-brand-navy text-white px-7 py-4 sm:py-5 rounded-2xl font-black hover:bg-brand-gold transition-all shadow-lg flex items-center justify-center gap-2 text-sm cursor-pointer">
+                                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                                        CEK STATUS
+                                    </button>
+            
+                                </div>
+            
+                                <p class="text-brand-steel text-xs">
+                                    Gunakan kode booking yang diperoleh setelah melakukan pemesanan.
+                                </p>
+            
+                            </form>
+                        </div>
+            
+                        <!-- Tracking Content Area -->
+                        <div class="p-6 sm:p-10 bg-white">
+            
+                            <!-- 1. Loading State (Hidden by default) -->
+                            <div id="tracking-loading" class="hidden py-12 text-center">
+                                <div class="flex justify-center mb-4">
+                                    <i class="fa-solid fa-spinner animate-spin text-3xl text-brand-gold"></i>
+                                </div>
+            
+                                <h4 class="text-brand-navy font-black text-sm uppercase">
+                                    Memeriksa Status Booking
+                                </h4>
+            
+                                <p class="text-brand-steel text-xs mt-2">
+                                    Mohon tunggu, kami sedang mengambil data tracking Anda.
+                                </p>
+                            </div>
+            
+                            <!-- 2. Tracking Result Container -->
+                            <div id="tracking-result">
+            
+                                <!-- Default / Initial State (Tampilan Awal Sebelum Cek Kode) -->
+                                <div class="py-8 text-center">
+                                    <div
+                                        class="w-14 h-14 rounded-full bg-ui-main text-brand-steel flex items-center justify-center mx-auto mb-4">
+                                        <i class="fa-solid fa-motorcycle text-xl"></i>
+                                    </div>
+            
+                                    <h4 class="text-brand-navy font-black text-sm uppercase">
+                                        Pantau Progres Servis Anda
+                                    </h4>
+            
+                                    <p class="text-brand-steel text-xs mt-2 max-w-sm mx-auto">
+                                        Masukkan kode booking untuk melihat status kendaraan dan perkembangan servis Anda.
+                                    </p>
+                                </div>
+            
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                    <!-- Help Info -->
+                    <p class="mt-6 text-center text-brand-steel text-xs" data-scroll="fade-up">
+                        Kendala tracking? Hubungi Admin di
+                        <a href="https://wa.me/6285717676292" target="_blank"
+                            class="text-brand-navy font-bold hover:text-brand-gold transition-colors">
+                            0857-1767-6292
+                        </a>
+                    </p>
+            
+                </div>
+            </section>
+
+            <!-- about -->
+            <!-- ================= ABOUT SECTION (STATIC MOCKUP) ================= -->
+            <section id="tentang" class="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            
+                        <!-- Left: Image & Badge -->
+                        <div class="relative" data-scroll="fade-left">
+                            <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl group">
+                                <img src="../../logo/logo.jpeg" alt="Workshop Activity"
+                                    class="w-full h-72 sm:h-[450px] lg:h-[550px] object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div
+                                    class="absolute inset-0 bg-brand-navy/20 group-hover:bg-transparent transition-colors duration-500">
+                                </div>
+                            </div>
+            
+                            <!-- Experience Badge -->
+                            <div
+                                class="absolute -bottom-5 -right-5 sm:-bottom-6 sm:-right-6 bg-brand-gold p-6 sm:p-8 rounded-[2rem] shadow-xl z-30 transform hover:-rotate-3 transition-transform">
+                                <div class="text-white">
+                                    <span class="block text-3xl sm:text-4xl font-display font-black leading-none italic">2+</span>
+                                    <span
+                                        class="block text-[9px] font-bold uppercase tracking-widest mt-1">Tahun<br>Pengalaman</span>
+                                </div>
+                            </div>
+            
+                            <!-- Decorative Accent Border -->
+                            <div
+                                class="absolute -top-4 -left-4 w-24 h-24 sm:w-32 sm:h-32 border-l-4 border-t-4 border-brand-gold/30 rounded-tl-[2.5rem] -z-10">
+                            </div>
+                        </div>
+            
+                        <!-- Right: Story & Key Points -->
+                        <div data-scroll="fade-right">
+                            <div
+                                class="flex items-center gap-3 text-brand-gold text-[11px] font-bold tracking-[0.3em] uppercase mb-4">
+                                Our Story
+                            </div>
+            
+                            <h3 class="section-title font-display text-brand-navy uppercase leading-tight mb-7">
+                                DIBANGUN DARI <span class="text-gold-gradient italic">PASSION</span><br>BUKAN SEKADAR BISNIS.
+                            </h3>
+            
+                            <div class="space-y-4 text-brand-steel leading-relaxed text-sm sm:text-base">
+                                <p>
+                                    <span class="font-bold text-brand-navy">Nirwana Garage</span> lahir dari kecintaan kami terhadap
+                                    estetika motor dan performa mesin yang mumpuni.
+                                </p>
+                                <p>
+                                    Kami memahami bahwa motor bagi Anda bukan sekadar alat transportasi, melainkan identitas. Itulah
+                                    alasan kami tidak pernah berkompromi dengan kualitas material.
+                                </p>
+                            </div>
+            
+                            <!-- Key Points Grid -->
+                            <div class="mt-8 grid grid-cols-2 gap-4 sm:gap-6">
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-10 h-10 bg-ui-main rounded-xl flex items-center justify-center text-brand-gold shrink-0">
+                                        <i class="fa-solid fa-microscope text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-black text-brand-navy text-xs uppercase">Detail Oriented</h5>
+                                        <p class="text-[11px] text-brand-steel mt-0.5">Presisi hingga baut terkecil.</p>
+                                    </div>
+                                </div>
+            
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-10 h-10 bg-ui-main rounded-xl flex items-center justify-center text-brand-gold shrink-0">
+                                        <i class="fa-solid fa-shield-alt text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-black text-brand-navy text-xs uppercase">Guaranteed</h5>
+                                        <p class="text-[11px] text-brand-steel mt-0.5">Garansi hasil pengerjaan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </section>
+
+            <!-- faq -->
+
+            <section id="faq" class="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden">
+                <div class="max-w-3xl sm:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-10 sm:mb-14" data-scroll="fade-up">
+                        <div class="text-brand-gold text-[11px] font-bold tracking-[0.3em] uppercase mb-3">Common Questions
+                        </div>
+                        <h3 class="section-title font-display text-brand-navy uppercase">TANYA <span
+                                class="text-gold-gradient italic">JAWAB.</span></h3>
+                        <p class="mt-3 text-brand-steel text-sm">Punya pertanyaan? Mungkin jawaban Anda ada di sini.</p>
+                    </div>
+            
+                    <div class="space-y-3 sm:space-y-4" data-scroll="fade-up">
+                        <!-- FAQ Items -->
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Berapa
+                                    lama proses repaint satu motor full body?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Untuk hasil maksimal, proses repaint full body biasanya memakan waktu <span
+                                    class="font-bold text-brand-navy">7-14 hari kerja</span>. Sudah termasuk proses perontokan
+                                cat lama, epoxy, base coat, warna utama, hingga 3 lapis clear coat dan poles.
+                            </div>
+                        </div>
+            
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Apakah
+                                    ada garansi setelah bore up mesin?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Tentu! Setiap paket bore up mendapatkan <span class="text-brand-gold font-bold">garansi setting
+                                    selama 1 bulan</span>. Kami pastikan motor aman untuk penggunaan harian sebelum diserahkan.
+                            </div>
+                        </div>
+            
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Bisa
+                                    kirim unit dari luar kota?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Sangat bisa! Kami sering menerima unit dari luar kota. Kirim via jasa towing atau kargo, dan
+                                progres bisa dipantau lewat fitur <span class="font-bold text-brand-navy italic">Tracking
+                                    Progres</span> di website ini.
+                            </div>
+                        </div>
+            
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Apa merk
+                                    cat yang digunakan?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Kami hanya menggunakan material premium seperti <span
+                                    class="font-bold text-brand-navy italic">Sikkens, Belkote, atau Spies Hecker</span> untuk
+                                memastikan hasil warna yang dalam dan tahan terhadap cuaca ekstrem.
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="mt-10 text-center" data-scroll="fade-up">
+                        <p class="text-brand-steel text-sm">Masih punya pertanyaan?
+                            <a href="#"
+                                class="text-brand-navy font-black border-b-2 border-brand-gold ml-1 hover:text-brand-gold transition-all">Hubungi
+                                WhatsApp Kami</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- faq -->
+            <section id="faq" class="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden">
+                <div class="max-w-3xl sm:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-10 sm:mb-14" data-scroll="fade-up">
+                        <div class="text-brand-gold text-[11px] font-bold tracking-[0.3em] uppercase mb-3">Common Questions
+                        </div>
+                        <h3 class="section-title font-display text-brand-navy uppercase">TANYA <span
+                                class="text-gold-gradient italic">JAWAB.</span></h3>
+                        <p class="mt-3 text-brand-steel text-sm">Punya pertanyaan? Mungkin jawaban Anda ada di sini.</p>
+                    </div>
+            
+                    <div class="space-y-3 sm:space-y-4" data-scroll="fade-up">
+                        <!-- FAQ Items -->
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Berapa
+                                    lama proses repaint satu motor full body?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Untuk hasil maksimal, proses repaint full body biasanya memakan waktu <span
+                                    class="font-bold text-brand-navy">7-14 hari kerja</span>. Sudah termasuk proses perontokan
+                                cat lama, epoxy, base coat, warna utama, hingga 3 lapis clear coat dan poles.
+                            </div>
+                        </div>
+            
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Apakah
+                                    ada garansi setelah bore up mesin?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Tentu! Setiap paket bore up mendapatkan <span class="text-brand-gold font-bold">garansi setting
+                                    selama 1 bulan</span>. Kami pastikan motor aman untuk penggunaan harian sebelum diserahkan.
+                            </div>
+                        </div>
+            
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Bisa
+                                    kirim unit dari luar kota?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Sangat bisa! Kami sering menerima unit dari luar kota. Kirim via jasa towing atau kargo, dan
+                                progres bisa dipantau lewat fitur <span class="font-bold text-brand-navy italic">Tracking
+                                    Progres</span> di website ini.
+                            </div>
+                        </div>
+            
+                        <div
+                            class="faq-item border-2 border-ui-border rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-all duration-300 hover:border-brand-gold/30">
+                            <button class="faq-btn w-full flex items-center justify-between p-5 sm:p-6 text-left gap-4">
+                                <span class="text-brand-navy font-black text-sm sm:text-base uppercase tracking-tight">Apa merk
+                                    cat yang digunakan?</span>
+                                <i class="fa-solid fa-chevron-down text-brand-gold faq-chevron shrink-0 text-sm"></i>
+                            </button>
+                            <div class="faq-content px-5 sm:px-6 text-brand-steel text-sm leading-relaxed">
+                                Kami hanya menggunakan material premium seperti <span
+                                    class="font-bold text-brand-navy italic">Sikkens, Belkote, atau Spies Hecker</span> untuk
+                                memastikan hasil warna yang dalam dan tahan terhadap cuaca ekstrem.
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="mt-10 text-center" data-scroll="fade-up">
+                        <p class="text-brand-steel text-sm">Masih punya pertanyaan?
+                            <a href="#"
+                                class="text-brand-navy font-black border-b-2 border-brand-gold ml-1 hover:text-brand-gold transition-all">Hubungi
+                                WhatsApp Kami</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- contact -->
+            <section id="kontak" class="py-16 sm:py-20 lg:py-24 bg-ui-main">
+                <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+                    <!-- Eyebrow -->
+                    <div class="flex items-center gap-3 text-brand-gold text-[10px] font-black tracking-[0.3em] uppercase mb-10">
+                        - Get In Touch
+                    </div>
+            
+                    <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            
+                        <!-- ===== LEFT ===== -->
+                        <div class="lg:col-span-5 space-y-8" data-scroll="fade-left">
+            
+                            <h2
+                                class="font-display text-4xl sm:text-5xl font-black text-brand-navy uppercase leading-[1.1] tracking-tight">
+                                KONSULTASI<br>
+                                <span class="text-brand-gold italic">GRATIS.</span>
+                            </h2>
+            
+                            <div class="space-y-5">
+            
+                                <!-- Alamat -->
+                                <div class="flex gap-4 items-start group">
+                                    <div
+                                        class="w-11 h-11 bg-white rounded-2xl flex items-center justify-center text-brand-gold text-base shadow-sm shrink-0 group-hover:bg-brand-gold group-hover:text-white transition-all duration-300">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-black text-brand-navy uppercase tracking-widest mb-1">
+                                            Workshop Kami</p>
+                                        <p class="text-brand-steel text-sm leading-relaxed">Jl. Pondok Labu<br>Depok, Jawa
+                                            Barat</p>
+                                    </div>
+                                </div>
+            
+                                <!-- Jam Kerja -->
+                                <div class="flex gap-4 items-start group">
+                                    <div
+                                        class="w-11 h-11 bg-white rounded-2xl flex items-center justify-center text-brand-gold text-base shadow-sm shrink-0 group-hover:bg-brand-gold group-hover:text-white transition-all duration-300">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-black text-brand-navy uppercase tracking-widest mb-1">Jam
+                                            Kerja</p>
+                                        <p class="text-brand-steel text-sm leading-relaxed">
+                                            Senin – Sabtu: 09.00 – 18.00 WIB<br>
+                                            <span class="text-red-500 font-bold italic">Minggu: Tutup (Waktunya Mancing)</span>
+                                        </p>
+                                    </div>
+                                </div>
+            
+                                <!-- WhatsApp -->
+                                <div class="flex gap-4 items-start group">
+                                    <div
+                                        class="w-11 h-11 bg-white rounded-2xl flex items-center justify-center text-brand-gold text-base shadow-sm shrink-0 group-hover:bg-brand-gold group-hover:text-white transition-all duration-300">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-black text-brand-navy uppercase tracking-widest mb-1">
+                                            WhatsApp Langsung</p>
+                                        <p class="text-brand-steel text-sm">0812-XXXX-XXXX</p>
+                                        <span
+                                            class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-green-600 mt-0.5">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
+                                            Online sekarang
+                                        </span>
+                                    </div>
+                                </div>
+            
+                            </div>
+            
+                            <!-- Google Maps -->
+                            <div class="w-full h-52 rounded-3xl overflow-hidden border-4 border-white shadow-md">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.864006509979!2d106.79051837499!3d-6.319760793665516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ef0000000001%3A0x0!2sJl.%20Pondok%20Labu%2C%20Depok%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1715000000000!5m2!1sid!2sid"
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+            
+                        </div>
+            
+                        <!-- ===== RIGHT: Form ===== -->
+                        <div class="lg:col-span-7" data-scroll="fade-right">
+                            <div
+                                class="bg-white rounded-[2.5rem] p-7 sm:p-10 lg:p-12 border border-ui-border shadow-2xl shadow-brand-navy/5">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+                                    <!-- Nama -->
+                                    <div>
+                                        <label
+                                            class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Nama
+                                            Lengkap</label>
+                                        <input type="text" placeholder="Masukkan nama..."
+                                            class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-brand-steel/60 focus:border-brand-gold focus:outline-none transition-all duration-200">
+                                    </div>
+            
+                                    <!-- WhatsApp -->
+                                    <div>
+                                        <label
+                                            class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Nomor
+                                            WhatsApp</label>
+                                        <input type="tel" inputmode="numeric" placeholder="0812..."
+                                            class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-brand-steel/60 focus:border-brand-gold focus:outline-none transition-all duration-200">
+                                    </div>
+            
+                                    <!-- Layanan -->
+                                    <div class="sm:col-span-2">
+                                        <label
+                                            class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Jenis
+                                            Layanan</label>
+                                        <div class="relative">
+                                            <select
+                                                class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy appearance-none cursor-pointer focus:border-brand-gold focus:outline-none transition-all duration-200 pr-10">
+                                                <option value="" disabled selected>Pilih Layanan</option>
+                                                <option>Full Restorasi</option>
+                                                <option>Repaint Body</option>
+                                                <option>Bore Up / Mesin</option>
+                                                <option>Service Rutin</option>
+                                            </select>
+                                            <div
+                                                class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-brand-steel">
+                                                <i class="fa-solid fa-chevron-down text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <!-- Detail -->
+                                    <div class="sm:col-span-2">
+                                        <label
+                                            class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Detail
+                                            Rencana Motor Anda</label>
+                                        <textarea rows="4" placeholder="Ceritakan kondisi motor dan keinginan Anda..."
+                                            class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-brand-steel/60 focus:border-brand-gold focus:outline-none transition-all duration-200 resize-none"></textarea>
+                                    </div>
+            
+                                    <!-- Divider -->
+                                    <div class="sm:col-span-2 border-t border-ui-border"></div>
+            
+                                    <!-- Submit -->
+                                    <div class="sm:col-span-2">
+                                        <button type="button" onclick="handleKonsultasiSubmit()"
+                                            class="w-full bg-brand-navy text-white font-black text-sm tracking-widest uppercase py-4 sm:py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-gold transition-all duration-300 group shadow-xl shadow-brand-navy/20">
+                                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                                            KIRIM VIA WHATSAPP
+                                            <i
+                                                class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform duration-200"></i>
+                                        </button>
+                                        <p class="text-center text-[11px] text-brand-steel mt-3">
+                                            Pesan langsung diterima via
+                                            <span class="text-green-600 font-bold">WhatsApp</span>
+                                            — respon cepat!
+                                        </p>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+                </div>
+            </section>
+
+            <!-- footer -->
+            
+            <footer class="bg-brand-navy text-white pt-16 sm:pt-20 lg:pt-24 pb-8 safe-bottom relative overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-brand-gold/5 rounded-full blur-[120px] pointer-events-none">
+                </div>
+            
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-16 mb-14 sm:mb-20">
+            
+                        <!-- Brand -->
+                        <div class="lg:col-span-5">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div
+                                    class="w-10 h-10 bg-brand-gold rounded-xl flex items-center justify-center rotate-3 shadow-lg shrink-0">
+                                    <i class="fa-solid fa-screwdriver-wrench text-brand-navy text-base"></i>
+                                </div>
+                                <span class="text-2xl font-display font-black tracking-tighter uppercase">Nirwana<span
+                                        class="text-brand-gold">Garage.</span></span>
+                            </div>
+                            <p class="text-brand-silver leading-relaxed max-w-sm mb-7 italic text-sm">
+                                "Membangun mesin dengan presisi, merestorasi dengan hati. Standar baru workshop otomotif."
+                            </p>
+                            <div class="flex gap-3">
+                                <a href="#"
+                                    class="w-11 h-11 border border-white/10 rounded-xl flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all duration-400">
+                                    <i class="fa-brands fa-instagram text-base"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-11 h-11 border border-white/10 rounded-xl flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all duration-400">
+                                    <i class="fa-brands fa-tiktok text-base"></i>
+                                </a>
+                                <a href="#"
+                                    class="w-11 h-11 border border-white/10 rounded-xl flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all duration-400">
+                                    <i class="fa-brands fa-whatsapp text-base"></i>
+                                </a>
+                            </div>
+                        </div>
+            
+                        <!-- Links -->
+                        <div class="lg:col-span-3">
+                            <h4 class="text-brand-gold font-black uppercase tracking-[0.3em] text-[10px] mb-6">Eksplorasi</h4>
+                            <ul class="space-y-4 text-sm font-bold">
+                                <li><a href="#tentang"
+                                        class="text-brand-silver hover:text-white flex items-center gap-3 group transition-all"><span
+                                            class="w-0 h-px bg-brand-gold group-hover:w-4 transition-all duration-300"></span>Tentang
+                                        Kami</a></li>
+                                <li><a href="#layanan"
+                                        class="text-brand-silver hover:text-white flex items-center gap-3 group transition-all"><span
+                                            class="w-0 h-px bg-brand-gold group-hover:w-4 transition-all duration-300"></span>Layanan
+                                        Spesialis</a></li>
+                                <li><a href="#booking"
+                                        class="text-brand-silver hover:text-white flex items-center gap-3 group transition-all"><span
+                                            class="w-0 h-px bg-brand-gold group-hover:w-4 transition-all duration-300"></span>Reservasi
+                                        Antrian</a></li>
+                                <li><a href="#blog"
+                                        class="text-brand-silver hover:text-white flex items-center gap-3 group transition-all"><span
+                                            class="w-0 h-px bg-brand-gold group-hover:w-4 transition-all duration-300"></span>Garage
+                                        Journal</a></li>
+                            </ul>
+                        </div>
+            
+                        <!-- Info -->
+                        <div class="lg:col-span-4">
+                            <h4 class="text-brand-gold font-black uppercase tracking-[0.3em] text-[10px] mb-6">Workshop</h4>
+                            <div class="space-y-5">
+                                <div>
+                                    <p class="text-brand-silver text-[10px] font-black uppercase tracking-widest mb-1">Lokasi
+                                    </p>
+                                    <p class="font-bold text-sm">Jl. Pondok Labu, Depok Jawa Barat</p>
+                                </div>
+                                <div>
+                                    <p class="text-brand-silver text-[10px] font-black uppercase tracking-widest mb-1">Waktu
+                                        Operasional</p>
+                                    <p class="font-bold text-sm">Senin - Sabtu (09.00 - 18.00 WIB)</p>
+                                </div>
+                                <div>
+                                    <p class="text-brand-silver text-[10px] font-black uppercase tracking-widest mb-1">Layanan
+                                        Darurat</p>
+                                    <p class="font-bold text-sm text-brand-gold italic">Towing Ready 24/7</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Bottom -->
+                    <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-5">
+                        <div class="text-[10px] font-bold text-brand-silver uppercase tracking-[0.15em] text-center sm:text-left">
+                            &copy; 2026 Nirwana Garage. <span class="text-white/20 ml-1">Crafted for Excellence.</span>
+                    </div>
+                </div>
+            </footer>
+
+
+        </main>
+
+
+        <!-- JAVASCRIPT CONTROLLERS -->
+        <script>
+            // 1. Fungsi untuk MEMUNCULKAN pop-up modal pilihan
+                function openBookingModal() {
+                    const modal = document.getElementById("bookingModal");
+                    if (modal) {
+                        modal.classList.remove("hidden");
+                        modal.classList.add("flex");
+                    }
+                }
+
+                // 2. Fungsi untuk MENUTUP pop-up modal
+                function closeBookingModal(event) {
+                    if (
+                        !event ||
+                        event.target.id === "bookingModal" ||
+                        event.type === "click"
+                    ) {
+                        const modal = document.getElementById("bookingModal");
+                        if (modal) {
+                            modal.classList.add("hidden");
+                            modal.classList.remove("flex");
+                        }
+                    }
+                }
+
+
+
+            // Mobile Menu Controller
+            const menuBtn = document.getElementById("menu-btn");
+            const mobileMenu = document.getElementById("mobile-menu");
+            let menuOpen = false;
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener("click", () => {
+                    menuOpen = !menuOpen;
+                    mobileMenu.classList.toggle("hidden", !menuOpen);
+                    mobileMenu.classList.toggle("open", menuOpen);
+                });
+
+                mobileMenu.querySelectorAll("a, button").forEach((link) => {
+                    link.addEventListener("click", () => {
+                        menuOpen = false;
+                        mobileMenu.classList.add("hidden");
+                        mobileMenu.classList.remove("open");
+                    });
+                });
+            }
+
+            // Navbar Scroll Border Effect
+            const navbar = document.getElementById("navbar");
+            window.addEventListener(
+                "scroll",
+                () => {
+                    if (!navbar) return;
+                    navbar.style.borderBottomColor =
+                        window.scrollY > 80
+                            ? "rgba(197, 142, 75, 0.15)"
+                            : "rgba(255,255,255,0.1)";
+                },
+                { passive: true },
+            );
+
+            // SCROLL ANIMATION
+
+            const scrollObserver = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("is-visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                {
+                    threshold: 0.12,
+                    rootMargin: "0px 0px -60px 0px",
+                },
+            );
+
+            // Jangan biarkan elemen navigasi ikut menunggu scroll animation.
+            document.querySelectorAll("[data-scroll]").forEach((el) => {
+                const isNavigationElement = el.closest("#navbar");
+                const isWhatsAppButton = el.matches('a[href*="wa.me"]');
+
+                if (isNavigationElement || isWhatsAppButton) {
+                    el.classList.add("is-visible");
+                    return;
+                }
+
+                scrollObserver.observe(el);
+            });
+
+            // Stagger animation untuk elemen anak.
+            document.querySelectorAll(".stagger-children").forEach((parent) => {
+                const children = parent.querySelectorAll("[data-scroll]");
+
+                children.forEach((child, index) => {
+                    child.style.transitionDelay = `${index * 0.12}s`;
+                });
+            });
+
+            // MOBILE MENU (UPDATE FIX)
+
+            // const menuBtn = document.getElementById("menu-btn");
+            // const mobileMenu = document.getElementById("mobile-menu");
+
+            // const bar1 = document.getElementById("bar1");
+            // const bar2 = document.getElementById("bar2");
+            // const bar3 = document.getElementById("bar3");
+
+            // let menuOpen = false;
+
+            
+
+            function closeMobileMenu() {
+                menuOpen = false;
+
+                if (mobileMenu) {
+                    mobileMenu.classList.add("hidden");
+                    mobileMenu.classList.remove("open");
+                }
+
+                if (menuBtn) {
+                    menuBtn.setAttribute("aria-expanded", "false");
+                }
+
+                if (bar1) bar1.style.transform = "";
+                if (bar2) bar2.style.opacity = "";
+                if (bar3) bar3.style.transform = "";
+            }
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.setAttribute("aria-expanded", "false");
+
+                menuBtn.addEventListener("click", () => {
+                    menuOpen = !menuOpen;
+
+                    // Toggle hidden class Tailwind
+                    mobileMenu.classList.toggle("hidden", !menuOpen);
+                    mobileMenu.classList.toggle("open", menuOpen);
+
+                    menuBtn.setAttribute("aria-expanded", String(menuOpen));
+
+                    if (bar1) {
+                        bar1.style.transform = menuOpen
+                            ? "rotate(45deg) translate(5px, 5px)"
+                            : "";
+                    }
+
+                    if (bar2) {
+                        bar2.style.opacity = menuOpen ? "0" : "";
+                    }
+
+                    if (bar3) {
+                        bar3.style.transform = menuOpen
+                            ? "rotate(-45deg) translate(5px, -5px)"
+                            : "";
+                    }
+                });
+
+                mobileMenu.querySelectorAll(".mobile-link").forEach((link) => {
+                    link.addEventListener("click", closeMobileMenu);
+                });
+            }
+
+            // NAVBAR SCROLL EFFECT
+
+            // const navbar = document.getElementById("navbar");
+            function updateNavbar() {
+                if (!navbar) return;
+
+                navbar.style.borderBottomColor =
+                    window.scrollY > 80
+                        ? "rgba(197, 142, 75, 0.15)"
+                        : "rgba(255,255,255,0.1)";
+            }
+
+            window.addEventListener("scroll", updateNavbar, {
+                passive: true,
+            });
+
+            updateNavbar();
+
+            // FAQ ACCORDION
+            document.querySelectorAll(".faq-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const content = btn.nextElementSibling;
+                    const chevron = btn.querySelector(".faq-chevron");
+                    const faqItem = btn.closest(".faq-item");
+
+                    if (!content) return;
+
+                    const isOpen = content.classList.contains("open");
+
+                    // Tutup semua FAQ terlebih dahulu.
+                    document
+                        .querySelectorAll(".faq-content")
+                        .forEach((item) => {
+                            item.classList.remove("open");
+                        });
+
+                    document
+                        .querySelectorAll(".faq-chevron")
+                        .forEach((item) => {
+                            item.classList.remove("rotated");
+                        });
+
+                    document.querySelectorAll(".faq-item").forEach((item) => {
+                        item.style.borderColor = "";
+                    });
+
+                    // Buka FAQ yang dipilih jika sebelumnya tertutup.
+                    if (!isOpen) {
+                        content.classList.add("open");
+                        chevron?.classList.add("rotated");
+
+                        if (faqItem) {
+                            faqItem.style.borderColor = "rgba(197,142,75,0.4)";
+                        }
+                    }
+                });
+            });
+
+            // SMOOTH SCROLL
+            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                anchor.addEventListener("click", function (event) {
+                    const href = this.getAttribute("href");
+
+                    // Abaikan anchor kosong.
+                    if (!href || href === "#") return;
+
+                    const target = document.querySelector(href);
+
+                    // Jangan mencegah perilaku default jika target tidak ditemukan.
+                    if (!target) return;
+
+                    event.preventDefault();
+
+                    const offset = 72;
+
+                    const top =
+                        target.getBoundingClientRect().top +
+                        window.scrollY -
+                        offset;
+
+                    window.scrollTo({
+                        top,
+                        behavior: "smooth",
+                    });
+                });
+            });
+
+            // ACTIVE NAV LINK
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+
+            function updateActiveNavLink() {
+                let current = "";
+
+                sections.forEach((section) => {
+                    if (window.scrollY >= section.offsetTop - 100) {
+                        current = section.id;
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    const isActive =
+                        link.getAttribute("href") === `#${current}`;
+
+                    link.style.color = isActive ? "#c58e4b" : "";
+                });
+            }
+
+            window.addEventListener("scroll", updateActiveNavLink, {
+                passive: true,
+            });
+
+            updateActiveNavLink();
+
+            // KONSULTASI VIA WHATSAPP
+            window.handleKonsultasiSubmit = function () {
+                const section = document.getElementById("kontak");
+
+                if (!section) {
+                    console.error("Section kontak tidak ditemukan.");
+                    return;
+                }
+
+                const nama =
+                    section.querySelector('input[type="text"]')?.value.trim() ??
+                    "";
+
+                const wa =
+                    section.querySelector('input[type="tel"]')?.value.trim() ??
+                    "";
+
+                const layanan = section.querySelector("select")?.value ?? "";
+
+                const detail =
+                    section.querySelector("textarea")?.value.trim() ?? "";
+
+                if (!nama || !wa) {
+                    alert("Nama dan nomor WhatsApp wajib diisi.");
+                    return;
+                }
+
+                const nomorWA = "6285717676292";
+
+                const pesan =
+                    `Halo Admin, saya ${nama} ingin konsultasi gratis.\n\n` +
+                    `Layanan: ${layanan || "-"}\n` +
+                    `Detail: ${detail || "-"}\n\n` +
+                    `Nomor WhatsApp saya: ${wa}`;
+
+                const url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+
+                window.open(url, "_blank", "noopener,noreferrer");
+            };
+
+            // RESERVATION VIA WHATSAPP
+            window.handleReservationSubmit = function () {
+                const btn = document.querySelector(
+                    'button[onclick="handleReservationSubmit()"]',
+                );
+
+                if (!btn) {
+                    console.error("Tombol submit tidak ditemukan.");
+                    return;
+                }
+
+                const formContainer = btn.closest(".space-y-5");
+
+                if (!formContainer) {
+                    console.error("Form container tidak ditemukan.");
+                    return;
+                }
+
+                const tgl =
+                    formContainer.querySelector('input[type="date"]')?.value ??
+                    "";
+
+                const allInputs =
+                    formContainer.querySelectorAll('input[type="text"]');
+
+                const merk = allInputs[0]?.value.trim() ?? "";
+                const model = allInputs[1]?.value.trim() ?? "";
+                const nama = allInputs[2]?.value.trim() ?? "";
+                const wa = allInputs[3]?.value.trim() ?? "";
+
+                const rencana =
+                    formContainer.querySelector("select")?.value ?? "";
+
+                const catatan =
+                    formContainer.querySelector("textarea")?.value.trim() ?? "";
+
+                if (!tgl || !nama || !wa) {
+                    alert("Mohon isi Tanggal, Nama, dan Nomor WhatsApp Anda!");
+                    return;
+                }
+
+                const nomorWA = "6285717676292";
+
+                const pesan =
+                    `Halo Admin, saya mau booking slot antrian bengkel.\n\n` +
+                    `*Detail Booking:*\n` +
+                    `Tanggal: ${tgl}\n` +
+                    `Nama: ${nama}\n` +
+                    `WA: ${wa}\n\n` +
+                    `*Detail Kendaraan:*\n` +
+                    `Merk Motor: ${merk || "-"}\n` +
+                    `Model Unit: ${model || "-"}\n\n` +
+                    `*Rencana Pengerjaan:*\n` +
+                    `Layanan: ${rencana || "-"}\n` +
+                    `Catatan: ${catatan || "-"}`;
+
+                const url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+
+                window.open(url, "_blank", "noopener,noreferrer");
+            };
+
+            // TESTIMONIAL SLIDER
+            document.addEventListener("DOMContentLoaded", () => {
+                const track = document.getElementById("testimonialTrack");
+                const cards = document.querySelectorAll(".testi-card");
+                const dotsContainer =
+                    document.getElementById("testimonialDots");
+
+                if (!track || !dotsContainer || cards.length === 0) {
+                    return;
+                }
+
+                let currentIndex = 0;
+                const gap = 16;
+
+                function getVisibleCards() {
+                    if (!cards[0] || !track.parentElement) return 1;
+
+                    return Math.max(
+                        1,
+                        Math.floor(
+                            track.parentElement.offsetWidth /
+                                (cards[0].offsetWidth + gap),
+                        ),
+                    );
+                }
+
+                function updateSlider() {
+                    const visibleCards = getVisibleCards();
+                    const cardWidth = cards[0].offsetWidth;
+
+                    const offset =
+                        currentIndex * visibleCards * (cardWidth + gap);
+
+                    track.style.transform = `translateX(-${offset}px)`;
+
+                    const dots = dotsContainer.querySelectorAll("button");
+
+                    dots.forEach((dot, index) => {
+                        dot.className = `h-2 rounded-full transition-all duration-300 ${
+                            index === currentIndex
+                                ? "bg-brand-gold w-6"
+                                : "bg-white/20 w-2"
+                        }`;
+                    });
+                }
+
+                function setupSlider() {
+                    const visibleCards = getVisibleCards();
+                    const totalGroups = Math.ceil(cards.length / visibleCards);
+
+                    currentIndex = Math.min(
+                        currentIndex,
+                        Math.max(0, totalGroups - 1),
+                    );
+
+                    dotsContainer.innerHTML = "";
+
+                    for (let i = 0; i < totalGroups; i++) {
+                        const dot = document.createElement("button");
+
+                        dot.type = "button";
+                        dot.setAttribute(
+                            "aria-label",
+                            `Testimoni grup ${i + 1}`,
+                        );
+
+                        dot.addEventListener("click", () => {
+                            currentIndex = i;
+                            updateSlider();
+                        });
+
+                        dotsContainer.appendChild(dot);
+                    }
+
+                    updateSlider();
+                }
+
+                window.moveTestimonial = function (direction) {
+                    const visibleCards = getVisibleCards();
+                    const totalGroups = Math.ceil(cards.length / visibleCards);
+
+                    currentIndex = Math.max(
+                        0,
+                        Math.min(currentIndex + direction, totalGroups - 1),
+                    );
+
+                    updateSlider();
+                };
+
+                setupSlider();
+
+                window.addEventListener("resize", setupSlider);
+            });
+
+            // FIX: AUTO-TRIGGER RENDER ENGINE (LOAD EVENT)
+            window.addEventListener("load", () => {
+                // Jalankan kalkulasi ulang setelah seluruh aset termuat sempurna
+                updateNavbar();
+                updateActiveNavLink();
+
+                setTimeout(() => {
+                    const currentScroll = window.scrollY;
+                    window.scrollTo(window.scrollX, currentScroll + 1);
+                    window.scrollTo(window.scrollX, currentScroll);
+                }, 50);
+            });
+        </script>
+    </body>
+</html>

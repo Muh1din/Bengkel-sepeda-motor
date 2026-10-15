@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-ui-main">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nirwana Garage | Dashboard Mekanik</title>
+
+    <!-- Tailwind Play CDN & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Instrument Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#1b263b',
+                            gold: '#c58e4b',
+                            silver: '#bdc3c7',
+                            steel: '#5d7b93',
+                        },
+                        ui: {
+                            main: '#f8f9fa',
+                            card: '#ffffff',
+                            text: '#2d3436',
+                            border: '#e2e8f0'
+                        }
+                    },
+                    zIndex: {
+                        100: '100',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="font-sans antialiased min-h-screen bg-ui-main text-ui-text flex flex-col md:flex-row relative overflow-x-hidden">
+
+    <!-- ================= SIDEBAR MEKANIK ================= -->
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 bg-brand-navy text-white shrink-0 no-print flex flex-col justify-between h-screen transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
+
+        <!-- Area Menu Utama (Scroll Independen) -->
+        <div class="flex-1 overflow-y-auto">
+            <!-- Brand Header -->
+            <div
+                class="h-16 flex items-center justify-between px-6 bg-brand-navy border-b border-slate-700/50 sticky top-0 z-10">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-xs shrink-0">
+                        NG
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base leading-none text-white">NIRWANA GARAGE</h1>
+                    </div>
+                </div>
+                <!-- Close Button Mobile -->
+                <button id="close-sidebar-btn" type="button"
+                    class="md:hidden text-brand-silver hover:text-white p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1">
+                <div class="px-3 py-2 text-xs font-semibold text-brand-silver uppercase tracking-wider">Main Menu</div>
+
+                <!-- Dashboard -->
+                <a href="#dashboard" onclick="switchTab('dashboard')" id="nav-dashboard"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
+                    <span class="truncate">Dashboard</span>
+                </a>
+
+                <!-- Tugas Inspeksi -->
+                <a href="#inspections" onclick="switchTab('inspections')" id="nav-inspections"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <i data-lucide="clipboard-check" class="w-5 h-5 shrink-0"></i>
+                    <span class="truncate">Tugas Inspeksi</span>
+                </a>
+
+                <!-- Work Order / Pengerjaan -->
+                <a href="#work-orders" onclick="switchTab('work-orders')" id="nav-work-orders"
+                    class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <i data-lucide="wrench" class="w-5 h-5 shrink-0"></i>
+                    <span class="truncate">Work Order</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Profile Bottom -->
+        <div class="p-4 border-t border-slate-700/50 bg-brand-navy relative shrink-0">
+            <!-- Profile Dropdown Card -->
+            <div id="profile-card"
+                class="hidden absolute bottom-full left-4 right-4 mb-3 bg-slate-800 rounded-xl p-4 shadow-2xl border border-slate-700 transition-all duration-200 z-50">
+                <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
+                    <div
+                        class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-sm shrink-0">
+                        SR
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-sm font-bold text-white truncate">Slamet Riyadi</div>
+                        <div class="text-xs text-brand-silver truncate">mekanik@nirwanagarage.com</div>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="button" id="logout-button"
+                        class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-slate-700/50 transition-colors font-medium">
+                        <i data-lucide="log-out" class="w-4 h-4 shrink-0"></i>
+                        <span>Keluar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Button Trigger -->
+            <div id="profile-trigger"
+                class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none">
+                <div
+                    class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
+                    SR
+                </div>
+                <div class="min-w-0 flex-1">
+                    <div class="text-sm font-medium text-white truncate">Slamet Riyadi</div>
+                    <div class="text-xs text-brand-silver truncate">mekanik@nirwanagarage.com</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT WRAPPER ================= -->
+    <div class="flex-1 md:pl-64 flex flex-col min-w-0 min-h-screen transition-all duration-300">
+
+        <!-- Header Component -->
+        <header
+            class="h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-6 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-3.5">
+                <!-- Tombol Hamburger Mobile -->
+                <button id="open-sidebar-btn" type="button"
+                    class="md:hidden p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200 active:scale-95">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Judul Halaman Dinamis -->
+                <div class="flex items-center gap-2">
+                    <h1 id="page-title" class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-none">
+                        Dashboard
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Body -->
+        <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8">
+
+            <!-- ================= TAB 1: DASHBOARD MEKANIK ================= -->
+            <section id="tab-dashboard" class="tab-content space-y-6">
+                <!-- Welcome Greeting Card -->
+                <div
+                    class="bg-ui-card border border-ui-border rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-brand-navy">
+                            Selamat datang, Slamet Riyadi
+                        </h3>
+                        <p class="text-sm text-brand-steel mt-1">
+                            Siap melakukan servis kendaraan hari ini? Cek daftar Work Order yang telah ditugaskan.
+                        </p>
+                    </div>
+
+                    <button type="button" onclick="switchTab('work-orders')"
+                        class="bg-brand-navy text-white hover:bg-slate-800 px-4 py-2 rounded-md text-sm font-medium transition shadow-sm shrink-0">
+                        Lihat Semua Work Order
+                    </button>
+                </div>
+
+                <!-- Statistics Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div
+                        class="bg-ui-card border border-ui-border rounded-lg p-4 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 rounded-lg bg-blue-50 text-blue-600 shrink-0">
+                            <i data-lucide="clipboard-list" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-steel font-medium uppercase tracking-wider">WO Ditugaskan</p>
+                            <p class="text-2xl font-bold text-brand-navy">5</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-ui-card border border-ui-border rounded-lg p-4 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 rounded-lg bg-amber-50 text-amber-600 shrink-0">
+                            <i data-lucide="clock" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-steel font-medium uppercase tracking-wider">Menunggu
+                                Pemeriksaan</p>
+                            <p class="text-2xl font-bold text-brand-navy">2</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-ui-card border border-ui-border rounded-lg p-4 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 rounded-lg bg-indigo-50 text-indigo-600 shrink-0">
+                            <i data-lucide="wrench" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-steel font-medium uppercase tracking-wider">Sedang Dikerjakan
+                            </p>
+                            <p class="text-2xl font-bold text-brand-navy">1</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-ui-card border border-ui-border rounded-lg p-4 shadow-sm flex items-center space-x-4">
+                        <div class="p-3 rounded-lg bg-emerald-50 text-emerald-600 shrink-0">
+                            <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-brand-steel font-medium uppercase tracking-wider">Selesai Hari Ini
+                            </p>
+                            <p class="text-2xl font-bold text-brand-navy">2</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Work Order Terbaru Table -->
+                <div class="bg-ui-card border border-ui-border rounded-lg shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-ui-border flex justify-between items-center bg-white">
+                        <h4 class="font-bold text-brand-navy">Work Order Terbaru</h4>
+                        <button type="button" onclick="switchTab('work-orders')"
+                            class="text-sm text-brand-gold hover:underline font-semibold">
+                            Lihat Semua
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-ui-text">
+                            <thead
+                                class="bg-gray-50 text-xs font-semibold text-brand-steel uppercase tracking-wider border-b border-ui-border">
+                                <tr>
+                                    <th class="px-4 py-3">Nomor WO</th>
+                                    <th class="px-4 py-3">Kendaraan</th>
+                                    <th class="px-4 py-3">Keluhan</th>
+                                    <th class="px-4 py-3">Tanggal</th>
+                                    <th class="px-4 py-3">Status</th>
+                                    <th class="px-4 py-3 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-ui-border">
+                                <tr class="hover:bg-gray-50/50 transition">
+                                    <td class="px-4 py-3 font-semibold text-brand-navy">WO-20261014-001</td>
+                                    <td class="px-4 py-3">B 4567 XYZ - Honda CBR 250R</td>
+                                    <td class="px-4 py-3 text-gray-600">Mesin agak bergetar di RPM tinggi & rem belakang
+                                        decit.</td>
+                                    <td class="px-4 py-3 text-gray-600">14 Okt 2026</td>
+                                    <td class="px-4 py-3">
+                                        <span
+                                            class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                            Sedang Dikerjakan
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button type="button"
+                                            onclick="openWODetailModal('WO-20261014-001', 'BKG-20261014-001', 'Budi Santoso', 'B 4567 XYZ - Honda CBR 250R', 'Servis Berkala & Rem', 'Mesin agak bergetar di RPM tinggi & rem belakang decit.', 'Sedang Dikerjakan', 'bg-indigo-50 text-indigo-700 border-indigo-200', '14 Okt 2026, 09:15 WIB')"
+                                            class="text-xs font-semibold text-brand-navy hover:text-brand-gold transition">
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 2: TUGAS INSPEKSI ================= -->
+            <section id="tab-inspections" class="tab-content space-y-6 hidden">
+            
+                <!-- ================= VIEW A: DAFTAR KENDARAAN MENUNGGU INSPEKSI ================= -->
+                <div id="inspection-list-view" class="space-y-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-brand-navy">Inspeksi Kendaraan</h2>
+                        <p class="text-sm text-brand-steel">Lakukan pemeriksaan kendaraan berdasarkan booking yang telah diterima.
+                        </p>
+                    </div>
+            
+                    <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm overflow-hidden">
+                        <div class="p-4 border-b border-ui-border bg-white">
+                            <h3 class="font-bold text-brand-navy">Kendaraan Menunggu Inspeksi</h3>
+                            <p class="mt-1 text-xs text-brand-steel">Daftar kendaraan yang ditugaskan kepada Anda untuk dilakukan
+                                pemeriksaan.</p>
+                        </div>
+            
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead
+                                    class="bg-ui-main text-xs uppercase text-brand-steel font-semibold border-b border-ui-border">
+                                    <tr>
+                                        <th class="px-4 py-3">Kode Booking</th>
+                                        <th class="px-4 py-3">Pelanggan</th>
+                                        <th class="px-4 py-3">Kendaraan</th>
+                                        <th class="px-4 py-3">Jenis Servis</th>
+                                        <th class="px-4 py-3">Status</th>
+                                        <th class="px-4 py-3 text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-ui-border">
+                                    <tr class="hover:bg-gray-50/50 transition">
+                                        <td class="px-4 py-3 font-medium text-brand-navy">BKG-20261014-001</td>
+                                        <td class="px-4 py-3 text-ui-text">Budi Santoso</td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Honda CBR 250R
+                                            <span class="block text-xs text-brand-steel">B 4567 XYZ</span>
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">Servis Berkala & Inspection</td>
+                                        <td class="px-4 py-3">
+                                            <span
+                                                class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold border bg-amber-50 text-amber-700 border-amber-200">
+                                                Menunggu Inspeksi
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <!-- Tombol ini sekarang memanggil fungsi showInspectionForm() -->
+                                            <button type="button" onclick="showInspectionForm()"
+                                                class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-navy text-white hover:opacity-90 transition">
+                                                Mulai Inspeksi
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            
+            
+                <!-- ================= VIEW B: FORM DETAIL / SHOW HALAMAN INSPEKSI ================= -->
+                <div id="inspection-form-view" class="space-y-6 hidden">
+            
+                    <!-- Header -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-brand-navy">
+                                Inspeksi Kendaraan
+                            </h2>
+                            <p class="text-sm text-brand-steel">
+                                Lakukan pemeriksaan kendaraan berdasarkan booking yang telah diterima.
+                            </p>
+                        </div>
+            
+                        <button type="button" onclick="hideInspectionForm()"
+                            class="inline-flex items-center gap-2 rounded-lg border border-ui-border bg-white px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-50 transition shadow-sm">
+                            <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                            Kembali ke Daftar
+                        </button>
+                    </div>
+            
+                    <!-- INSPECTION FORM CARD -->
+                    <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm overflow-hidden">
+            
+                        <!-- Header Card -->
+                        <div class="p-5 border-b border-ui-border bg-white">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                                        Pemeriksaan Kendaraan
+                                    </p>
+                                    <h3 id="show-booking-code" class="mt-1 text-lg font-bold text-brand-navy">
+                                        BKG-20261014-001
+                                    </h3>
+                                </div>
+            
+                                <span
+                                    class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                    Sedang Diinspeksi
+                                </span>
+                            </div>
+                        </div>
+            
+                        <!-- VEHICLE INFORMATION -->
+                        <div class="p-5 border-b border-ui-border bg-gray-50/50">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div>
+                                    <p class="text-xs text-brand-steel">Pelanggan</p>
+                                    <p id="show-customer-name" class="mt-1 text-sm font-semibold text-brand-navy">Budi Santoso</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-steel">Kendaraan</p>
+                                    <p id="show-vehicle-name" class="mt-1 text-sm font-semibold text-brand-navy">Honda CBR 250R</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-steel">Nomor Polisi</p>
+                                    <p id="show-license-plate" class="mt-1 text-sm font-semibold text-brand-navy">B 4567 XYZ</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-steel">Jenis Servis</p>
+                                    <p id="show-service-type" class="mt-1 text-sm font-semibold text-brand-navy">Servis Berkala &
+                                        Inspection</p>
+                                </div>
+                            </div>
+            
+                            <!-- CUSTOMER COMPLAINT -->
+                            <div class="mt-5">
+                                <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                                    Keluhan Pelanggan
+                                </p>
+                                <div class="mt-2 rounded-lg bg-white border border-ui-border px-4 py-3">
+                                    <p id="show-complaint" class="text-sm leading-relaxed text-ui-text">
+                                        Mesin agak bergetar di RPM tinggi dan rem belakang berdecit saat ditekan.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- INSPECTION FORM -->
+                        <form id="inspection-form" onsubmit="event.preventDefault(); alert('Hasil inspeksi berhasil disimpan!');">
+                            <div class="p-5 space-y-6">
+            
+                                <!-- INSPECTION -->
+                                <div>
+                                    <label for="inspection" class="block text-sm font-semibold text-brand-navy">
+                                        Hasil Pemeriksaan
+                                    </label>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Catat kondisi dan temuan kendaraan selama pemeriksaan.
+                                    </p>
+                                    <textarea id="inspection" name="inspection" rows="5"
+                                        class="mt-3 w-full rounded-lg border border-ui-border bg-white px-4 py-3 text-sm text-ui-text outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
+                                        placeholder="Contoh: Pemeriksaan bagian mesin menunjukkan adanya getaran pada area CVT...">Oli mesin sudah sangat gelap dan kental. Kampas rem belakang tersisa sekitar 15%.</textarea>
+                                </div>
+            
+                                <!-- DIAGNOSIS -->
+                                <div>
+                                    <label for="diagnosis" class="block text-sm font-semibold text-brand-navy">
+                                        Diagnosis
+                                    </label>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Jelaskan penyebab atau masalah yang ditemukan berdasarkan hasil pemeriksaan.
+                                    </p>
+                                    <textarea id="diagnosis" name="diagnosis" rows="5"
+                                        class="mt-3 w-full rounded-lg border border-ui-border bg-white px-4 py-3 text-sm text-ui-text outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
+                                        placeholder="Contoh: Kampas kopling CVT mengalami keausan...">Penurunan kualitas pelumas mesin memengaruhi performa putaran mesin, serta keausan pada komponen pengereman belakang.</textarea>
+                                </div>
+            
+                                <!-- RECOMMENDATION -->
+                                <div>
+                                    <label for="recommendation" class="block text-sm font-semibold text-brand-navy">
+                                        Rekomendasi Umum
+                                    </label>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Tambahkan catatan atau rekomendasi umum berdasarkan hasil diagnosis.
+                                    </p>
+                                    <textarea id="recommendation" name="recommendation" rows="4"
+                                        class="mt-3 w-full rounded-lg border border-ui-border bg-white px-4 py-3 text-sm text-ui-text outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
+                                        placeholder="Contoh: Disarankan melakukan penggantian kampas kopling CVT...">Disarankan segera melakukan penggantian oli rutin dan kampas rem set belakang.</textarea>
+                                </div>
+            
+                                <!-- RECOMMENDED WORKS -->
+                                <div>
+                                    <div class="flex items-center justify-between gap-4">
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-brand-navy">
+                                                Pekerjaan yang Direkomendasikan
+                                            </h4>
+                                            <p class="mt-1 text-xs text-brand-steel">
+                                                Tambahkan pekerjaan yang perlu mendapat persetujuan pelanggan.
+                                            </p>
+                                        </div>
+            
+                                        <button type="button" id="add-work-button" onclick="addWorkItemFromTemplate()"
+                                            class="px-3 py-2 text-xs font-semibold rounded-lg border border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white transition">
+                                            + Tambah Pekerjaan
+                                        </button>
+                                    </div>
+            
+                                    <!-- WORK ITEMS CONTAINER -->
+                                    <div id="work-items-container" class="mt-4 space-y-4">
+                                        <!-- Default Existing Item -->
+                                        <div class="work-item rounded-xl border border-ui-border p-4 bg-gray-50/30">
+                                            <div class="flex items-start justify-between gap-4 mb-4">
+                                                <h5 class="work-number text-sm font-semibold text-brand-navy">Pekerjaan #1</h5>
+                                                <button type="button" onclick="removeWorkItem(this)"
+                                                    class="remove-work-button text-xs font-semibold text-red-600 hover:text-red-700">Hapus</button>
+                                            </div>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-brand-steel">Nama
+                                                        Pekerjaan</label>
+                                                    <input type="text" name="works[0][name]" value="Ganti Oli Mesin SAE 10W-40"
+                                                        class="work-name mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-navy">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-brand-steel">Estimasi
+                                                        Biaya</label>
+                                                    <input type="number" name="works[0][estimated_cost]" value="125000" min="0"
+                                                        class="work-cost mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-navy"
+                                                        placeholder="0">
+                                                </div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <label class="block text-xs font-semibold text-brand-steel">Deskripsi</label>
+                                                <textarea name="works[0][description]" rows="3"
+                                                    class="work-description mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-navy">Penggantian pelumas standar pabrikan.</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <!-- TEMPLATE -->
+                                    <template id="work-item-template">
+                                        <div class="work-item rounded-xl border border-ui-border p-4 bg-gray-50/30">
+                                            <div class="flex items-start justify-between gap-4 mb-4">
+                                                <h5 class="work-number text-sm font-semibold text-brand-navy">Pekerjaan #1</h5>
+                                                <button type="button" onclick="removeWorkItem(this)"
+                                                    class="remove-work-button text-xs font-semibold text-red-600 hover:text-red-700">Hapus</button>
+                                            </div>
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-brand-steel">Nama
+                                                        Pekerjaan</label>
+                                                    <input type="text"
+                                                        class="work-name mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-navy"
+                                                        placeholder="Contoh: Ganti Kampas Kopling CVT">
+                                                </div>
+                                                <div>
+                                                    <label class="block text-xs font-semibold text-brand-steel">Estimasi
+                                                        Biaya</label>
+                                                    <input type="number" min="0"
+                                                        class="work-cost mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-navy"
+                                                        placeholder="0">
+                                                </div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <label class="block text-xs font-semibold text-brand-steel">Deskripsi</label>
+                                                <textarea rows="3"
+                                                    class="work-description mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm outline-none focus:border-brand-navy"
+                                                    placeholder="Jelaskan pekerjaan yang direkomendasikan..."></textarea>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+            
+                            </div>
+            
+                            <!-- FOOTER -->
+                            <div class="px-5 py-4 bg-ui-main border-t border-ui-border flex items-center justify-end gap-3">
+                                <button type="submit"
+                                    class="rounded-lg border border-brand-navy px-4 py-2 text-sm font-semibold text-brand-navy hover:bg-gray-50 transition">
+                                    Simpan Draft
+                                </button>
+                                <button type="button" onclick="alert('Inspeksi selesai & dikirim ke SA!')"
+                                    class="rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition">
+                                    Selesaikan & Kirim ke SA
+                                </button>
+                            </div>
+            
+                        </form>
+            
+                    </div>
+            
+                </div>
+            
+            </section>
+
+            <!-- ================= TAB 3: PENGERJAAN SERVIS ================= -->
+            <!-- ================= TAB 3: PENGERJAAN SERVIS (WORK ORDERS) ================= -->
+            <section id="tab-work-orders" class="tab-content space-y-6 hidden">
+            
+                <!-- ================= VIEW A: DAFTAR WORK ORDER ================= -->
+                <div id="wo-list-view" class="space-y-6">
+            
+                    <!-- Page Caption -->
+                    <div>
+                        <h2 class="text-xl font-bold text-brand-navy">Pengerjaan Servis</h2>
+                        <p class="text-sm text-brand-steel">
+                            Kelola pekerjaan Work Order yang ditugaskan kepada Anda.
+                        </p>
+                    </div>
+            
+                    <!-- Section List Wrapper -->
+                    <div class="space-y-4">
+            
+                        <!-- Section Header -->
+                        <div
+                            class="flex flex-col gap-4 rounded-xl border border-ui-border bg-ui-card px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-navy/10 text-brand-navy">
+                                    <i data-lucide="clipboard-list" class="h-5 w-5"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h2 class="text-base font-semibold text-ui-text">Work Order</h2>
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-brand-steel">
+                                            2
+                                        </span>
+                                    </div>
+                                    <p class="mt-0.5 text-xs text-brand-steel">
+                                        Daftar pekerjaan yang sedang dan telah dikerjakan.
+                                    </p>
+                                </div>
+                            </div>
+            
+                            <div class="hidden items-center gap-2 text-xs text-brand-steel sm:flex">
+                                <i data-lucide="wrench" class="h-4 w-4"></i>
+                                <span>2 Work Order</span>
+                            </div>
+                        </div>
+            
+                        <!-- Item Work Order 1 (Contoh Sedang Dikerjakan) -->
+                        <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm transition hover:shadow-md">
+                            <div class="px-5 py-4">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h3 class="text-sm font-semibold text-ui-text">WO-20261014-001</h3>
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700">
+                                                Sedang Dikerjakan
+                                            </span>
+                                        </div>
+                                        <p class="mt-1 text-xs text-brand-steel">Booking BKG-20261014-001</p>
+                                    </div>
+            
+                                    <!-- WO Actions -->
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span
+                                            class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-100 px-3 py-2 text-xs font-semibold text-green-700">
+                                            <i data-lucide="package-check" class="h-4 w-4"></i>
+                                            Sudah Disiapkan
+                                        </span>
+            
+                                        <button type="button" onclick="showWODetail()"
+                                            class="inline-flex items-center justify-center gap-2 rounded-lg border border-ui-border px-3 py-2 text-xs font-semibold text-brand-navy transition hover:bg-gray-50">
+                                            <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                                            Lihat Detail
+                                        </button>
+                                    </div>
+                                </div>
+            
+                                <div class="my-4 border-t border-ui-border"></div>
+            
+                                <!-- Basic Information -->
+                                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                    <div>
+                                        <p class="text-[11px] uppercase tracking-wide text-brand-steel">Pelanggan</p>
+                                        <p class="mt-1 text-sm font-medium text-ui-text">Budi Santoso</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] uppercase tracking-wide text-brand-steel">Kendaraan</p>
+                                        <p class="mt-1 text-sm font-medium text-ui-text">B 4567 XYZ (Honda CBR 250R)</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] uppercase tracking-wide text-brand-steel">Diterima</p>
+                                        <p class="mt-1 text-sm font-medium text-ui-text">14 Okt 2026, 09:15</p>
+                                    </div>
+                                </div>
+            
+                                <!-- Work Items Preview -->
+                                <div class="mt-5">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-[11px] uppercase tracking-wide text-brand-steel">Pekerjaan</p>
+                                        <span class="text-[11px] text-brand-steel">2 pekerjaan</span>
+                                    </div>
+            
+                                    <div class="mt-2 space-y-2">
+                                        <div
+                                            class="flex flex-col gap-3 rounded-lg border border-ui-border bg-gray-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                                            <div class="flex items-start gap-3">
+                                                <div
+                                                    class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-ui-border bg-white text-brand-navy">
+                                                    <i data-lucide="wrench" class="h-4 w-4"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-medium text-ui-text">Ganti Oli Mesin SAE 10W-40</p>
+                                                    <p class="mt-0.5 text-xs text-brand-steel">Penggantian pelumas standar pabrikan.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-semibold text-blue-700">
+                                                Sedang Dikerjakan
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                </div>
+            
+            
+                <!-- ================= VIEW B: DETAIL WORK ORDER (SHOW) ================= -->
+                <div id="wo-detail-view" class="space-y-6 hidden">
+            
+                    <!-- Page Caption -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-brand-navy">Detail Work Order</h2>
+                            <p class="text-sm text-brand-steel">
+                                Detail Work Order dan daftar pekerjaan yang harus diselesaikan.
+                            </p>
+                        </div>
+            
+                        <button type="button" onclick="hideWODetail()"
+                            class="inline-flex items-center justify-center gap-2 rounded-lg border border-ui-border bg-white px-4 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-50 transition shadow-sm">
+                            <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                            Kembali ke Daftar
+                        </button>
+                    </div>
+            
+                    <!-- Work Order Information Card -->
+                    <section class="rounded-xl border border-ui-border bg-ui-card shadow-sm">
+                        <div class="px-5 py-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h1 class="text-base font-semibold text-ui-text">WO-20261014-001</h1>
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700">
+                                            Sedang Dikerjakan
+                                        </span>
+                                    </div>
+                                    <p class="mb-2 text-xs text-brand-steel">Booking BKG-20261014-001</p>
+                                </div>
+                            </div>
+            
+                            <div class="my-5 border-t border-ui-border"></div>
+            
+                            <!-- Basic Information Grid -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                                <div>
+                                    <p class="text-[11px] mt-2 uppercase tracking-wide text-brand-steel">Pelanggan</p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">Budi Santoso</p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] mt-2 uppercase tracking-wide text-brand-steel">Kendaraan</p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">B 4567 XYZ</p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] mt-2 uppercase tracking-wide text-brand-steel">Jenis Layanan</p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">Servis Berkala & Inspection</p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] mt-2 uppercase tracking-wide text-brand-steel">Kendaraan Diterima</p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">14 Okt 2026, 09:15</p>
+                                </div>
+                            </div>
+            
+                            <!-- Complaint -->
+                            <div class="mt-5">
+                                <p class="text-[11px] uppercase tracking-wide text-brand-steel">Keluhan</p>
+                                <div class="mt-2 rounded-lg border border-ui-border bg-gray-50 px-4 py-3">
+                                    <p class="text-sm leading-6 text-ui-text">
+                                        Mesin agak bergetar di RPM tinggi dan rem belakang berdecit saat ditekan.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+            
+                    <!-- Work Items Section -->
+                    <section class="space-y-4">
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border border-ui-border bg-ui-card px-5 py-4 shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-navy/10 text-brand-navy">
+                                    <i data-lucide="wrench" class="h-5 w-5"></i>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h2 class="text-base font-semibold text-ui-text">Pekerjaan</h2>
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-brand-steel">2</span>
+                                    </div>
+                                    <p class="mt-0.5 text-xs text-brand-steel">Daftar pekerjaan yang harus dikerjakan.</p>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Work Item List -->
+                        <div class="space-y-3">
+                            <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm">
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-5 py-4">
+                                    <div class="flex items-start gap-3">
+                                        <div
+                                            class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-brand-navy">
+                                            <i data-lucide="wrench" class="h-4 w-4"></i>
+                                        </div>
+                                        <div>
+                                            <div class="flex items-center gap-2 flex-wrap">
+                                                <h3 class="text-sm font-semibold text-ui-text">Ganti Oli Mesin SAE 10W-40</h3>
+                                                <span
+                                                    class="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700">
+                                                    Sedang Dikerjakan
+                                                </span>
+                                            </div>
+                                            <p class="mt-2 text-xs leading-5 text-brand-steel">Penggantian pelumas standar pabrikan.
+                                            </p>
+                                        </div>
+                                    </div>
+            
+                                    <!-- Action Button -->
+                                    <div class="shrink-0">
+                                        <button type="button" onclick="alert('Pekerjaan diselesaikan!')"
+                                            class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-xs font-semibold text-white hover:bg-green-700 transition">
+                                            <i data-lucide="check" class="h-4 w-4"></i>
+                                            Selesaikan Pekerjaan
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+            
+                </div>
+            
+            </section>
+
+            <!-- ================= TAB 4: RIWAYAT PENGERJAAN ================= -->
+            <section id="tab-history" class="tab-content space-y-6 hidden">
+                <div>
+                    <h2 class="text-xl font-bold text-brand-navy">Riwayat Pengerjaan</h2>
+                    <p class="text-sm text-brand-steel">Arsip seluruh servis dan inspeksi yang telah selesai dikerjakan.
+                    </p>
+                </div>
+                <div class="bg-ui-card p-6 rounded-lg border border-ui-border shadow-sm">
+                    <p class="text-sm text-gray-500">Belum ada riwayat pengerjaan.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ================= MODAL DETAIL WORK ORDER ================= -->
+    <div id="work-order-detail-modal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm transition-opacity duration-200">
+        <div
+            class="bg-white rounded-2xl shadow-2xl border border-ui-border w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col text-left">
+            <div class="px-6 py-5 bg-ui-main border-b border-ui-border">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <p class="text-[11px] font-semibold text-brand-steel uppercase tracking-widest mb-1">Detail Work
+                            Order</p>
+                        <div class="flex items-center gap-3">
+                            <h3 id="modal-work-order-code" class="text-lg font-bold text-brand-navy tracking-tight">
+                            </h3>
+                            <span id="modal-status"
+                                class="inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold"></span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="closeWODetailModal()"
+                        class="w-9 h-9 flex items-center justify-center rounded-lg text-brand-steel hover:text-brand-navy hover:bg-white transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="px-6 py-5 overflow-y-auto space-y-4">
+                <div class="rounded-xl border border-ui-border bg-gray-50 p-4">
+                    <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-1">Kendaraan</p>
+                    <p id="modal-vehicle" class="text-base font-bold text-brand-navy leading-relaxed"></p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-ui-border rounded-xl p-4 bg-white">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">Booking</p>
+                        <div>
+                            <p class="text-xs text-brand-steel mb-0.5">Kode Booking</p>
+                            <p id="modal-booking-code" class="text-sm font-semibold text-brand-navy"></p>
+                        </div>
+                    </div>
+                    <div class="border border-ui-border rounded-xl p-4 bg-white">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">Pelanggan</p>
+                        <div>
+                            <p class="text-xs text-brand-steel mb-0.5">Nama Pelanggan</p>
+                            <p id="modal-customer" class="text-sm font-semibold text-brand-navy"></p>
+                        </div>
+                    </div>
+                    <div class="border border-ui-border rounded-xl p-4 bg-white">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">Servis</p>
+                        <div>
+                            <p class="text-xs text-brand-steel mb-0.5">Jenis Servis</p>
+                            <p id="modal-service" class="text-sm font-semibold text-brand-navy leading-relaxed"></p>
+                        </div>
+                    </div>
+                    <div class="border border-ui-border rounded-xl p-4 bg-white">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">Penerimaan
+                            Kendaraan</p>
+                        <div>
+                            <p class="text-xs text-brand-steel mb-0.5">Kendaraan Diterima</p>
+                            <p id="modal-received-at" class="text-sm font-semibold text-brand-navy"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-ui-border rounded-xl p-4 bg-white">
+                    <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">Catatan / Keluhan
+                        Customer</p>
+                    <div class="rounded-lg bg-gray-50 border border-gray-200 px-4 py-3">
+                        <p id="modal-complaint" class="text-sm leading-relaxed text-gray-700"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 bg-gray-50 border-t border-ui-border flex items-center justify-between">
+                <p class="text-xs text-gray-500">Pastikan informasi kendaraan sesuai sebelum melakukan pemeriksaan.</p>
+                <button type="button" onclick="closeWODetailModal()"
+                    class="px-5 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-gray-100 transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL LOGOUT ================= -->
+    <div id="logout-modal"
+        class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm">
+        <div class="bg-white rounded-xl shadow-2xl border border-ui-border w-full max-w-sm p-5">
+            <div class="flex items-center gap-3 mb-5">
+                <div
+                    class="w-10 h-10 rounded-full bg-amber-50 text-brand-gold border border-amber-200 flex items-center justify-center shrink-0">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-semibold text-brand-navy">Konfirmasi Keluar</h2>
+                    <p class="text-xs text-brand-steel mt-0.5">Apakah Anda yakin ingin keluar dari akun?</p>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" id="logout-cancel"
+                    class="px-4 py-2 rounded-md text-sm font-medium text-brand-steel border border-ui-border hover:bg-ui-main transition-colors">
+                    Batal
+                </button>
+                <button type="button" id="logout-confirm"
+                    class="px-4 py-2 rounded-md text-sm font-medium text-white bg-brand-navy hover:bg-brand-gold transition-colors duration-200">
+                    Keluar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // Inisialisasi Icon Lucide
+        lucide.createIcons();
+
+        // 1. Sidebar & Profile Dropdown Controls
+        const sidebar = document.getElementById('sidebar');
+        const openSidebarBtn = document.getElementById('open-sidebar-btn');
+        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+        const profileTrigger = document.getElementById('profile-trigger');
+        const profileCard = document.getElementById('profile-card');
+
+        if (openSidebarBtn) {
+            openSidebarBtn.addEventListener('click', () => sidebar.classList.remove('-translate-x-full'));
+        }
+        if (closeSidebarBtn) {
+            closeSidebarBtn.addEventListener('click', () => sidebar.classList.add('-translate-x-full'));
+        }
+        if (profileTrigger) {
+            profileTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileCard.classList.toggle('hidden');
+            });
+        }
+        document.addEventListener('click', (e) => {
+            if (profileCard && !profileCard.contains(e.target) && !profileTrigger.contains(e.target)) {
+                profileCard.classList.add('hidden');
+            }
+        });
+
+        // 2. Logout Modal Controls
+        const logoutButton = document.getElementById('logout-button');
+        const logoutModal = document.getElementById('logout-modal');
+        const logoutCancel = document.getElementById('logout-cancel');
+        const logoutConfirm = document.getElementById('logout-confirm');
+
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => {
+                profileCard.classList.add('hidden');
+                logoutModal.classList.remove('hidden');
+            });
+        }
+        if (logoutCancel) {
+            logoutCancel.addEventListener('click', () => logoutModal.classList.add('hidden'));
+        }
+        if (logoutConfirm) {
+            logoutConfirm.addEventListener('click', () => {
+                window.location.href = "/public/design/auth/login.html";
+            });
+        }
+
+        // 3. Tab Switching Logic (Sidebar Navigation)
+        function switchTab(tabId) {
+            // Sembunyikan semua elemen tab-content
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // Tampilkan tab target
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Perbarui Judul Header
+            const pageTitles = {
+                'dashboard': 'Dashboard',
+                'inspections': 'Tugas Inspeksi',
+                'work-orders': 'Pengerjaan Servis',
+                'history': 'Riwayat Pengerjaan'
+            };
+            const titleEl = document.getElementById('page-title');
+            if (titleEl) {
+                titleEl.innerText = pageTitles[tabId] || 'Dashboard';
+            }
+
+            // Perbarui Styling Tombol Sidebar (Aktif / Tidak Aktif)
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.className = "nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800";
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.className = "nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold";
+            }
+
+            // Tutup sidebar mobile jika terbuka
+            if (sidebar) {
+                sidebar.classList.add('-translate-x-full');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // 4. Work Order Detail Modal Controls
+        function openWODetailModal(woCode, bookingCode, customer, vehicle, service, complaint, statusLabel, statusClass, receivedAt) {
+            document.getElementById('modal-work-order-code').innerText = woCode;
+            document.getElementById('modal-booking-code').innerText = bookingCode;
+            document.getElementById('modal-customer').innerText = customer;
+            document.getElementById('modal-vehicle').innerText = vehicle;
+            document.getElementById('modal-service').innerText = service;
+            document.getElementById('modal-complaint').innerText = complaint;
+            document.getElementById('modal-received-at').innerText = receivedAt;
+
+            const statusBadge = document.getElementById('modal-status');
+            statusBadge.innerText = statusLabel;
+            statusBadge.className = `inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold ${statusClass}`;
+
+            document.getElementById('work-order-detail-modal').classList.remove('hidden');
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeWODetailModal() {
+            document.getElementById('work-order-detail-modal').classList.add('hidden');
+        }
+
+        // detail inspeksi
+        // Membuka Halaman Detail / Form Inspeksi
+            function showInspectionForm() {
+                const listView = document.getElementById('inspection-list-view');
+                const formView = document.getElementById('inspection-form-view');
+
+                if (listView && formView) {
+                    listView.classList.add('hidden');
+                    formView.classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            // Kembali ke Daftar Inspeksi
+            function hideInspectionForm() {
+                const listView = document.getElementById('inspection-list-view');
+                const formView = document.getElementById('inspection-form-view');
+
+                if (listView && formView) {
+                    formView.classList.add('hidden');
+                    listView.classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            // work orders
+            // Navigasi Tampil / Sembunyi Detail Work Order
+                function showWODetail() {
+                    const listView = document.getElementById('wo-list-view');
+                    const detailView = document.getElementById('wo-detail-view');
+
+                    if (listView && detailView) {
+                        listView.classList.add('hidden');
+                        detailView.classList.remove('hidden');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+
+                function hideWODetail() {
+                    const listView = document.getElementById('wo-list-view');
+                    const detailView = document.getElementById('wo-detail-view');
+
+                    if (listView && detailView) {
+                        detailView.classList.add('hidden');
+                        listView.classList.remove('hidden');
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1416 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+        />
+        <title>Nirwana Garage | Premium Motorcycle Repaint & Performance</title>
+
+        <!-- 1. Google Font Instrument Sans Lengkap (Variasi Weight 400 hingga 900) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- FontAwesome Icons -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <!-- 2. Tailwind Play CDN Konfigurasi Kustom Font -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: [
+                                "Instrument Sans",
+                                "ui-sans-serif",
+                                "system-ui",
+                                "sans-serif",
+                                "Apple Color Emoji",
+                                "Segoe UI Emoji",
+                                "Segoe UI Symbol",
+                                "Noto Color Emoji",
+                            ],
+                        },
+                        colors: {
+                            brand: {
+                                navy: "#1b263b",
+                                gold: "#c58e4b",
+                                silver: "#bdc3c7",
+                                steel: "#5d7b93",
+                            },
+                            ui: {
+                                main: "#f8f9fa",
+                                card: "#ffffff",
+                                text: "#2d3436",
+                                border: "#dee2e6",
+                            },
+                        },
+                    },
+                },
+            };
+        </script>
+
+        <style>
+            /* Tanpa merusak render font-weight alami browser */
+            body {
+                font-family: "Instrument Sans", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            /* ANIMATION & GLASS STYLE */
+            /* Definisi Animasi Utama */
+            @keyframes feedUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Class pembantu untuk memicu animasi pada elemen anak */
+            .animate-item {
+                opacity: 0;
+                /* Sembunyi dulu sebelum jalan */
+                animation: feedUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            }
+
+            /* Pengaturan Jeda (Delay) supaya muncul satu-satu */
+            .delay-1 {
+                animation-delay: 0.2s;
+            }
+
+            .delay-2 {
+                animation-delay: 0.4s;
+            }
+
+            .delay-3 {
+                animation-delay: 0.6s;
+            }
+
+            .delay-4 {
+                animation-delay: 0.8s;
+            }
+
+            .delay-5 {
+                animation-delay: 1s;
+            }
+
+            /* Khusus Logo Background biar munculnya zoom out halus */
+            @keyframes logoZoom {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(1.2);
+                }
+
+                to {
+                    opacity: 0.07;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+            }
+
+            .animate-logo {
+                animation: logoZoom 2s ease-out forwards;
+            }
+
+            /* SCROLL ANIMATION ENGINE */
+            [data-scroll] {
+                opacity: 0;
+                transition-property: opacity, transform;
+                transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+                transition-duration: 0.8s;
+            }
+
+            [data-scroll="fade-up"] {
+                transform: translateY(50px);
+            }
+
+            [data-scroll="fade-down"] {
+                transform: translateY(-50px);
+            }
+
+            [data-scroll="fade-left"] {
+                transform: translateX(-60px);
+            }
+
+            [data-scroll="fade-right"] {
+                transform: translateX(60px);
+            }
+
+            [data-scroll="zoom-in"] {
+                transform: scale(0.85);
+            }
+
+            [data-scroll="flip"] {
+                transform: rotateX(20deg) translateY(40px);
+            }
+
+            [data-scroll].is-visible {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            /* Stagger delays for children */
+            .stagger-children > *:nth-child(1) {
+                transition-delay: 0s;
+            }
+
+            .stagger-children > *:nth-child(2) {
+                transition-delay: 0.12s;
+            }
+
+            .stagger-children > *:nth-child(3) {
+                transition-delay: 0.24s;
+            }
+
+            .stagger-children > *:nth-child(4) {
+                transition-delay: 0.36s;
+            }
+
+            .stagger-children > *:nth-child(5) {
+                transition-delay: 0.48s;
+            }
+
+            /* HERO PAGE LOAD ANIMATIONS */
+            @keyframes heroSlideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(40px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes heroPulse {
+                0%,
+                100% {
+                    transform: scaleX(1);
+                    opacity: 0.5;
+                }
+
+                50% {
+                    transform: scaleX(1.05);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes logoFade {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(1.15);
+                }
+
+                to {
+                    opacity: 0.07;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+            }
+
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0px);
+                }
+
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            @keyframes scrollLine {
+                0% {
+                    transform: scaleY(0);
+                    transform-origin: top;
+                }
+
+                50% {
+                    transform: scaleY(1);
+                    transform-origin: top;
+                }
+
+                51% {
+                    transform: scaleY(1);
+                    transform-origin: bottom;
+                }
+
+                100% {
+                    transform: scaleY(0);
+                    transform-origin: bottom;
+                }
+            }
+
+            @keyframes ping {
+                75%,
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+
+            .hero-el {
+                opacity: 0;
+                animation: heroSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1)
+                    forwards;
+            }
+
+            .delay-100 {
+                animation-delay: 0.1s;
+            }
+
+            .delay-200 {
+                animation-delay: 0.2s;
+            }
+
+            .delay-350 {
+                animation-delay: 0.35s;
+            }
+
+            .delay-500 {
+                animation-delay: 0.5s;
+            }
+
+            .delay-650 {
+                animation-delay: 0.65s;
+            }
+
+            .delay-800 {
+                animation-delay: 0.8s;
+            }
+
+            .delay-950 {
+                animation-delay: 0.95s;
+            }
+
+            .logo-bg {
+                animation: logoFade 2s ease-out forwards;
+            }
+
+            .float-card {
+                animation: float 4s ease-in-out infinite;
+            }
+
+            .float-card-2 {
+                animation: float 4s ease-in-out 1s infinite;
+            }
+
+            .scroll-line {
+                animation: scrollLine 2s ease-in-out infinite;
+            }
+
+            /* ============================================
+           GLASS & GRADIENTS
+        ============================================ */
+            .glass-nav {
+                background: rgba(27, 38, 59, 0.92);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
+
+            .glass-card {
+                background: rgba(255, 255, 255, 0.06);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+            }
+
+            .text-gold-gradient {
+                background: linear-gradient(
+                    135deg,
+                    #c58e4b 0%,
+                    #e8b96a 50%,
+                    #c58e4b 100%
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .glow-gold {
+                box-shadow: 0 0 40px rgba(197, 142, 75, 0.35);
+            }
+
+            .glow-navy {
+                box-shadow: 0 20px 60px rgba(27, 38, 59, 0.25);
+            }
+
+            /* ============================================
+           MOBILE MENU ANIMATION
+        ============================================ */
+            #mobile-menu {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            #mobile-menu.open {
+                max-height: 800px;
+            }
+
+            /* ============================================
+           PROGRESS TRACKER LINE
+        ============================================ */
+            .tracker-line {
+                position: absolute;
+                top: 20px;
+                left: calc(12.5% + 10px);
+                width: calc(75% - 20px);
+                height: 2px;
+                background: #dee2e6;
+                z-index: 0;
+            }
+
+            .tracker-line-fill {
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(90deg, #c58e4b, #e8b96a);
+                border-radius: 2px;
+            }
+
+            /* ============================================
+           HOVER EFFECTS
+        ============================================ */
+            .btn-primary {
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .btn-primary::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    45deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    transparent 70%
+                );
+                transform: translateX(-100%);
+                transition: transform 0.5s ease;
+            }
+
+            .btn-primary:hover::before {
+                transform: translateX(100%);
+            }
+
+            .service-card {
+                transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+
+            .service-card:hover {
+                transform: translateY(-8px);
+            }
+
+            /* ============================================
+           ACCORDION
+        ============================================ */
+            .faq-content {
+                max-height: 0;
+                overflow: hidden;
+                transition:
+                    max-height 0.35s ease,
+                    padding 0.35s ease;
+            }
+
+            .faq-content.open {
+                max-height: 200px;
+                padding-bottom: 1.5rem;
+            }
+
+            .faq-chevron {
+                transition: transform 0.35s ease;
+            }
+
+            .faq-chevron.rotated {
+                transform: rotate(180deg);
+            }
+
+            /* CUSTOM SCROLLBAR */
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #1b263b;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #c58e4b;
+                border-radius: 3px;
+            }
+
+            /* ============================================
+           RESPONSIVE TYPOGRAPHY SCALE
+        ============================================ */
+            .hero-title {
+                font-size: clamp(2.8rem, 10vw, 8rem);
+                line-height: 0.9;
+                letter-spacing: -0.02em;
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 5vw, 3.5rem);
+                line-height: 1.05;
+            }
+
+            .mega-title {
+                font-size: clamp(2.5rem, 6vw, 5rem);
+                line-height: 1;
+            }
+
+            /* ============================================
+           PING ANIMATION
+        ============================================ */
+            .ping-dot {
+                animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+            }
+
+            /* ============================================
+           GALLERY HOVER
+        ============================================ */
+            .gallery-item img {
+                transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            }
+
+            .gallery-item:hover img {
+                transform: scale(1.08);
+            }
+
+            .gallery-overlay {
+                background: linear-gradient(
+                    to top,
+                    rgba(27, 38, 59, 0.95) 0%,
+                    transparent 60%
+                );
+            }
+
+            /* ============================================
+           CARD SHINE EFFECT
+        ============================================ */
+            .shine-effect {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .shine-effect::after {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 30%;
+                height: 200%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.08),
+                    transparent
+                );
+                transform: skewX(-20deg);
+                transition: left 0.6s ease;
+            }
+
+            .shine-effect:hover::after {
+                left: 130%;
+            }
+
+            /* MOBILE SAFE PADDING */
+            @supports (padding: max(0px)) {
+                .safe-bottom {
+                    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+                }
+            }
+
+            /* Tab highlight active */
+            .nav-link {
+                position: relative;
+            }
+
+            .nav-link::after {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: #c58e4b;
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+            /* Testimonial card */
+            .testi-card {
+                transition: all 0.4s ease;
+            }
+
+            .testi-card:hover {
+                transform: translateY(-4px);
+            }
+
+            /* Number counter animation */
+            @keyframes countUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .stat-number {
+                animation: countUp 0.6s ease forwards;
+            }
+
+            /* untuk anchor animasi */
+            .scroll-container-lu {
+                overflow-anchor: none;
+            }
+
+            .testimonial-track {
+                display: flex;
+                gap: 1.5rem;
+                /* Jarak antar kartu */
+                width: 100%;
+            }
+
+            .testimonial-card {
+                flex: 0 0 calc(100% / 1);
+                /* Mobile */
+            }
+
+            @media (min-width: 768px) {
+                .testimonial-card {
+                    flex: 0 0 calc(50% - 0.75rem);
+                }
+
+                /* Tablet */
+            }
+
+            @media (min-width: 1024px) {
+                .testimonial-card {
+                    flex: 0 0 calc(33.333% - 1rem);
+                }
+
+                /* Desktop */
+            }
+
+            /* Pastikan container relative */
+            .relative {
+                position: relative;
+            }
+
+            .overflow-hidden {
+                overflow: hidden;
+            }
+
+            @media print {
+                body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                }
+
+                .no-print,
+                aside,
+                sidebar,
+                header,
+                .filter-section,
+                button,
+                .action-buttons {
+                    display: none !important;
+                }
+
+                main {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    width: 100% !important;
+                }
+
+                .print-full-width {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+
+                .card-print {
+                    border: 1px solid #ccc !important;
+                    box-shadow: none !important;
+                    break-inside: avoid;
+                }
+            }
+        </style>
+    </head>
+
+    <body class="bg-ui-main text-ui-text font-sans">
+        <!-- NAVIGATION COMPONENT -->
+        <!-- ================= NAVIGATION COMPONENT (STATIC MOCKUP) ================= -->
+        <nav
+            id="navbar"
+            class="fixed w-full z-50 glass-nav border-b border-white/10 transition-all duration-300"
+        >
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 sm:h-20 items-center">
+                    <!-- Logo -->
+                    <a href="#home" class="shrink-0">
+                        <span
+                            class="text-xl sm:text-2xl font-black tracking-tighter italic text-white font-display"
+                            >Nirwana<span class="text-brand-gold"
+                                >Garage</span
+                            ></span
+                        >
+                    </a>
+
+                    <!-- Desktop Menu -->
+                    <div
+                        class="hidden md:flex space-x-6 lg:space-x-8 items-center text-sm font-medium"
+                    >
+                        <a
+                            href="#home"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Home</a
+                        >
+                        <a
+                            href="#layanan"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Layanan</a
+                        >
+                        <a
+                            href="#galeri"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Galeri</a
+                        >
+                        <a
+                            href="#pricelist"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >List Harga</a
+                        >
+                        <a
+                            href="#testimoni"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Testimoni</a
+                        >
+                        <a
+                            href="#tracking"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200"
+                            >Tracking</a
+                        >
+                        <a
+                            href="#tentang"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200 block min-[640px]:max-[1024px]:hidden lg:block"
+                            >Tentang Kami</a
+                        >
+                        <a
+                            href="#faq"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200 block min-[640px]:max-[1024px]:hidden lg:block"
+                            >FAQ</a
+                        >
+                        <a
+                            href="#kontak"
+                            class="nav-link text-brand-silver hover:text-white transition-colors duration-200 block min-[640px]:max-[1024px]:hidden lg:block"
+                            >Kontak</a
+                        >
+                    </div>
+
+                    <!-- Mobile Hamburger -->
+                    <button
+                        id="menu-btn"
+                        class="md:hidden text-white focus:outline-none p-2 rounded-lg hover:bg-white/10 transition cursor-pointer"
+                        aria-label="Toggle Menu"
+                    >
+                        <div
+                            id="ham-icon"
+                            class="space-y-1.5 transition-all duration-300"
+                        >
+                            <span
+                                class="block w-6 h-0.5 bg-white transition-all duration-300"
+                                id="bar1"
+                            ></span>
+                            <span
+                                class="block w-6 h-0.5 bg-white transition-all duration-300"
+                                id="bar2"
+                            ></span>
+                            <span
+                                class="block w-6 h-0.5 bg-brand-gold transition-all duration-300"
+                                id="bar3"
+                            ></span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div
+                id="mobile-menu"
+                class="md:hidden bg-brand-navy/98 border-t border-white/10"
+            >
+                <div
+                    class="max-w-7xl mx-auto px-4 py-4 flex flex-col space-y-1"
+                >
+                    <a
+                        href="#home"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i class="fa-solid fa-house text-brand-gold w-5"></i>
+                        Home
+                    </a>
+                    <a
+                        href="#layanan"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fa-screwdriver-wrench text-brand-gold w-5"
+                        ></i>
+                        Layanan
+                    </a>
+                    <a
+                        href="#galeri"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i class="fa-solid fa-images text-brand-gold w-5"></i>
+                        Galeri
+                    </a>
+                    <a
+                        href="#pricelist"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i class="fa-solid fas fa-tags text-brand-gold w-5"></i>
+                        List Harga
+                    </a>
+                    <a
+                        href="#testimoni"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-comment-dots text-brand-gold w-5"
+                        ></i>
+                        Testimoni
+                    </a>
+                    <a
+                        href="#tracking"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fa-location-crosshairs text-brand-gold w-5"
+                        ></i>
+                        Tracking
+                    </a>
+                    <a
+                        href="#tentang"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-info-circle text-brand-gold w-5"
+                        ></i>
+                        Tentang Kami
+                    </a>
+                    <a
+                        href="#blog"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-newspaper text-brand-gold w-5"
+                        ></i>
+                        Blog
+                    </a>
+                    <a
+                        href="#faq"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-question-circle text-brand-gold w-5"
+                        ></i>
+                        FAQ
+                    </a>
+                    <a
+                        href="#kontak"
+                        class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3"
+                    >
+                        <i
+                            class="fa-solid fas fa-headset text-brand-gold w-5"
+                        ></i>
+                        Kontak
+                    </a>
+                    <button
+                        type="button"
+                        onclick="openBookingModal()"
+                        class="mobile-link mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center w-full cursor-pointer"
+                    >
+                        <i class="fa-solid fa-calendar-check w-5"></i> Booking
+                        Sekarang
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Modal Confirm Booking -->
+        <div
+            id="bookingModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4 booking-modal-overlay"
+            onclick="closeBookingModal(event)"
+        >
+            <div
+                class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl booking-modal-content"
+                onclick="event.stopPropagation()"
+            >
+                <!-- Header -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Mulai Booking Servis
+                    </h2>
+
+                    <p class="mt-2 text-sm text-gray-600">
+                        Pilih cara yang paling nyaman untuk melanjutkan booking
+                        servis kendaraanmu.
+                    </p>
+                </div>
+
+                <!-- Register / Login -->
+                <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                    <h3 class="font-bold text-gray-900">Daftar atau Login</h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Dengan akun Nirwana Garage, kamu bisa menyimpan data
+                        kendaraan, melihat riwayat servis, dan mengelola booking
+                        dengan lebih mudah.
+                    </p>
+
+                    <ul class="mt-4 space-y-2 text-sm text-gray-700">
+                        <li>✓ Simpan data kendaraan</li>
+                        <li>✓ Akses riwayat servis</li>
+                        <li>✓ Pantau dan kelola booking</li>
+                    </ul>
+
+                    <a
+                        href="/public/design/auth/login.html"
+                        class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90"
+                    >
+                        Daftar / Login
+                    </a>
+                </div>
+
+                <!-- Separator -->
+                <div class="my-5 flex items-center gap-3">
+                    <div class="h-px flex-1 bg-gray-200"></div>
+
+                    <span class="text-xs font-medium text-gray-400">
+                        ATAU
+                    </span>
+
+                    <div class="h-px flex-1 bg-gray-200"></div>
+                </div>
+
+                <!-- Guest Booking -->
+                <div>
+                    <h3 class="font-bold text-gray-900">
+                        Lanjutkan sebagai Guest
+                    </h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Tidak perlu membuat akun. Kamu bisa langsung melakukan
+                        booking dan melacak status servis menggunakan kode
+                        booking.
+                    </p>
+
+                    <a
+                        href="#kontak"
+                        onclick="closeBookingModal()"
+                        class="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50"
+                    >
+                        Booking Tanpa Login
+                    </a>
+                </div>
+
+                <!-- Close Button -->
+                <button
+                    type="button"
+                    onclick="closeBookingModal()"
+                    class="mt-4 w-full py-2 text-sm font-medium text-gray-500 transition hover:text-gray-800 cursor-pointer"
+                >
+                    Batal
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal Confirm Booking -->
+        <div
+            id="bookingModal"
+            class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4 booking-modal-overlay"
+            onclick="closeBookingModal(event)"
+        >
+            <div
+                class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl booking-modal-content"
+                onclick="event.stopPropagation()"
+            >
+                <!-- Header -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        Mulai Booking Servis
+                    </h2>
+
+                    <p class="mt-2 text-sm text-gray-600">
+                        Pilih cara yang paling nyaman untuk melanjutkan booking
+                        servis kendaraanmu.
+                    </p>
+                </div>
+
+                <!-- Register / Login -->
+                <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                    <h3 class="font-bold text-gray-900">Daftar atau Login</h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Dengan akun Nirwana Garage, kamu bisa menyimpan data
+                        kendaraan, melihat riwayat servis, dan mengelola booking
+                        dengan lebih mudah.
+                    </p>
+
+                    <ul class="mt-4 space-y-2 text-sm text-gray-700">
+                        <li>✓ Simpan data kendaraan</li>
+                        <li>✓ Akses riwayat servis</li>
+                        <li>✓ Pantau dan kelola booking</li>
+                    </ul>
+
+                    <a
+                        href="login.html"
+                        class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90"
+                    >
+                        Daftar / Login
+                    </a>
+                </div>
+
+                <!-- Separator -->
+                <div class="my-5 flex items-center gap-3">
+                    <div class="h-px flex-1 bg-gray-200"></div>
+
+                    <span class="text-xs font-medium text-gray-400">
+                        ATAU
+                    </span>
+
+                    <div class="h-px flex-1 bg-gray-200"></div>
+                </div>
+
+                <!-- Guest Booking -->
+                <div>
+                    <h3 class="font-bold text-gray-900">
+                        Lanjutkan sebagai Guest
+                    </h3>
+
+                    <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                        Tidak perlu membuat akun. Kamu bisa langsung melakukan
+                        booking dan melacak status servis menggunakan kode
+                        booking.
+                    </p>
+
+                    <a
+                        href="#kontak"
+                        onclick="closeBookingModal()"
+                        class="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50"
+                    >
+                        Booking Tanpa Login
+                    </a>
+                </div>
+
+                <!-- Close Button -->
+                <button
+                    type="button"
+                    onclick="closeBookingModal()"
+                    class="mt-4 w-full py-2 text-sm font-medium text-gray-500 transition hover:text-gray-800 cursor-pointer"
+                >
+                    Batal
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN CONTAINER -->
+        <main class="overflow-x-hidden">
+            <!-- Modal Berhasil Booking (Opsional / Default Tersembunyi) -->
+            <div id="booking-success-modal"
+                class="booking-modal-overlay fixed inset-0 z-[9999] hidden items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+                role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
+                <div class="booking-modal-content relative w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+                    <!-- Gold Accent -->
+                    <div class="h-1.5 w-full bg-[#c58e4b]"></div>
+            
+                    <div class="px-6 py-8 text-center sm:px-8">
+                        <!-- Success Icon -->
+                        <div class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-11 w-11 text-green-600" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+            
+                        <!-- Success Message -->
+                        <h2 id="booking-success-title" class="text-2xl font-bold text-[#1b263b]">
+                            Booking Berhasil!
+                        </h2>
+            
+                        <p class="mt-3 text-sm leading-relaxed text-gray-500">
+                            Simpan kode booking berikut untuk melacak status pengerjaan kendaraanmu.
+                        </p>
+            
+                        <!-- Booking Code -->
+                        <div class="mt-6 rounded-xl border border-dashed border-[#c58e4b]/60 bg-[#f8f9fa] p-5">
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                                Kode Booking
+                            </p>
+            
+                            <p id="booking-code" class="mt-2 break-all text-2xl font-extrabold tracking-wider text-[#1b263b]">
+                                NG-EXAMPLE
+                            </p>
+            
+                            <button type="button" id="copy-booking-code"
+                                class="mt-3 text-sm font-semibold text-[#a87335] transition hover:text-[#1b263b] cursor-pointer">
+                                Salin Kode Booking
+                            </button>
+                        </div>
+            
+                        <!-- Close Button -->
+                        <button type="button" id="close-booking-modal"
+                            class="mt-6 w-full rounded-xl bg-[#1b263b] px-5 py-3 font-semibold text-white transition duration-200 hover:bg-[#293b59] focus:outline-none focus:ring-2 focus:ring-[#c58e4b] focus:ring-offset-2 cursor-pointer">
+                            Mengerti
+                        </button>
+            
+                        <p class="mt-4 text-xs text-gray-400">
+                            Nirwana Garage · Premium Motorcycle Care
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Booking / Kontak Guest -->
+            <!-- SECTION BOOKING (GUEST FORM & INFO) -->
+            <!-- SECTION BOOKING (GUEST FORM & INFO) -->
+            <section id="booking" class="scroll-mt-20 py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+                    <!-- Pembungkus Card (data-scroll sudah dihapus agar langsung muncul) -->
+                    <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-brand-navy/10 overflow-hidden border border-ui-border">
+            
+                        <div class="grid lg:grid-cols-2">
+            
+                            <!-- Left: Information Panel -->
+                            <div class="p-8 sm:p-12 lg:p-16 bg-brand-navy text-white relative overflow-hidden">
+            
+                                <div
+                                    class="absolute top-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-brand-gold/5 rounded-full blur-[80px] pointer-events-none">
+                                </div>
+            
+                                <div class="relative z-10">
+            
+                                    <div class="text-brand-gold text-[11px] font-black tracking-[0.3em] uppercase mb-4">
+                                        Reservation
+                                    </div>
+            
+                                    <h3 class="mega-title font-display uppercase leading-tight mb-8">
+                                        BOOKING<br>
+                                        <span class="text-gold-gradient italic">ANTRIAN.</span>
+                                    </h3>
+            
+                                    <div class="space-y-5">
+            
+                                        <div class="flex items-center gap-4">
+                                            <div
+                                                class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-brand-gold shrink-0">
+                                                <i class="fa-solid fa-clock-rotate-left text-sm"></i>
+                                            </div>
+            
+                                            <p class="font-bold text-sm text-brand-silver">
+                                                Hemat waktu, tanpa antre lama di workshop.
+                                            </p>
+                                        </div>
+            
+                                        <div class="flex items-center gap-4">
+                                            <div
+                                                class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-brand-gold shrink-0">
+                                                <i class="fas fa-shield-alt text-sm"></i>
+                                            </div>
+            
+                                            <p class="font-bold text-sm text-brand-silver">
+                                                Prioritas pengerjaan untuk unit yang sudah booking.
+                                            </p>
+                                        </div>
+            
+                                        <div class="flex items-center gap-4">
+                                            <div
+                                                class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-brand-gold shrink-0">
+                                                <i class="fa-solid fa-headset text-sm"></i>
+                                            </div>
+            
+                                            <p class="font-bold text-sm text-brand-silver">
+                                                Konsultasi spek & budget sebelum pengerjaan.
+                                            </p>
+                                        </div>
+            
+                                    </div>
+            
+                                    <div class="mt-10 p-5 sm:p-6 rounded-2xl bg-white/5 border border-white/10">
+            
+                                        <p class="text-[10px] font-bold uppercase tracking-widest text-brand-silver mb-3">
+                                            Butuh Respon Cepat?
+                                        </p>
+            
+                                        <a href="https://wa.me/6285717676292" target="_blank" rel="noopener noreferrer"
+                                            class="flex items-center gap-3 text-lg sm:text-xl font-black hover:text-brand-gold transition-colors">
+            
+                                            <i class="fa-brands fa-whatsapp text-2xl text-green-500"></i>
+            
+                                            0857-1767-6292
+                                        </a>
+            
+                                    </div>
+            
+                                </div>
+                            </div>
+            
+                            <!-- Right: Guest Booking Form -->
+                            <div class="p-8 sm:p-12 lg:p-16">
+            
+                                <form id="staticBookingForm" onsubmit="event.preventDefault();" class="space-y-6">
+            
+                                    <!-- Booking Schedule -->
+                                    <div>
+                                        <h4 class="text-sm font-black text-brand-navy uppercase tracking-wider mb-4">
+                                            Jadwal Kedatangan
+                                        </h4>
+            
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+                                            <!-- Booking Date -->
+                                            <div>
+                                                <label for="booking_date"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Tanggal Kedatangan
+                                                </label>
+            
+                                                <input type="date" id="booking_date" name="booking_date" required
+                                                    class="w-full px-4 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                            </div>
+            
+                                            <!-- Booking Time -->
+                                            <div>
+                                                <label for="booking_time"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Waktu Kedatangan
+                                                </label>
+            
+                                                <input type="time" id="booking_time" name="booking_time" required
+                                                    class="w-full px-4 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                            </div>
+            
+                                        </div>
+                                    </div>
+            
+                                    <!-- Customer Information -->
+                                    <div>
+                                        <h4 class="text-sm font-black text-brand-navy uppercase tracking-wider mb-4">
+                                            Informasi Pelanggan
+                                        </h4>
+            
+                                        <div class="space-y-4">
+            
+                                            <!-- Customer Name -->
+                                            <div>
+                                                <label for="name"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Nama Lengkap
+                                                </label>
+            
+                                                <input type="text" id="name" name="name" placeholder="Masukkan nama lengkap"
+                                                    maxlength="100" autocomplete="name" required
+                                                    class="w-full px-5 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                            </div>
+            
+                                            <!-- Customer Phone -->
+                                            <div>
+                                                <label for="phone"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Nomor WhatsApp
+                                                </label>
+            
+                                                <input type="tel" id="phone" name="phone" placeholder="Contoh: 081234567890"
+                                                    maxlength="20" autocomplete="tel" required
+                                                    class="w-full px-5 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                            </div>
+            
+                                        </div>
+                                    </div>
+            
+                                    <!-- Vehicle Information -->
+                                    <div>
+                                        <h4 class="text-sm font-black text-brand-navy uppercase tracking-wider mb-4">
+                                            Informasi Kendaraan
+                                        </h4>
+            
+                                        <div class="space-y-4">
+            
+                                            <!-- License Plate -->
+                                            <div>
+                                                <label for="license_plate"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Nomor Polisi
+                                                </label>
+            
+                                                <input type="text" id="license_plate" name="license_plate"
+                                                    placeholder="Contoh: B 1234 XYZ" maxlength="20" required
+                                                    class="w-full px-5 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm uppercase">
+                                            </div>
+            
+                                            <!-- Brand and Model -->
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+                                                <div>
+                                                    <label for="brand"
+                                                        class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                        Merk Motor
+                                                    </label>
+            
+                                                    <input type="text" id="brand" name="brand" placeholder="Yamaha, Honda..."
+                                                        maxlength="100" required
+                                                        class="w-full px-4 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                                </div>
+            
+                                                <div>
+                                                    <label for="model"
+                                                        class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                        Model Unit
+                                                    </label>
+            
+                                                    <input type="text" id="model" name="model" placeholder="NMAX, ZX25R..."
+                                                        maxlength="100" required
+                                                        class="w-full px-4 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                                </div>
+            
+                                            </div>
+            
+                                            <!-- Year and Color -->
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+                                                <div>
+                                                    <label for="year"
+                                                        class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                        Tahun Kendaraan
+                                                    </label>
+            
+                                                    <input type="number" id="year" name="year" placeholder="Contoh: 2022" min="1901"
+                                                        max="2027" required
+                                                        class="w-full px-4 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                                </div>
+            
+                                                <div>
+                                                    <label for="color"
+                                                        class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                        Warna Kendaraan
+                                                    </label>
+            
+                                                    <input type="text" id="color" name="color" placeholder="Hitam, merah..."
+                                                        maxlength="50" required
+                                                        class="w-full px-4 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                                </div>
+            
+                                            </div>
+            
+                                        </div>
+                                    </div>
+            
+                                    <!-- Service Information -->
+                                    <div>
+                                        <h4 class="text-sm font-black text-brand-navy uppercase tracking-wider mb-4">
+                                            Detail Pengerjaan
+                                        </h4>
+            
+                                        <div class="space-y-4">
+            
+                                            <!-- Service Type -->
+                                            <div>
+                                                <label for="service_type"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Rencana Pengerjaan
+                                                </label>
+            
+                                                <select id="service_type" name="service_type" required
+                                                    class="w-full px-5 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm appearance-none cursor-pointer">
+            
+                                                    <option value="" disabled selected>
+                                                        Pilih layanan
+                                                    </option>
+            
+                                                    <option value="Restorasi Full">Restorasi Full</option>
+                                                    <option value="Repaint">Repaint</option>
+                                                    <option value="Bore Up Harian">Bore Up Harian</option>
+                                                    <option value="Upgrade Kirian (CVT)">Upgrade Kirian (CVT)</option>
+                                                    <option value="Service & Detailing">Service & Detailing</option>
+                                                    <option value="Lainnya">Lainnya</option>
+            
+                                                </select>
+            
+                                                <!-- Custom Service Field -->
+                                                <div id="custom_service_wrapper" class="mt-4 hidden">
+                                                    <label for="custom_service"
+                                                        class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                        Jelaskan Pengerjaan yang Diinginkan
+                                                    </label>
+            
+                                                    <input type="text" id="custom_service" name="custom_service" maxlength="100"
+                                                        placeholder="Contoh: Modifikasi lampu custom..."
+                                                        class="w-full px-5 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm">
+                                                </div>
+                                            </div>
+            
+                                            <!-- Complaint -->
+                                            <div>
+                                                <label for="complaint"
+                                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-[0.2em] mb-2">
+                                                    Catatan Tambahan (Opsional)
+                                                </label>
+            
+                                                <textarea id="complaint" name="complaint" rows="3" maxlength="5000"
+                                                    placeholder="Contoh: Mau konsep warna bunglon..."
+                                                    class="w-full px-5 py-4 bg-ui-main border-2 border-transparent rounded-2xl focus:border-brand-gold focus:outline-none transition-all font-bold text-brand-navy text-sm resize-none"></textarea>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+            
+                                    <!-- Submit Button -->
+                                    <button type="submit"
+                                        class="btn-primary w-full bg-brand-gold text-white font-black py-4 sm:py-5 rounded-2xl shadow-xl shadow-brand-gold/30 hover:bg-brand-navy transition-all uppercase tracking-widest text-xs sm:text-sm cursor-pointer">
+            
+                                        <i class="fa-solid fa-calendar-check mr-2"></i>
+            
+                                        AMANKAN SLOT ANTRIAN
+                                    </button>
+            
+                                    <p class="text-center text-xs text-gray-500 leading-relaxed">
+                                        Pastikan informasi pelanggan dan kendaraan sudah benar
+                                        sebelum mengirim permohonan booking.
+                                    </p>
+            
+                                </form>
+            
+                            </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

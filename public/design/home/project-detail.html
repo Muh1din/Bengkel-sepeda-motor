@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Detail Proyek | Nirwana Garage</title>
+
+    <!-- Google Font Instrument Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet" />
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [
+                            "Instrument Sans",
+                            "ui-sans-serif",
+                            "system-ui",
+                            "sans-serif",
+                        ],
+                    },
+                    colors: {
+                        brand: {
+                            navy: "#1b263b",
+                            gold: "#c58e4b",
+                            silver: "#bdc3c7",
+                            steel: "#5d7b93",
+                        },
+                        navy: "#1b263b",
+                        steel: "#5d7b93",
+                        border: "#dee2e6",
+                        ui: {
+                            main: "#f8f9fa",
+                            card: "#ffffff",
+                            text: "#2d3436",
+                            border: "#dee2e6",
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        body {
+            font-family: "Instrument Sans", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .glass-nav {
+            background: rgba(27, 38, 59, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #mobile-menu.open {
+            max-height: 800px;
+        }
+
+        /* Custom Scrollbar Page */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1b263b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c58e4b;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body class="bg-ui-main text-ui-text font-sans flex flex-col min-h-screen">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav id="navbar" class="fixed w-full z-50 glass-nav border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 sm:h-20 items-center">
+                <!-- Logo -->
+                <a href="index.html#home" class="shrink-0">
+                    <span
+                        class="text-xl sm:text-2xl font-black tracking-tighter italic text-white font-display">Nirwana<span
+                            class="text-brand-gold">Garage</span></span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6 lg:space-x-8 items-center text-sm font-medium">
+                    <a href="index.html#home"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Home</a>
+                    <a href="index.html#layanan"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Layanan</a>
+                    <a href="projects.html" class="text-brand-gold font-bold transition-colors duration-200">Galeri</a>
+                    <a href="index.html#pricelist"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">List Harga</a>
+                    <a href="index.html#testimoni"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Testimoni</a>
+                    <a href="index.html#tracking"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Tracking</a>
+                    <a href="index.html#tentang"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Tentang Kami</a>
+                    <a href="index.html#faq"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">FAQ</a>
+                    <a href="index.html#kontak"
+                        class="text-brand-silver hover:text-white transition-colors duration-200">Kontak</a>
+
+                    <button type="button" onclick="openBookingModal()"
+                        class="bg-brand-gold px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all duration-300 hover:bg-amber-500 cursor-pointer">
+                        Booking
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger -->
+                <button id="menu-btn"
+                    class="md:hidden text-white focus:outline-none p-2 rounded-lg hover:bg-white/10 transition cursor-pointer"
+                    aria-label="Toggle Menu">
+                    <div id="ham-icon" class="space-y-1.5 transition-all duration-300">
+                        <span class="block w-6 h-0.5 bg-white transition-all duration-300" id="bar1"></span>
+                        <span class="block w-6 h-0.5 bg-white transition-all duration-300" id="bar2"></span>
+                        <span class="block w-6 h-0.5 bg-brand-gold transition-all duration-300" id="bar3"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-brand-navy/98 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col space-y-1">
+                <a href="index.html#home"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-house text-brand-gold w-5"></i>
+                    Home
+                </a>
+                <a href="index.html#layanan"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-screwdriver-wrench text-brand-gold w-5"></i>
+                    Layanan
+                </a>
+                <a href="projects.html"
+                    class="text-brand-gold font-bold py-3 px-4 rounded-xl hover:bg-white/5 transition flex items-center gap-3">
+                    <i class="fa-solid fa-images text-brand-gold w-5"></i>
+                    Galeri
+                </a>
+                <a href="index.html#pricelist"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-tags text-brand-gold w-5"></i>
+                    List Harga
+                </a>
+                <a href="index.html#testimoni"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-comment-dots text-brand-gold w-5"></i>
+                    Testimoni
+                </a>
+                <a href="index.html#tracking"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-location-crosshairs text-brand-gold w-5"></i>
+                    Tracking
+                </a>
+                <a href="index.html#tentang"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-info-circle text-brand-gold w-5"></i>
+                    Tentang Kami
+                </a>
+                <a href="index.html#faq"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-question-circle text-brand-gold w-5"></i>
+                    FAQ
+                </a>
+                <a href="index.html#kontak"
+                    class="text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
+                    <i class="fa-solid fa-headset text-brand-gold w-5"></i>
+                    Kontak
+                </a>
+                <button type="button" onclick="openBookingModal()"
+                    class="mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center w-full cursor-pointer">
+                    <i class="fa-solid fa-calendar-check w-5"></i> Booking
+                    Sekarang
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="mx-auto max-w-6xl px-6 py-8 sm:px-12 sm:py-12 pt-24 sm:pt-28 grow w-full">
+
+        <!-- PROJECT TITLE -->
+        <section class="mt-8 sm:mt-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-brand-gold">
+                Restorasi Full
+            </span>
+
+            <h1 class="mt-2 text-3xl font-black uppercase sm:text-4xl text-brand-navy">
+                Restorasi RX-King 1997 Original Spec
+            </h1>
+
+            <p class="mt-3 max-w-2xl text-sm leading-6 text-steel">
+                Restorasi total Yamaha RX-King keluaran tahun 1997 dengan standar kelengkapan parts original YMH Japan.
+            </p>
+        </section>
+
+        <!-- MAIN IMAGE & GALLERY THUMBNAILS -->
+        <section class="mt-10">
+            <!-- Cover Image -->
+            <img id="mainImage"
+                src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"
+                alt="Restorasi RX-King 1997 Original Spec"
+                class="h-64 w-full cursor-pointer rounded-xl bg-gray-100 object-cover sm:h-[450px] shadow-lg border border-border">
+
+            <!-- Thumbnails Carousel -->
+            <div class="mt-3 flex gap-3 overflow-x-auto pb-2">
+                <button type="button" onclick="changeImage(this)"
+                    data-image="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=1200"
+                    data-alt="Restorasi RX-King Cover" class="shrink-0 focus:outline-none cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=300"
+                        alt="Thumbnail 1"
+                        class="h-16 w-20 rounded-lg object-cover sm:h-20 sm:w-28 border border-border hover:opacity-80 transition">
+                </button>
+
+                <button type="button" onclick="changeImage(this)"
+                    data-image="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1200"
+                    data-alt="Detail Sektor Mesin RX-King" class="shrink-0 focus:outline-none cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=300"
+                        alt="Thumbnail 2"
+                        class="h-16 w-20 rounded-lg object-cover sm:h-20 sm:w-28 border border-border hover:opacity-80 transition"
+                        loading="lazy">
+                </button>
+
+                <button type="button" onclick="changeImage(this)"
+                    data-image="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=1200"
+                    data-alt="Finishing Bodi RX-King" class="shrink-0 focus:outline-none cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80&w=300"
+                        alt="Thumbnail 3"
+                        class="h-16 w-20 rounded-lg object-cover sm:h-20 sm:w-28 border border-border hover:opacity-80 transition"
+                        loading="lazy">
+                </button>
+            </div>
+        </section>
+
+        <!-- BEFORE & AFTER SECTION -->
+        <section class="mt-12">
+            <h2 class="text-xl font-black uppercase text-brand-navy">
+                Before <span class="text-brand-gold">&</span> After
+            </h2>
+
+            <p class="mt-2 text-sm text-steel">
+                Dokumentasi kondisi kendaraan sebelum dan sesudah pengerjaan.
+            </p>
+
+            <div class="mt-5 grid gap-6 sm:grid-cols-2">
+                <!-- BEFORE -->
+                <div>
+                    <div class="relative overflow-hidden rounded-xl bg-gray-100 border border-border">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800"
+                            alt="Kondisi sebelum pengerjaan" class="h-56 w-full object-cover sm:h-72" loading="lazy">
+                        <span
+                            class="absolute left-3 top-3 rounded bg-navy px-3 py-1.5 text-xs font-bold uppercase text-white shadow-md">
+                            Before
+                        </span>
+                    </div>
+
+                    <p class="mt-2 text-sm font-bold text-brand-navy">
+                        Sebelum Pengerjaan
+                    </p>
+
+                    <p class="mt-1 text-sm text-steel">
+                        Kondisi awal bodi kusam, rangka berkarat, serta blok mesin terurai.
+                    </p>
+                </div>
+
+                <!-- AFTER -->
+                <div>
+                    <div class="relative overflow-hidden rounded-xl bg-gray-100 border border-border">
+                        <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80&w=800"
+                            alt="Kondisi setelah pengerjaan" class="h-56 w-full object-cover sm:h-72" loading="lazy">
+                        <span
+                            class="absolute left-3 top-3 rounded bg-brand-gold px-3 py-1.5 text-xs font-bold uppercase text-white shadow-md">
+                            After
+                        </span>
+                    </div>
+
+                    <p class="mt-2 text-sm font-bold text-brand-navy">
+                        Setelah Pengerjaan
+                    </p>
+
+                    <p class="mt-1 text-sm text-steel">
+                        Finishing cat wet-look, komponen crome diperbarui, mesin kembali presisi.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECT DESCRIPTION -->
+        <section class="mt-12 border-t border-border pt-8">
+            <h2 class="text-xl font-black uppercase text-brand-navy">
+                Tentang Proyek
+            </h2>
+
+            <p class="mt-4 max-w-3xl whitespace-pre-line text-sm leading-7 text-steel">
+                Proyek ini berfokus pada restorasi menyeluruh unit Yamaha RX-King tahun 1997. Seluruh bagian rangka
+                dilepas total, dilakukan sanblasting dan powder coating ulang.
+
+                Bagian mesin mendapatkan kalibrasi penuh pada kruk as, pemasangan boring original YP-1 OS 0, serta
+                peremajaan sistem pengapian. Hasil akhir menghadirkan performa mesin yang halus bertenaga dengan
+                tampilan estetis khas era 90-an yang autentik.
+            </p>
+        </section>
+
+        <!-- PROJECT INFORMATION GRID -->
+        <section class="mt-8 rounded-xl bg-white border border-border p-6 shadow-sm">
+            <h2 class="text-lg font-black uppercase text-brand-navy">
+                Informasi Proyek
+            </h2>
+
+            <div class="mt-4 grid grid-cols-2 gap-5 sm:grid-cols-3">
+                <div>
+                    <p class="text-xs uppercase font-bold text-steel">
+                        Kategori
+                    </p>
+                    <p class="mt-1 text-sm font-bold text-brand-navy">
+                        Restorasi Full
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase font-bold text-steel">
+                        Kendaraan
+                    </p>
+                    <p class="mt-1 text-sm font-bold text-brand-navy">
+                        Yamaha RX-King
+                    </p>
+                </div>
+
+                <div>
+                    <p class="text-xs uppercase font-bold text-steel">
+                        Tanggal Selesai
+                    </p>
+                    <p class="mt-1 text-sm font-bold text-brand-navy">
+                        15 Jan 2026
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= IMAGE PREVIEW LIGHTBOX ================= -->
+    <div id="imagePreview"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 p-5 backdrop-blur-sm" role="dialog"
+        aria-modal="true" aria-label="Pratinjau gambar" onclick="closePreview()">
+        <button type="button"
+            class="absolute right-5 top-5 text-4xl text-white hover:text-brand-gold transition cursor-pointer"
+            aria-label="Tutup gambar">
+            &times;
+        </button>
+
+        <img id="previewImage" src="" alt="Pratinjau foto proyek"
+            class="max-h-[85vh] max-w-full rounded-lg object-contain" onclick="event.stopPropagation()">
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-brand-navy text-white pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <div class="md:col-span-2">
+                    <span class="text-2xl font-black italic">Nirwana<span class="text-brand-gold">Garage</span></span>
+                    <p class="mt-4 text-brand-silver text-sm max-w-sm">
+                        Bengkel spesialis restorasi, repaint, dan peningkatan performa sepeda motor dengan standar
+                        presisi tinggi.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-brand-gold mb-4">Navigasi</h4>
+                    <ul class="space-y-2 text-sm text-brand-silver">
+                        <li><a href="index.html#home" class="hover:text-white transition">Home</a></li>
+                        <li><a href="index.html#layanan" class="hover:text-white transition">Layanan</a></li>
+                        <li><a href="projects.html" class="hover:text-white transition">Galeri Proyek</a></li>
+                        <li><a href="index.html#tracking" class="hover:text-white transition">Tracking Progres</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold uppercase tracking-wider text-brand-gold mb-4">Workshop</h4>
+                    <p class="text-sm text-brand-silver leading-relaxed">
+                        Jl. Raya Workshop Nirwana No. 88<br>
+                        Banten, Indonesia<br>
+                        <span class="text-white font-bold">WA: 0857-1767-6292</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-6 text-center text-xs text-brand-silver">
+                &copy; 2026 Nirwana Garage. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= BOOKING MODAL ================= -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4"
+        onclick="closeBookingModal(event)">
+        <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl" onclick="event.stopPropagation()">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    Mulai Booking Servis
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Pilih cara yang paling nyaman untuk melanjutkan booking servis kendaraanmu.
+                </p>
+            </div>
+
+            <div class="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                <h3 class="font-bold text-gray-900">Daftar atau Login</h3>
+                <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                    Dengan akun Nirwana Garage, kamu bisa menyimpan data kendaraan, melihat riwayat servis, dan
+                    mengelola booking.
+                </p>
+                <a href="login.html"
+                    class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90">
+                    Daftar / Login
+                </a>
+            </div>
+
+            <div class="my-5 flex items-center gap-3">
+                <div class="h-px flex-1 bg-gray-200"></div>
+                <span class="text-xs font-medium text-gray-400">ATAU</span>
+                <div class="h-px flex-1 bg-gray-200"></div>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-gray-900">Lanjutkan sebagai Guest</h3>
+                <p class="mt-2 text-sm leading-relaxed text-gray-600">
+                    Tidak perlu membuat akun. Kamu bisa langsung booking sebagai tamu.
+                </p>
+                <a href="index.html#booking" onclick="closeBookingModal()"
+                    class="mt-4 block w-full rounded-xl border border-gray-300 px-4 py-3 text-center text-sm font-bold text-gray-700 transition hover:bg-gray-50">
+                    Booking Tanpa Login
+                </a>
+            </div>
+
+        <div class="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-5">
+            <div class="text-[10px] font-bold text-brand-silver uppercase tracking-[0.15em] text-center sm:text-left">
+                &copy; 2026 Nirwana Garage. <span class="text-white/20 ml-1">Crafted for Excellence.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT CONTROLLERS ================= -->
+    <script>
+        // Switch main image when thumbnail clicked
+        function changeImage(button) {
+            const mainImage = document.getElementById("mainImage");
+            if (!mainImage) return;
+
+            mainImage.src = button.dataset.image;
+            mainImage.alt = button.dataset.alt;
+        }
+
+        // Lightbox Modal Controls
+        const mainImage = document.getElementById("mainImage");
+        const imagePreview = document.getElementById("imagePreview");
+        const previewImage = document.getElementById("previewImage");
+
+        if (mainImage) {
+            mainImage.addEventListener("click", function () {
+                previewImage.src = this.src;
+                previewImage.alt = this.alt;
+
+                imagePreview.classList.remove("hidden");
+                imagePreview.classList.add("flex");
+            });
+        }
+
+        function closePreview() {
+            if (imagePreview) {
+                imagePreview.classList.add("hidden");
+                imagePreview.classList.remove("flex");
+            }
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                closePreview();
+                closeBookingModal();
+            }
+        });
+
+        // Booking Modal Controller
+        function openBookingModal() {
+            const modal = document.getElementById("bookingModal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function closeBookingModal(event) {
+            if (
+                !event ||
+                event.target.id === "bookingModal" ||
+                event.type === "click"
+            ) {
+                const modal = document.getElementById("bookingModal");
+                if (modal) {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }
+            }
+        }
+
+        // Mobile Menu Controller
+        const menuBtn = document.getElementById("menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        let menuOpen = false;
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener("click", () => {
+                menuOpen = !menuOpen;
+                mobileMenu.classList.toggle("hidden", !menuOpen);
+                mobileMenu.classList.toggle("open", menuOpen);
+            });
+
+            mobileMenu.querySelectorAll("a, button").forEach((link) => {
+                link.addEventListener("click", () => {
+                    menuOpen = false;
+                    mobileMenu.classList.add("hidden");
+                    mobileMenu.classList.remove("open");
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

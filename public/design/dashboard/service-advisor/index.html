@@ -1,0 +1,3083 @@
+<!doctype html>
+<html lang="id" class="h-full bg-ui-main">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nirwana Garage | Dashboard</title>
+
+    <!-- Tailwind Play CDN & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: [
+                            "Instrument Sans",
+                            "ui-sans-serif",
+                            "system-ui",
+                            "sans-serif",
+                        ],
+                    },
+                    colors: {
+                        brand: {
+                            navy: "#1b263b",
+                            gold: "#c58e4b",
+                            silver: "#bdc3c7",
+                            steel: "#5d7b93",
+                        },
+                        ui: {
+                            main: "#f8f9fa",
+                            card: "#ffffff",
+                            text: "#2d3436",
+                            border: "#e2e8f0",
+                        },
+                    },
+                    zIndex: {
+                        100: "100",
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body
+    class="font-sans antialiased min-h-screen bg-ui-main text-ui-text flex flex-col md:flex-row relative overflow-x-hidden">
+    <!-- ================= SIDEBAR ================= -->
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 bg-brand-navy text-white shrink-0 no-print flex flex-col justify-between h-screen overflow-y-auto transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
+        <div>
+            <!-- Brand Header -->
+            <div
+                class="h-16 flex items-center justify-between px-6 bg-brand-navy border-b border-slate-700/50 sticky top-0 z-10">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-xs">
+                        NG
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base leading-none text-white">
+                            NIRWANA GARAGE
+                        </h1>
+                    </div>
+                </div>
+                <!-- Close Button Mobile -->
+                <button id="close-sidebar-btn" type="button"
+                    class="md:hidden text-brand-silver hover:text-white p-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1">
+                <div class="px-3 py-2 text-xs font-semibold text-brand-silver uppercase tracking-wider">
+                    Main Menu
+                </div>
+
+                <!-- Dashboard -->
+                <button onclick="switchTab('dashboard')" id="nav-dashboard"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
+                    <span class="truncate">Dashboard</span>
+                </button>
+
+                <!-- Booking -->
+                <button onclick="switchTab('bookings')" id="nav-bookings"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="truncate">Booking</span>
+                </button>
+
+                <!-- Work Order -->
+                <button onclick="switchTab('work-orders')" id="nav-work-orders"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="truncate">Work order</span>
+                </button>
+
+                <!-- Hasil Inspeksi -->
+                <button onclick="switchTab('inspections')" id="nav-inspections"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <span class="truncate">Hasil Inspeksi</span>
+                </button>
+
+                <!-- Monitoring -->
+                <button onclick="switchTab('monitoring')" id="nav-monitoring"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <i data-lucide="eye" class="w-5 h-5"></i>
+                    <span class="truncate">Monitoring</span>
+                </button>
+
+                <!-- Pelanggan -->
+                <button onclick="switchTab('customers')" id="nav-customers"
+                    class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="truncate">Pelanggan</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- User Profile Bottom -->
+        <div class="p-4 border-t border-slate-700/50 bg-brand-navy sticky bottom-0 z-10">
+            <!-- Profile Dropdown Card -->
+            <div id="profile-card"
+                class="hidden absolute bottom-full left-4 right-4 mb-4 bg-slate-800 rounded-xl p-4 shadow-xl border border-slate-700 transition-all duration-200 z-50">
+                <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
+                    <div
+                        class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-sm shrink-0">
+                        RA
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-sm font-bold text-white truncate">
+                            Rian Advisor
+                        </div>
+                        <div class="text-xs text-brand-silver truncate">
+                            advisor@nirwanagarage.com
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <button type="button" id="logout-button"
+                        class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-slate-700/50 transition-colors font-medium">
+                        <i data-lucide="log-out" class="w-4 h-4 shrink-0"></i>
+                        <span>Keluar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Button Trigger -->
+            <div id="profile-trigger"
+                class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none">
+                <div
+                    class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
+                    RA
+                </div>
+                <div class="min-w-0 flex-1">
+                    <div class="text-sm font-medium text-white truncate">
+                        Rian Advisor
+                    </div>
+                    <div class="text-xs text-brand-silver truncate">
+                        advisor@nirwanagarage.com
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN CONTENT WRAPPER ================= -->
+    <div class="flex-1 md:pl-64 flex flex-col min-w-0 min-h-screen transition-all duration-300">
+        <!-- Header -->
+        <header
+            class="h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-6 flex items-center justify-between sticky top-0 z-25">
+            <div class="flex items-center gap-3.5">
+                <button id="open-sidebar-btn" type="button"
+                    class="md:hidden p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl flex items-center justify-center transition-colors focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <div class="flex items-center gap-2">
+                    <h1 id="page-title" class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-none">
+                        Dashboard
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8">
+            <!-- TAB 1: DASHBOARD -->
+            <section id="tab-dashboard" class="tab-content space-y-6">
+                <!-- HEADER WELCOME -->
+                <div>
+                    <p class="text-sm text-brand-steel">
+                        Berikut adalah ringkasan aktivitas operasional
+                        bengkel hari ini.
+                    </p>
+                </div>
+
+                <!-- FLASH MESSAGE -->
+                <!-- <div id="flash-message" class="flex items-center gap-3 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white shadow-lg">
+                    <span>Data operasional bengkel berhasil dimuat.</span>
+                    <button type="button" onclick="document.getElementById('flash-message').remove()" class="ml-auto text-lg leading-none text-white/80 hover:text-white">&times;</button>
+                </div> -->
+
+                <!-- STATS CARDS -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div
+                        class="bg-ui-card p-4 rounded-lg border border-ui-border shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-brand-steel uppercase tracking-wider">
+                                Booking Hari Ini
+                            </p>
+                            <p class="text-2xl font-bold text-brand-navy mt-1">
+                                6
+                            </p>
+                        </div>
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-ui-card p-4 rounded-lg border border-ui-border shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-brand-steel uppercase tracking-wider">
+                                Menunggu Konfirmasi
+                            </p>
+                            <p class="text-2xl font-bold text-brand-navy mt-1">
+                                2
+                            </p>
+                        </div>
+                        <div class="p-3 bg-amber-50 text-amber-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-ui-card p-4 rounded-lg border border-ui-border shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-brand-steel uppercase tracking-wider">
+                                Servis Berjalan
+                            </p>
+                            <p class="text-2xl font-bold text-brand-navy mt-1">
+                                3
+                            </p>
+                        </div>
+                        <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-ui-card p-4 rounded-lg border border-ui-border shadow-sm flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-brand-steel uppercase tracking-wider">
+                                Work Order Aktif
+                            </p>
+                            <p class="text-2xl font-bold text-brand-navy mt-1">
+                                3
+                            </p>
+                        </div>
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE: BOOKING HARI INI -->
+                <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-ui-border flex items-center justify-between">
+                        <h3 class="font-bold text-brand-navy">
+                            Booking Hari Ini
+                        </h3>
+                        <button onclick="switchTab('bookings')"
+                            class="text-xs text-brand-navy hover:underline font-semibold cursor-pointer">
+                            Lihat Semua ->
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead
+                                class="bg-ui-main text-xs uppercase text-brand-steel font-semibold border-b border-ui-border">
+                                <tr>
+                                    <th class="px-4 py-3">Kode Booking</th>
+                                    <th class="px-4 py-3">Pelanggan</th>
+                                    <th class="px-4 py-3">Kendaraan</th>
+                                    <th class="px-4 py-3">Jenis Servis</th>
+                                    <th class="px-4 py-3">Jam</th>
+                                    <th class="px-4 py-3">Status</th>
+                                    <th class="px-4 py-3 text-right">
+                                        Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-ui-border">
+                                <!-- Row 1 -->
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="px-4 py-3 font-medium text-brand-navy">
+                                        BKG-20261014-001
+                                    </td>
+                                    <td class="px-4 py-3">Budi Santoso</td>
+                                    <td class="px-4 py-3">
+                                        B 4567 XYZ - Honda CBR 250R
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        Servis Berkala
+                                    </td>
+                                    <td class="px-4 py-3">09:00</td>
+                                    <td class="px-4 py-3">
+                                        <span
+                                            class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200">Terkonfirmasi</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right space-x-2">
+                                        <button type="button" onclick="
+                                                    openBookingDetail({
+                                                        code: 'BKG-20261014-001',
+                                                        status: 'Terkonfirmasi',
+                                                        customer:
+                                                            'Budi Santoso',
+                                                        phone: '081234567890',
+                                                        vehicle:
+                                                            'B 4567 XYZ - Honda CBR 250R',
+                                                        service:
+                                                            'Servis Berkala',
+                                                        datetime:
+                                                            '14 Okt 2026 09:00',
+                                                        complaint:
+                                                            'Mesin agak bergetar di RPM tinggi dan tarikan berat.',
+                                                    })
+                                                " class="text-xs font-semibold text-brand-navy hover:text-brand-gold">
+                                            Detail
+                                        </button>
+                                        <button type="button" onclick="openMechanicModal()"
+                                            class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-navy text-white hover:opacity-90">
+                                            Terima Kendaraan
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 2 -->
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="px-4 py-3 font-medium text-brand-navy">
+                                        BKG-20261014-002
+                                    </td>
+                                    <td class="px-4 py-3">Siti Aminah</td>
+                                    <td class="px-4 py-3">
+                                        D 1234 ABC - Yamaha NMAX 155
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        Ganti Oli & Kampas Rem
+                                    </td>
+                                    <td class="px-4 py-3">10:30</td>
+                                    <td class="px-4 py-3">
+                                        <span
+                                            class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold border bg-amber-50 text-amber-700 border-amber-200">Menunggu
+                                            Konfirmasi</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button type="button" onclick="
+                                                    openBookingDetail({
+                                                        code: 'BKG-20261014-002',
+                                                        status: 'Menunggu Konfirmasi',
+                                                        customer: 'Siti Aminah',
+                                                        phone: '089876543210',
+                                                        vehicle:
+                                                            'D 1234 ABC - Yamaha NMAX 155',
+                                                        service:
+                                                            'Ganti Oli & Kampas Rem',
+                                                        datetime:
+                                                            '14 Okt 2026 10:30',
+                                                        complaint:
+                                                            'Rem belakang bersuara berdecit saat ditekan.',
+                                                    })
+                                                " class="text-xs font-semibold text-brand-navy hover:text-brand-gold">
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Row 3 -->
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="px-4 py-3 font-medium text-brand-navy">
+                                        BKG-20261014-003
+                                    </td>
+                                    <td class="px-4 py-3">Joko Widodo</td>
+                                    <td class="px-4 py-3">
+                                        F 8899 WW - Kawasaki Ninja 250
+                                    </td>
+                                    <td class="px-4 py-3">Tune Up Total</td>
+                                    <td class="px-4 py-3">13:00</td>
+                                    <td class="px-4 py-3">
+                                        <span
+                                            class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold border bg-purple-50 text-purple-700 border-purple-200">Sedang
+                                            Diproses</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button type="button" onclick="
+                                                    openBookingDetail({
+                                                        code: 'BKG-20261014-003',
+                                                        status: 'Sedang Diproses',
+                                                        customer: 'Joko Widodo',
+                                                        phone: '081122334455',
+                                                        vehicle:
+                                                            'F 8899 WW - Kawasaki Ninja 250',
+                                                        service:
+                                                            'Tune Up Total',
+                                                        datetime:
+                                                            '14 Okt 2026 13:00',
+                                                        complaint:
+                                                            'Servis rutin 10.000 KM.',
+                                                    })
+                                                " class="text-xs font-semibold text-brand-navy hover:text-brand-gold">
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SECTION: SERVIS SEDANG BERJALAN -->
+                <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-brand-navy">
+                            Servis Sedang Berjalan
+                        </h3>
+                        <button onclick="switchTab('monitoring')"
+                            class="text-xs text-brand-navy hover:underline font-semibold">
+                            Monitoring Detail ->
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Card 1 -->
+                        <div
+                            class="p-4 rounded-lg border border-ui-border bg-white flex flex-col justify-between space-y-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-xs font-semibold text-brand-steel">WO-20261014-001</span>
+                                    <h4 class="font-bold text-brand-navy">
+                                        Honda CBR 250R
+                                    </h4>
+                                    <p class="text-xs text-brand-steel">
+                                        Mekanik: Slamet Riyadi
+                                    </p>
+                                </div>
+                                <span
+                                    class="px-2.5 py-1 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700">IN_PROGRESS</span>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-medium text-brand-steel mb-1">
+                                    <span>Progres</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                                        style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div
+                            class="p-4 rounded-lg border border-ui-border bg-white flex flex-col justify-between space-y-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-xs font-semibold text-brand-steel">WO-20261014-002</span>
+                                    <h4 class="font-bold text-brand-navy">
+                                        Kawasaki Ninja 250
+                                    </h4>
+                                    <p class="text-xs text-brand-steel">
+                                        Mekanik: Budi Santoso
+                                    </p>
+                                </div>
+                                <span
+                                    class="px-2.5 py-1 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700">IN_PROGRESS</span>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-medium text-brand-steel mb-1">
+                                    <span>Progres</span>
+                                    <span>40%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                                        style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: BOOKINGS -->
+            <section id="tab-bookings" class="tab-content hidden space-y-4">
+                <!-- Filter Bar -->
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-ui-card p-4 rounded-lg border border-ui-border shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto flex-1">
+                        <input type="text" id="booking-search" placeholder="Cari Kode, Nama, Plat..."
+                            oninput="filterBookings()"
+                            class="border border-ui-border rounded-md px-3 py-1.5 text-sm w-full sm:w-64 focus:outline-none focus:border-brand-navy" />
+
+                        <select id="booking-filter-status" onchange="filterBookings()"
+                            class="border border-ui-border rounded-md px-3 py-1.5 text-sm bg-white focus:outline-none focus:border-brand-navy">
+                            <option value="">Semua Status</option>
+                            <option value="PENDING">Menunggu</option>
+                            <option value="CONFIRMED">Dikonfirmasi</option>
+                            <option value="IN_PROGRESS">Diproses</option>
+                            <option value="COMPLETED">Selesai</option>
+                            <option value="REJECTED">Ditolak</option>
+                            <option value="CANCELLED">Dibatalkan</option>
+                        </select>
+
+                        <input type="date" id="booking-filter-date" onchange="filterBookings()"
+                            class="border border-ui-border rounded-md px-3 py-1.5 text-sm bg-white focus:outline-none focus:border-brand-navy" />
+                    </div>
+                </div>
+
+                <!-- Booking Table -->
+                <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead
+                                class="bg-ui-main text-xs uppercase text-brand-steel font-semibold border-b border-ui-border">
+                                <tr>
+                                    <th class="px-4 py-3">Kode Booking</th>
+                                    <th class="px-4 py-3">Pelanggan</th>
+                                    <th class="px-4 py-3">Kendaraan</th>
+                                    <th class="px-4 py-3">Jenis Servis</th>
+                                    <th class="px-4 py-3">Tanggal</th>
+                                    <th class="px-4 py-3">Waktu</th>
+                                    <th class="px-4 py-3">Status</th>
+                                    <th class="px-4 py-3 text-right">
+                                        Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="booking-table-body" class="divide-y divide-ui-border">
+                                <!-- Populated dynamically by script -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: WORK ORDERS -->
+            <section id="tab-work-orders" class="tab-content hidden space-y-8">
+                <div>
+                    <p class="text-sm text-brand-steel">
+                        Kelola Work Order berdasarkan hasil inspeksi dan
+                        keputusan pelanggan.
+                    </p>
+                </div>
+
+                <!-- ================= MENUNGGU DIBUAT ================= -->
+                <div class="space-y-4">
+                    <!-- Section Header -->
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border border-ui-border bg-ui-card px-5 py-4 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                                <i data-lucide="clipboard-check" class="h-5 w-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-base font-semibold text-ui-text">
+                                        Menunggu Dibuat
+                                    </h2>
+                                    <span id="ready-count-badge"
+                                        class="inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700">2</span>
+                                </div>
+                                <p class="mt-0.5 text-xs text-brand-steel">
+                                    Inspeksi yang siap dibuat menjadi Work
+                                    Order.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hidden sm:flex items-center gap-2 text-xs text-brand-steel">
+                            <i data-lucide="clock-3" class="h-4 w-4"></i>
+                            <span>2 inspeksi menunggu</span>
+                        </div>
+                    </div>
+
+                    <!-- Ready Inspections List (Dummy Items) -->
+                    <div class="bg-ui-card rounded-xl border border-ui-border shadow-sm">
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4 border-b border-ui-border">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm font-semibold text-ui-text">BKG-20261014-001</span>
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700">Siap
+                                        Dibuat</span>
+                                </div>
+                                <p class="mt-1 text-xs text-brand-steel">
+                                    Inspeksi selesai dan keputusan pelanggan
+                                    telah lengkap.
+                                </p>
+                            </div>
+                            <button type="button" onclick="
+                                        alert('Work Order berhasil dibuat!')
+                                    "
+                                class="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-navy px-4 py-2 text-xs font-semibold text-white hover:opacity-90 transition">
+                                <i data-lucide="clipboard-plus" class="h-4 w-4"></i>
+                                Buat Work Order
+                            </button>
+                        </div>
+
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-ui-border">
+                            <div class="px-5 py-4">
+                                <p class="text-[11px] font-medium uppercase tracking-wide text-brand-steel">
+                                    Pelanggan
+                                </p>
+                                <div class="mt-2 flex items-center gap-3">
+                                    <div
+                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-brand-steel">
+                                        <i data-lucide="user-round" class="h-4 w-4"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="truncate text-sm font-semibold text-ui-text">
+                                            Budi Santoso
+                                        </p>
+                                        <p class="text-xs text-brand-steel">
+                                            Pelanggan
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="px-5 py-4">
+                                <p class="text-[11px] font-medium uppercase tracking-wide text-brand-steel">
+                                    Kendaraan
+                                </p>
+                                <div class="mt-2 flex items-center gap-3">
+                                    <div
+                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-brand-steel">
+                                        <i data-lucide="bike" class="h-4 w-4"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="truncate text-sm font-semibold text-ui-text">
+                                            B 4567 XYZ
+                                        </p>
+                                        <p class="text-xs text-brand-steel">
+                                            Kendaraan
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="px-5 py-4">
+                                <p class="text-[11px] font-medium uppercase tracking-wide text-brand-steel">
+                                    Mekanik Inspeksi
+                                </p>
+                                <div class="mt-2 flex items-center gap-3">
+                                    <div
+                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-brand-steel">
+                                        <i data-lucide="wrench" class="h-4 w-4"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="truncate text-sm font-semibold text-ui-text">
+                                            Slamet Riyadi
+                                        </p>
+                                        <p class="text-xs text-brand-steel">
+                                            Mekanik
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= WORK ORDER AKTIF ================= -->
+                <div class="space-y-4">
+                    <!-- Section Header -->
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border border-ui-border bg-ui-card px-5 py-4 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-navy/10 text-brand-navy">
+                                <i data-lucide="clipboard-list" class="h-5 w-5"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-base font-semibold text-ui-text">
+                                        Work Order
+                                    </h2>
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-brand-steel">2</span>
+                                </div>
+                                <p class="mt-0.5 text-xs text-brand-steel">
+                                    Work Order yang sudah dibuat dan sedang
+                                    diproses.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="hidden sm:flex items-center gap-2 text-xs text-brand-steel">
+                            <i data-lucide="files" class="h-4 w-4"></i>
+                            <span>2 Work Order</span>
+                        </div>
+                    </div>
+
+                    <!-- Work Orders Card Item -->
+                    <div class="bg-ui-card rounded-xl border border-ui-border shadow-sm hover:shadow-md transition">
+                        <div class="px-5 py-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h3 class="text-sm font-semibold text-ui-text">
+                                            WO-20261014-001
+                                        </h3>
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">Sedang
+                                            Dikerjakan</span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Booking BKG-20261014-001
+                                    </p>
+                                </div>
+
+                                <button type="button" onclick="
+                                            openWorkOrderDetail('wo-modal-1')
+                                        "
+                                    class="inline-flex items-center justify-center gap-2 rounded-lg border border-ui-border px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-50 transition">
+                                    <i data-lucide="arrow-up-right" class="h-4 w-4"></i>
+                                    Lihat Detail
+                                </button>
+                            </div>
+
+                            <div class="my-4 border-t border-ui-border"></div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <p class="text-[11px] uppercase tracking-wide text-brand-steel">
+                                        Pelanggan
+                                    </p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">
+                                        Budi Santoso
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] uppercase tracking-wide text-brand-steel">
+                                        Kendaraan
+                                    </p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">
+                                        B 4567 XYZ
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] uppercase tracking-wide text-brand-steel">
+                                        Mekanik
+                                    </p>
+                                    <p class="mt-1 text-sm font-medium text-ui-text">
+                                        Slamet Riyadi
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <p class="text-[11px] uppercase tracking-wide text-brand-steel">
+                                    Pekerjaan
+                                </p>
+                                <div class="mt-2 flex flex-wrap gap-2">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-2.5 py-1.5 text-xs text-gray-700">
+                                        <i data-lucide="wrench" class="h-3.5 w-3.5"></i>
+                                        Ganti Oli Mesin
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 rounded-md bg-gray-100 px-2.5 py-1.5 text-xs text-gray-700">
+                                        <i data-lucide="wrench" class="h-3.5 w-3.5"></i>
+                                        Setel Rantai & Rem
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ================= WORK ORDER DETAIL MODAL ================= -->
+                <div id="wo-modal-1"
+                    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                    <div
+                        class="relative w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-xl bg-ui-card shadow-xl flex flex-col">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between border-b border-ui-border px-5 py-4 bg-ui-main">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-base font-semibold text-ui-text">
+                                        WO-20261014-001
+                                    </h2>
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">Sedang
+                                        Dikerjakan</span>
+                                </div>
+                                <p class="mt-1 text-xs text-brand-steel">
+                                    Booking BKG-20261014-001
+                                </p>
+                            </div>
+                            <button type="button" onclick="closeWorkOrderDetail('wo-modal-1')"
+                                class="flex h-8 w-8 items-center justify-center rounded-lg text-brand-steel hover:bg-gray-100 hover:text-ui-text transition">
+                                <i data-lucide="x" class="h-5 w-5"></i>
+                            </button>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="max-h-[calc(90vh-130px)] overflow-y-auto px-5 py-5 space-y-5">
+                            <div>
+                                <h3 class="text-xs font-semibold uppercase tracking-wide text-brand-steel">
+                                    Informasi Work Order
+                                </h3>
+                                <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div class="rounded-lg border border-ui-border bg-gray-50 px-4 py-3">
+                                        <p class="text-[11px] text-brand-steel">
+                                            Pelanggan
+                                        </p>
+                                        <p class="mt-1 text-sm font-semibold text-ui-text">
+                                            Budi Santoso
+                                        </p>
+                                    </div>
+                                    <div class="rounded-lg border border-ui-border bg-gray-50 px-4 py-3">
+                                        <p class="text-[11px] text-brand-steel">
+                                            Kendaraan
+                                        </p>
+                                        <p class="mt-1 text-sm font-semibold text-ui-text">
+                                            B 4567 XYZ - Honda CBR 250R
+                                        </p>
+                                    </div>
+                                    <div class="rounded-lg border border-ui-border bg-gray-50 px-4 py-3">
+                                        <p class="text-[11px] text-brand-steel">
+                                            Mekanik
+                                        </p>
+                                        <p class="mt-1 text-sm font-semibold text-ui-text">
+                                            Slamet Riyadi
+                                        </p>
+                                    </div>
+                                    <div class="rounded-lg border border-ui-border bg-gray-50 px-4 py-3">
+                                        <p class="text-[11px] text-brand-steel">
+                                            Kendaraan Diterima
+                                        </p>
+                                        <p class="mt-1 text-sm font-semibold text-ui-text">
+                                            14 Okt 2026, 09:15
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-ui-border pt-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="text-xs font-semibold uppercase tracking-wide text-brand-steel">
+                                        Daftar Pekerjaan
+                                    </h3>
+                                    <span class="text-xs font-medium text-brand-steel">2 pekerjaan</span>
+                                </div>
+                                <div class="space-y-2">
+                                    <div
+                                        class="flex items-start gap-3 rounded-lg border border-ui-border bg-gray-50 px-4 py-3">
+                                        <div
+                                            class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-navy/10 text-brand-navy">
+                                            <i data-lucide="wrench" class="h-4 w-4"></i>
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-sm font-semibold text-ui-text">
+                                                Ganti Oli Mesin
+                                            </p>
+                                            <p class="mt-1 text-xs leading-relaxed text-brand-steel">
+                                                Penggantian oli rutin
+                                                menggunakan spesifikasi SAE
+                                                10W-40.
+                                            </p>
+                                            <div class="mt-2">
+                                                <span
+                                                    class="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-700">Sedang
+                                                    Dikerjakan</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="flex justify-end border-t border-ui-border bg-gray-50 px-5 py-3">
+                            <button type="button" onclick="closeWorkOrderDetail('wo-modal-1')"
+                                class="px-4 py-2 text-sm font-semibold text-brand-navy bg-white border border-ui-border rounded-lg hover:bg-gray-100 transition">
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 4: INSPECTIONS ================= -->
+            <section id="tab-inspections" class="tab-content hidden space-y-6">
+                <!-- KONTAINER 1: DAFTAR HASIL INSPEKSI -->
+                <div id="inspection-list-view" class="space-y-6">
+                    <div class="rounded-xl border border-ui-border bg-white shadow-sm overflow-hidden">
+                        <!-- Header Card -->
+                        <div class="border-b border-ui-border px-5 py-4 bg-white">
+                            <div class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-brand-gold">
+                                        <i data-lucide="clipboard-check" class="h-5 w-5"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-base font-semibold text-ui-text">
+                                            Daftar Hasil Inspeksi
+                                        </h2>
+                                        <p class="mt-0.5 text-xs text-gray-500">
+                                            Hasil inspeksi yang telah
+                                            diselesaikan oleh mekanik.
+                                        </p>
+                                    </div>
+                                </div>
+                                <span id="inspection-count-badge"
+                                    class="rounded-full bg-brand-navy/10 px-3 py-1 text-xs font-semibold text-brand-navy">
+                                    3 Inspeksi
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="border-b border-ui-border bg-ui-main">
+                                    <tr>
+                                        <th
+                                            class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Booking
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Pelanggan
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Kendaraan
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Mekanik
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Rekomendasi Pekerjaan
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Status
+                                        </th>
+                                        <th
+                                            class="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            Aksi
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inspection-table-body" class="divide-y divide-ui-border">
+                                    <!-- Row 1 -->
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-semibold text-ui-text">
+                                                BKG-20261014-001
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-gray-500">
+                                                14 Okt 2026
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-medium text-ui-text">
+                                                Budi Santoso
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-gray-500">
+                                                081234567890
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-medium text-ui-text">
+                                                B 4567 XYZ
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-gray-500">
+                                                Honda CBR 250R
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-medium text-ui-text">
+                                                Slamet Riyadi
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 rounded-full bg-brand-navy/10 px-2.5 py-1 text-xs font-semibold text-brand-navy">
+                                                <i data-lucide="wrench" class="h-3.5 w-3.5"></i>
+                                                2 Pekerjaan
+                                            </span>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                                Selesai
+                                            </span>
+                                        </td>
+                                        <td class="px-5 py-4 text-right">
+                                            <button type="button" onclick="
+                                                        showInspectionDetail()
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg bg-brand-navy px-3 py-2 text-xs font-semibold text-white hover:opacity-90 transition">
+                                                <i data-lucide="eye" class="h-4 w-4"></i>
+                                                Lihat Hasil
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Row 2 -->
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-semibold text-ui-text">
+                                                BKG-20261014-002
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-gray-500">
+                                                14 Okt 2026
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-medium text-ui-text">
+                                                Siti Aminah
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-gray-500">
+                                                089876543210
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-medium text-ui-text">
+                                                D 1234 ABC
+                                            </p>
+                                            <p class="mt-0.5 text-xs text-gray-500">
+                                                Yamaha NMAX 155
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="text-sm font-medium text-ui-text">
+                                                Budi Santoso
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 rounded-full bg-brand-navy/10 px-2.5 py-1 text-xs font-semibold text-brand-navy">
+                                                <i data-lucide="wrench" class="h-3.5 w-3.5"></i>
+                                                1 Pekerjaan
+                                            </span>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                                Selesai
+                                            </span>
+                                        </td>
+                                        <td class="px-5 py-4 text-right">
+                                            <button type="button" onclick="
+                                                        showInspectionDetail()
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg bg-brand-navy px-3 py-2 text-xs font-semibold text-white hover:opacity-90 transition">
+                                                <i data-lucide="eye" class="h-4 w-4"></i>
+                                                Lihat Hasil
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KONTAINER 2: DETAIL HASIL INSPEKSI (Hidden by default) -->
+                <div id="inspection-detail-view" class="space-y-6 hidden">
+                    <!-- Header & Action Top Bar -->
+                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-brand-navy">
+                                Detail Hasil Inspeksi
+                            </h2>
+                            <p class="mt-0.5 text-sm text-gray-500">
+                                Hasil pemeriksaan, diagnosis, dan pekerjaan
+                                yang direkomendasikan oleh mekanik.
+                            </p>
+                        </div>
+                        <div>
+                            <button type="button" onclick="hideInspectionDetail()"
+                                class="inline-flex items-center gap-2 rounded-lg border border-ui-border bg-white px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-50 transition">
+                                <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                                Kembali ke Daftar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Inspection Status Card -->
+                    <div class="rounded-xl border border-ui-border bg-white shadow-sm">
+                        <div class="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-navy/10">
+                                    <i data-lucide="clipboard-check" class="h-5 w-5 text-brand-navy"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-ui-text">
+                                        Hasil Inspeksi Mekanik
+                                    </p>
+                                    <p class="text-xs text-gray-500">
+                                        Mekanik: Slamet Riyadi
+                                    </p>
+                                </div>
+                            </div>
+                            <span
+                                class="inline-flex w-fit items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-xs font-semibold text-green-700">
+                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                Selesai
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Booking Information -->
+                    <div class="rounded-xl border border-ui-border bg-white shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-5 py-4 bg-ui-main/50">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="calendar-check" class="h-5 w-5 text-brand-gold"></i>
+                                <h2 class="text-base font-semibold text-ui-text">
+                                    Informasi Booking
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 lg:grid-cols-4">
+                            <div>
+                                <p class="text-xs text-gray-500">
+                                    Kode Booking
+                                </p>
+                                <p class="mt-1 text-sm font-semibold text-ui-text">
+                                    BKG-20261014-001
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">
+                                    Tanggal Booking
+                                </p>
+                                <p class="mt-1 text-sm font-semibold text-ui-text">
+                                    14 Okt 2026
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">
+                                    Waktu Booking
+                                </p>
+                                <p class="mt-1 text-sm font-semibold text-ui-text">
+                                    09:00 WIB
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">
+                                    Jenis Layanan
+                                </p>
+                                <p class="mt-1 text-sm font-semibold text-ui-text">
+                                    Servis Berkala & Inspection
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer & Vehicle Information -->
+                    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        <!-- Customer Card -->
+                        <div class="rounded-xl border border-ui-border bg-white shadow-sm overflow-hidden">
+                            <div class="border-b border-ui-border px-5 py-4 bg-ui-main/50">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="user" class="h-5 w-5 text-brand-gold"></i>
+                                    <h2 class="text-base font-semibold text-ui-text">
+                                        Pelanggan
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="space-y-4 p-5">
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        Nama
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-ui-text">
+                                        Budi Santoso
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        Nomor Telepon
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-ui-text">
+                                        081234567890
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Card -->
+                        <div class="rounded-xl border border-ui-border bg-white shadow-sm overflow-hidden">
+                            <div class="border-b border-ui-border px-5 py-4 bg-ui-main/50">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="bike" class="h-5 w-5 text-brand-gold"></i>
+                                    <h2 class="text-base font-semibold text-ui-text">
+                                        Kendaraan
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 p-5">
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        Nomor Polisi
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-ui-text">
+                                        B 4567 XYZ
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        Merek
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-ui-text">
+                                        Honda
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        Model
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-ui-text">
+                                        CBR 250R
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        Tahun
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-ui-text">
+                                        2021
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inspection Result Detail -->
+                    <div class="rounded-xl border border-ui-border bg-white shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-5 py-4 bg-ui-main/50">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="clipboard-list" class="h-5 w-5 text-brand-gold"></i>
+                                <div>
+                                    <h2 class="text-base font-semibold text-ui-text">
+                                        Hasil Inspeksi
+                                    </h2>
+                                    <p class="mt-0.5 text-xs text-gray-500">
+                                        Hasil pemeriksaan dan diagnosis yang
+                                        dikirim oleh mekanik.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-6 p-5">
+                            <div>
+                                <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                    Hasil Pemeriksaan
+                                </p>
+                                <div class="rounded-lg bg-ui-main p-4">
+                                    <p class="whitespace-pre-line text-sm leading-6 text-ui-text">
+                                        1. Kekentalan oli mesin sudah
+                                        menurun & berwarna sangat gelap. 2.
+                                        Filter udara kotor berdebu. 3.
+                                        Kampas rem belakang sisa 15%
+                                        (tipis). 4. Tegangan rantai kendur.
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                    Diagnosis
+                                </p>
+                                <div class="rounded-lg bg-ui-main p-4">
+                                    <p class="whitespace-pre-line text-sm leading-6 text-ui-text">
+                                        Performa mesin menurun akibat
+                                        sirkulasi udara terhambat dan
+                                        kualitas pelumas memburuk.
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                    Rekomendasi Mekanik
+                                </p>
+                                <div class="rounded-lg border border-brand-gold/30 bg-brand-gold/5 p-4">
+                                    <div class="flex gap-3">
+                                        <i data-lucide="lightbulb" class="mt-0.5 h-5 w-5 shrink-0 text-brand-gold"></i>
+                                        <p class="whitespace-pre-line text-sm leading-6 text-ui-text">
+                                            Disarankan untuk mengganti oli
+                                            mesin SAE 10W-40 dan kampas rem
+                                            belakang.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Works -->
+                    <div class="rounded-xl border border-ui-border bg-white shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-5 py-4 bg-ui-main/50">
+                            <div class="flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-gold/10">
+                                        <i data-lucide="wrench" class="h-5 w-5 text-brand-gold"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-base font-semibold text-ui-text">
+                                            Pekerjaan yang Direkomendasikan
+                                        </h2>
+                                        <p class="mt-0.5 text-xs text-gray-500">
+                                            Konfirmasi pekerjaan berdasarkan
+                                            persetujuan pelanggan.
+                                        </p>
+                                    </div>
+                                </div>
+                                <span
+                                    class="rounded-full bg-brand-navy/10 px-3 py-1 text-xs font-semibold text-brand-navy">2
+                                    Pekerjaan</span>
+                            </div>
+                        </div>
+                        <div class="divide-y divide-ui-border">
+                            <div class="p-5">
+                                <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                                    <div class="flex gap-3">
+                                        <div
+                                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-navy text-xs font-bold text-white">
+                                            1
+                                        </div>
+                                        <div>
+                                            <h3 class="text-sm font-semibold text-ui-text">
+                                                Ganti Oli Mesin SAE 10W-40 &
+                                                Filter
+                                            </h3>
+                                            <p class="mt-1 text-sm leading-6 text-gray-500">
+                                                Penggantian pelumas standar
+                                                rekomendasi pabrikan.
+                                            </p>
+                                            <p class="mt-2 text-sm font-bold text-ui-text">
+                                                Rp 125.000
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-2 lg:items-end" id="approval-status-1">
+                                        <div class="flex flex-wrap gap-2">
+                                            <button type="button" onclick="
+                                                        updateWorkApproval(
+                                                            1,
+                                                            'ACCEPTED',
+                                                        )
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-xs font-semibold text-white hover:bg-green-700 transition">
+                                                <i data-lucide="circle-check" class="h-4 w-4"></i>
+                                                Disetujui
+                                            </button>
+                                            <button type="button" onclick="
+                                                        updateWorkApproval(
+                                                            1,
+                                                            'REJECTED',
+                                                        )
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 hover:bg-red-100 transition">
+                                                <i data-lucide="circle-x" class="h-4 w-4"></i>
+                                                Ditolak
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: MONITORING -->
+            <!-- ================= TAB 5: MONITORING ================= -->
+            <section id="tab-monitoring" class="tab-content hidden space-y-6">
+                <!-- View 1: Daftar Monitoring Work Order -->
+                <div id="monitoring-list-view" class="space-y-6">
+                    <div>
+                        <p class="text-sm text-brand-steel mt-1">
+                            Pantau progres pekerjaan kendaraan yang sedang
+                            ditangani mekanik secara real-time.
+                        </p>
+                    </div>
+
+                    <!-- Table Container -->
+                    <div class="bg-ui-card border border-ui-border rounded-lg shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead
+                                    class="bg-ui-main border-b border-ui-border text-xs uppercase text-brand-steel font-semibold">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left">
+                                            Work Order
+                                        </th>
+                                        <th class="px-4 py-3 text-left">
+                                            Customer
+                                        </th>
+                                        <th class="px-4 py-3 text-left">
+                                            Kendaraan
+                                        </th>
+                                        <th class="px-4 py-3 text-left">
+                                            Mekanik
+                                        </th>
+                                        <th class="px-4 py-3 text-left">
+                                            Status
+                                        </th>
+                                        <th class="px-4 py-3 text-right">
+                                            Aksi
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="monitoring-table-body" class="divide-y divide-ui-border">
+                                    <!-- Row 1 -->
+                                    <tr class="hover:bg-gray-50/50 transition">
+                                        <td class="px-4 py-3 font-semibold text-brand-navy">
+                                            WO-20261014-001
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Budi Santoso
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            B 4567 XYZ - Honda CBR 250R
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Slamet Riyadi
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                                                IN_PROGRESS
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button type="button" onclick="
+                                                        showMonitoringDetail(
+                                                            'WO-20261014-001',
+                                                            'Budi Santoso',
+                                                            'B 4567 XYZ',
+                                                            'Slamet Riyadi',
+                                                            75,
+                                                        )
+                                                    "
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50 transition-colors">
+                                                Monitoring
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 2 -->
+                                    <tr class="hover:bg-gray-50/50 transition">
+                                        <td class="px-4 py-3 font-semibold text-brand-navy">
+                                            WO-20261014-002
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Joko Widodo
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            F 8899 WW - Kawasaki Ninja 250
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Budi Santoso
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-amber-600"></span>
+                                                PENDING_SPAREPART
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button type="button" onclick="
+                                                        showMonitoringDetail(
+                                                            'WO-20261014-002',
+                                                            'Joko Widodo',
+                                                            'F 8899 WW',
+                                                            'Budi Santoso',
+                                                            40,
+                                                        )
+                                                    "
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50 transition-colors">
+                                                Monitoring
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 3 -->
+                                    <tr class="hover:bg-gray-50/50 transition">
+                                        <td class="px-4 py-3 font-semibold text-brand-navy">
+                                            WO-20261013-003
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Dewi Lestari
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            T 5566 YY - Honda Beat Fi
+                                        </td>
+                                        <td class="px-4 py-3 text-ui-text">
+                                            Slamet Riyadi
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 border border-green-200">
+                                                <span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                                COMPLETED
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-right">
+                                            <button type="button" onclick="
+                                                        showMonitoringDetail(
+                                                            'WO-20261013-003',
+                                                            'Dewi Lestari',
+                                                            'T 5566 YY',
+                                                            'Slamet Riyadi',
+                                                            100,
+                                                        )
+                                                    "
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50 transition-colors">
+                                                Monitoring
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View 2: Detail Progres Monitoring (Tersembunyi secara bawaan) -->
+                <!-- KONTAINER DETAIL MONITORING WORK ORDER -->
+                <div id="monitoring-detail-view" class="space-y-6 hidden">
+                    <!-- Header & Tombol Kembali -->
+                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h1 class="text-xl font-bold text-brand-navy">
+                                Monitoring Work Order
+                            </h1>
+                            <p class="text-sm text-brand-steel mt-1">
+                                Pantau progres pekerjaan kendaraan yang
+                                sedang ditangani mekanik.
+                            </p>
+                        </div>
+
+                        <div>
+                            <button type="button" onclick="hideMonitoringDetail()"
+                                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50 transition-colors shadow-sm">
+                                <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                                Kembali ke Daftar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Work Order Information Card -->
+                    <div class="bg-ui-card border border-ui-border rounded-lg p-5 shadow-sm">
+                        <div class="flex items-center justify-between mb-5 border-b border-ui-border pb-4">
+                            <div>
+                                <p class="text-xs text-brand-steel">
+                                    Work Order
+                                </p>
+                                <h2 id="mon-detail-wo-code" class="text-lg font-bold text-brand-navy">
+                                    WO-20261014-001
+                                </h2>
+                            </div>
+
+                            <span id="mon-detail-status-badge"
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                                ● IN_PROGRESS
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                            <!-- Booking -->
+                            <div>
+                                <p class="text-xs text-brand-steel mb-1">
+                                    Booking
+                                </p>
+                                <p id="mon-detail-booking-code" class="text-sm font-semibold text-ui-text">
+                                    BKG-20261014-001
+                                </p>
+                            </div>
+
+                            <!-- Customer -->
+                            <div>
+                                <p class="text-xs text-brand-steel mb-1">
+                                    Customer
+                                </p>
+                                <p id="mon-detail-customer" class="text-sm font-semibold text-ui-text">
+                                    Budi Santoso
+                                </p>
+                            </div>
+
+                            <!-- Vehicle -->
+                            <div>
+                                <p class="text-xs text-brand-steel mb-1">
+                                    Kendaraan
+                                </p>
+                                <p id="mon-detail-vehicle" class="text-sm font-semibold text-ui-text">
+                                    B 4567 XYZ (Honda CBR 250R)
+                                </p>
+                            </div>
+
+                            <!-- Mechanic -->
+                            <div>
+                                <p class="text-xs text-brand-steel mb-1">
+                                    Mekanik
+                                </p>
+                                <p id="mon-detail-mechanic" class="text-sm font-semibold text-ui-text">
+                                    Slamet Riyadi
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Progress Stepper -->
+                    <div class="bg-ui-card border border-ui-border rounded-lg p-5 shadow-sm">
+                        <!-- Title -->
+                        <div class="mb-6">
+                            <h2 class="text-base font-semibold text-ui-text">
+                                Progres Servis
+                            </h2>
+                            <p class="text-xs text-brand-steel mt-1">
+                                Progres pekerjaan berdasarkan tahapan
+                                pengerjaan mekanik.
+                            </p>
+                        </div>
+
+                        <!-- Stepper Timeline List -->
+                        <div class="space-y-5">
+                            <!-- Tahap 1: Kendaraan Diterima (Selesai) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border bg-brand-navy text-white border-brand-navy">
+                                        ✓
+                                    </div>
+                                    <div class="w-px h-8 bg-brand-navy"></div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-semibold text-ui-text">
+                                        Kendaraan Diterima
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap telah selesai.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 2: Pemeriksaan (Selesai) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border bg-brand-navy text-white border-brand-navy">
+                                        ✓
+                                    </div>
+                                    <div class="w-px h-8 bg-brand-navy"></div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-semibold text-ui-text">
+                                        Pemeriksaan
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap telah selesai.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 3: Pembongkaran (Selesai) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border bg-brand-navy text-white border-brand-navy">
+                                        ✓
+                                    </div>
+                                    <div class="w-px h-8 bg-brand-navy"></div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-semibold text-ui-text">
+                                        Pembongkaran
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap telah selesai.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 4: Proses Servis (Sedang Dikerjakan) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border bg-brand-gold text-white border-brand-gold ring-4 ring-brand-gold/20">
+                                        ●
+                                    </div>
+                                    <div class="w-px h-8 bg-ui-border"></div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-bold text-brand-gold">
+                                        Proses Servis
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap sedang dikerjakan oleh
+                                        mekanik.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 5: Pemasangan (Belum) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border bg-white text-brand-steel border-ui-border">
+                                        5
+                                    </div>
+                                    <div class="w-px h-8 bg-ui-border"></div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-semibold text-gray-400">
+                                        Pemasangan
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap belum dimulai.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 6: Pemeriksaan Akhir (Belum) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border bg-white text-brand-steel border-ui-border">
+                                        6
+                                    </div>
+                                    <div class="w-px h-8 bg-ui-border"></div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-semibold text-gray-400">
+                                        Pemeriksaan Akhir
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap belum dimulai.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Tahap 7: Selesai (Belum) -->
+                            <div class="flex items-start gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold border bg-white text-brand-steel border-ui-border">
+                                        7
+                                    </div>
+                                </div>
+                                <div class="pt-1">
+                                    <p class="text-sm font-semibold text-gray-400">
+                                        Selesai
+                                    </p>
+                                    <p class="text-xs text-brand-steel mt-0.5">
+                                        Tahap belum dimulai.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Order Notes Card -->
+                    <div class="bg-ui-card border border-ui-border rounded-lg p-5 shadow-sm">
+                        <div class="mb-4">
+                            <h2 class="text-base font-semibold text-ui-text">
+                                Catatan Work Order
+                            </h2>
+                            <p class="text-xs text-brand-steel mt-1">
+                                Catatan khusus yang berkaitan dengan
+                                pengerjaan kendaraan.
+                            </p>
+                        </div>
+
+                        <div class="bg-ui-main border border-ui-border rounded-md p-4">
+                            <p id="mon-detail-notes" class="text-sm text-ui-text whitespace-pre-line leading-relaxed">
+                                Penggantian oli mesin & pembersihan injektor
+                                sudah selesai. Menunggu konfirmasi
+                                pergantian part rantai roda dari Service
+                                Advisor.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: CUSTOMERS -->
+            <!-- ================= TAB 6: CUSTOMERS ================= -->
+            <section id="tab-customers" class="tab-content hidden space-y-6">
+                <!-- KONTAINER 1: DAFTAR PELANGGAN -->
+                <div id="customer-list-view" class="space-y-6">
+                    <!-- Header -->
+                    <div>
+                        <p class="text-sm text-brand-steel">
+                            Kelola dan lihat informasi pelanggan Nirwana
+                            Garage.
+                        </p>
+                    </div>
+
+                    <!-- Summary Card -->
+                    <div class="rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm">
+                        <p class="text-xs font-medium uppercase tracking-wider text-brand-steel">
+                            Total Pelanggan
+                        </p>
+                        <p class="mt-1 text-2xl font-bold text-brand-navy">
+                            3
+                        </p>
+                    </div>
+
+                    <!-- Customer List Table Card -->
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <!-- Table Header Bar -->
+                        <div
+                            class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-ui-border p-5">
+                            <div>
+                                <h2 class="font-bold text-brand-navy">
+                                    Daftar Pelanggan
+                                </h2>
+                            </div>
+
+                            <!-- Search Input -->
+                            <div class="relative w-full sm:w-64">
+                                <input type="text" id="customerSearch" oninput="filterCustomers()"
+                                    placeholder="Cari pelanggan..."
+                                    class="w-full rounded-lg border border-ui-border bg-white px-4 py-2 text-sm outline-none focus:border-brand-steel focus:ring-1 focus:ring-brand-steel" />
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead
+                                    class="border-b border-ui-border bg-gray-50 text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    <tr>
+                                        <th class="px-5 py-3">Pelanggan</th>
+                                        <th class="px-5 py-3">Telepon</th>
+                                        <th class="px-5 py-3">Email</th>
+                                        <th class="px-5 py-3">Alamat</th>
+                                        <th class="px-5 py-3 text-right">
+                                            Aksi
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="customer-table-body" class="divide-y divide-ui-border text-sm">
+                                    <!-- Row 1 -->
+                                    <tr class="customer-row transition hover:bg-gray-50/50">
+                                        <td class="px-5 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy text-white font-bold text-xs">
+                                                    BS
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-ui-text customer-name">
+                                                        Budi Santoso
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-phone">
+                                            081234567890
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-email">
+                                            budi.santoso@gmail.com
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-address">
+                                            Jl. Raya Serang Km 18, Cikande
+                                        </td>
+                                        <td class="px-5 py-4 text-right">
+                                            <button type="button" onclick="
+                                                        showCustomerDetail(
+                                                            'Budi Santoso',
+                                                            '081234567890',
+                                                            'budi.santoso@gmail.com',
+                                                            'Jl. Raya Serang Km 18, Cikande',
+                                                        )
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg border border-ui-border px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-100 transition">
+                                                <i data-lucide="user" class="h-4 w-4"></i>
+                                                Detail
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 2 -->
+                                    <tr class="customer-row transition hover:bg-gray-50/50">
+                                        <td class="px-5 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy text-white font-bold text-xs">
+                                                    SA
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-ui-text customer-name">
+                                                        Siti Aminah
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-phone">
+                                            089876543210
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-email">
+                                            siti.aminah@yahoo.com
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-address">
+                                            Perum Cikande Indah Blok B4/12
+                                        </td>
+                                        <td class="px-5 py-4 text-right">
+                                            <button type="button" onclick="
+                                                        showCustomerDetail(
+                                                            'Siti Aminah',
+                                                            '089876543210',
+                                                            'siti.aminah@yahoo.com',
+                                                            'Perum Cikande Indah Blok B4/12',
+                                                        )
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg border border-ui-border px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-100 transition">
+                                                <i data-lucide="user" class="h-4 w-4"></i>
+                                                Detail
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 3 -->
+                                    <tr class="customer-row transition hover:bg-gray-50/50">
+                                        <td class="px-5 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy text-white font-bold text-xs">
+                                                    JW
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-ui-text customer-name">
+                                                        Joko Widodo
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-phone">
+                                            081122334455
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-email">
+                                            joko.widodo@gmail.com
+                                        </td>
+                                        <td class="px-5 py-4 text-gray-600 customer-address">
+                                            Jl. Modern Industri No. 8,
+                                            Cikande
+                                        </td>
+                                        <td class="px-5 py-4 text-right">
+                                            <button type="button" onclick="
+                                                        showCustomerDetail(
+                                                            'Joko Widodo',
+                                                            '081122334455',
+                                                            'joko.widodo@gmail.com',
+                                                            'Jl. Modern Industri No. 8, Cikande',
+                                                        )
+                                                    "
+                                                class="inline-flex items-center gap-2 rounded-lg border border-ui-border px-3 py-2 text-xs font-semibold text-brand-navy hover:bg-gray-100 transition">
+                                                <i data-lucide="user" class="h-4 w-4"></i>
+                                                Detail
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KONTAINER 2: DETAIL PELANGGAN (Hidden by Default) -->
+                <div id="customer-detail-view" class="space-y-6 hidden">
+                    <!-- Header & Action Top Bar -->
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-bold text-brand-navy">
+                                Detail Pelanggan
+                            </h2>
+                            <p class="mt-1 text-sm text-brand-steel">
+                                Informasi lengkap pelanggan, kendaraan, dan
+                                riwayat servis.
+                            </p>
+                        </div>
+
+                        <button type="button" onclick="hideCustomerDetail()"
+                            class="inline-flex items-center gap-2 rounded-lg border border-ui-border bg-ui-card px-4 py-2 text-xs font-semibold text-ui-text transition hover:bg-gray-50 shadow-sm">
+                            <i data-lucide="arrow-left" class="h-4 w-4"></i>
+                            Kembali
+                        </button>
+                    </div>
+
+                    <!-- Data Pribadi Card -->
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-6 py-4 bg-gray-50/50">
+                            <h3 class="font-semibold text-brand-navy">
+                                Data Pribadi
+                            </h3>
+                            <p class="mt-0.5 text-xs text-brand-steel">
+                                Informasi akun pelanggan.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-6 p-6 md:grid-cols-2 text-sm">
+                            <!-- Nama -->
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Nama
+                                </p>
+                                <p id="detail-cust-name" class="mt-1 font-semibold text-ui-text">
+                                    Budi Santoso
+                                </p>
+                            </div>
+
+                            <!-- Telepon -->
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Nomor Telepon
+                                </p>
+                                <p id="detail-cust-phone" class="mt-1 font-semibold text-ui-text">
+                                    081234567890
+                                </p>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Email
+                                </p>
+                                <p id="detail-cust-email" class="mt-1 font-semibold text-ui-text">
+                                    budi.santoso@gmail.com
+                                </p>
+                            </div>
+
+                            <!-- Alamat -->
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    Alamat
+                                </p>
+                                <p id="detail-cust-address" class="mt-1 font-semibold text-ui-text">
+                                    Jl. Raya Serang Km 18, Cikande
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kendaraan Card -->
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-6 py-4 bg-gray-50/50">
+                            <h3 class="font-semibold text-brand-navy">
+                                Kendaraan
+                            </h3>
+                            <p class="mt-0.5 text-xs text-brand-steel">
+                                Kendaraan yang terdaftar atas nama
+                                pelanggan.
+                            </p>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead
+                                    class="border-b border-ui-border bg-gray-50 text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    <tr>
+                                        <th class="px-6 py-3">Kendaraan</th>
+                                        <th class="px-6 py-3">
+                                            Nomor Polisi
+                                        </th>
+                                        <th class="px-6 py-3">Tahun</th>
+                                        <th class="px-6 py-3">Warna</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="divide-y divide-ui-border">
+                                    <tr class="transition hover:bg-gray-50/50">
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center gap-3">
+                                                <div>
+                                                    <p class="font-semibold text-ui-text">
+                                                        Honda CBR 250R
+                                                    </p>
+                                                    <p class="text-xs text-brand-steel">
+                                                        Sport
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 font-semibold text-ui-text">
+                                            B 4567 XYZ
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-600">
+                                            2021
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-600">
+                                            Merah Hitam
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Servis Card -->
+                    <div class="rounded-xl border border-ui-border bg-ui-card shadow-sm overflow-hidden">
+                        <div class="border-b border-ui-border px-6 py-4 bg-gray-50/50">
+                            <h3 class="font-semibold text-brand-navy">
+                                Riwayat Servis
+                            </h3>
+                            <p class="mt-0.5 text-xs text-brand-steel">
+                                Riwayat booking dan pekerjaan servis
+                                pelanggan.
+                            </p>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead
+                                    class="border-b border-ui-border bg-gray-50 text-xs font-semibold uppercase tracking-wider text-brand-steel">
+                                    <tr>
+                                        <th class="px-6 py-3">Booking</th>
+                                        <th class="px-6 py-3">Kendaraan</th>
+                                        <th class="px-6 py-3">Layanan</th>
+                                        <th class="px-6 py-3">Status</th>
+                                        <th class="px-6 py-3">WO</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="divide-y divide-ui-border">
+                                    <tr class="transition hover:bg-gray-50/50">
+                                        <!-- Booking -->
+                                        <td class="px-6 py-4">
+                                            <p class="font-semibold text-ui-text">
+                                                BKG-20261014-001
+                                            </p>
+                                            <p class="text-xs text-brand-steel">
+                                                14 Okt 2026
+                                            </p>
+                                        </td>
+
+                                        <!-- Vehicle -->
+                                        <td class="px-6 py-4 text-gray-600">
+                                            Honda CBR 250R
+                                            <div class="text-xs text-brand-steel">
+                                                B 4567 XYZ
+                                            </div>
+                                        </td>
+
+                                        <!-- Service -->
+                                        <td class="px-6 py-4 text-gray-600">
+                                            Servis Berkala
+                                        </td>
+
+                                        <!-- Status -->
+                                        <td class="px-6 py-4">
+                                            <span
+                                                class="inline-flex rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-800">
+                                                CONFIRMED
+                                            </span>
+                                        </td>
+
+                                        <!-- Work Order -->
+                                        <td class="px-6 py-4 font-semibold text-brand-navy">
+                                            WO-20261014-001
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ================= MODAL: DETAIL BOOKING ================= -->
+    <div id="bookingDetailModal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm transition-opacity duration-200">
+        <div id="modalBox"
+            class="bg-white rounded-2xl shadow-2xl border border-ui-border w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col text-left transform transition-all duration-200 scale-95 opacity-0">
+            <!-- Header -->
+            <div class="px-6 py-5 bg-ui-main border-b border-ui-border flex items-center justify-between gap-4">
+                <div>
+                    <p class="text-[11px] font-semibold text-brand-steel uppercase tracking-widest mb-1">
+                        Detail Booking Servis
+                    </p>
+                    <h3 id="modalBookingCode" class="text-lg font-bold text-brand-navy tracking-tight"></h3>
+                </div>
+                <button type="button" onclick="closeBookingDetail()"
+                    class="text-brand-steel hover:text-brand-navy p-2 rounded-lg hover:bg-white transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-5 overflow-y-auto space-y-4">
+                <div class="flex items-center justify-between px-4 py-3 rounded-xl border border-ui-border bg-gray-50">
+                    <div>
+                        <p class="text-xs font-semibold text-brand-steel uppercase tracking-wider">
+                            Status Booking
+                        </p>
+                        <p class="text-xs text-gray-500 mt-0.5">
+                            Status terkini booking
+                        </p>
+                    </div>
+                    <span id="modalStatus" class="px-3 py-1 rounded-full text-xs font-semibold"></span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-ui-border rounded-xl p-4">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">
+                            Pelanggan
+                        </p>
+                        <p class="text-xs text-brand-steel mb-0.5">Nama</p>
+                        <p id="modalCustomer" class="text-sm font-semibold text-brand-navy mb-2"></p>
+                        <p class="text-xs text-brand-steel mb-0.5">
+                            No. Telepon / WhatsApp
+                        </p>
+                        <p id="modalPhone" class="text-sm font-medium text-brand-navy"></p>
+                    </div>
+
+                    <div class="border border-ui-border rounded-xl p-4">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">
+                            Kendaraan
+                        </p>
+                        <p class="text-xs text-brand-steel mb-0.5">
+                            Detail Kendaraan
+                        </p>
+                        <p id="modalVehicle" class="text-sm font-semibold text-brand-navy leading-relaxed"></p>
+                    </div>
+
+                    <div class="border border-ui-border rounded-xl p-4">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">
+                            Servis
+                        </p>
+                        <p class="text-xs text-brand-steel mb-0.5">
+                            Jenis Servis
+                        </p>
+                        <p id="modalService" class="text-sm font-semibold text-brand-navy leading-relaxed"></p>
+                    </div>
+
+                    <div class="border border-ui-border rounded-xl p-4">
+                        <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">
+                            Jadwal Servis
+                        </p>
+                        <p class="text-xs text-brand-steel mb-0.5">
+                            Tanggal & Jam
+                        </p>
+                        <p id="modalDateTime" class="text-sm font-semibold text-brand-navy leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <div class="border border-ui-border rounded-xl p-4">
+                    <p class="text-[11px] font-bold text-brand-steel uppercase tracking-wider mb-2">
+                        Catatan / Keluhan
+                    </p>
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
+                        <p id="modalComplaint" class="text-sm leading-relaxed text-gray-700"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-ui-border flex items-center justify-end">
+                <button type="button" onclick="closeBookingDetail()"
+                    class="px-5 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-gray-100 transition-colors">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: MECHANIC (TERIMA KENDARAAN) -->
+    <div id="mechanic-modal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-lg font-semibold text-gray-800">
+                    Pilih Mekanik
+                </h2>
+                <button type="button" onclick="closeMechanicModal()"
+                    class="text-gray-400 hover:text-gray-600 font-bold text-lg">
+                    ✕
+                </button>
+            </div>
+            <p class="mb-4 text-sm text-gray-500">
+                Pilih mekanik yang akan melakukan pemeriksaan kendaraan.
+            </p>
+
+            <div class="space-y-3">
+                <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 hover:bg-gray-50">
+                    <input type="radio" name="mechanic_id" value="1" checked />
+                    <div>
+                        <p class="font-medium text-gray-800">
+                            Slamet Riyadi
+                        </p>
+                        <p class="text-xs text-gray-500">Mekanik Senior</p>
+                    </div>
+                </label>
+                <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 hover:bg-gray-50">
+                    <input type="radio" name="mechanic_id" value="2" />
+                    <div>
+                        <p class="font-medium text-gray-800">
+                            Budi Santoso
+                        </p>
+                        <p class="text-xs text-gray-500">Mekanik Regular</p>
+                    </div>
+                </label>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-2">
+                <button type="button" onclick="closeMechanicModal()"
+                    class="rounded-lg border px-4 py-2 text-sm font-medium hover:bg-gray-50">
+                    Batal
+                </button>
+                <button type="button" onclick="submitMechanic()"
+                    class="rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brand-gold transition-colors">
+                    Terima & Assign
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: LOGOUT  -->
+    <!-- Modal Logout -->
+    <div id="logout-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-brand-navy/60 backdrop-blur-sm px-4">
+        <div class="w-full max-w-sm bg-white rounded-xl shadow-2xl border border-ui-border p-5">
+            <div class="flex items-center gap-3 mb-5">
+                <div
+                    class="w-10 h-10 rounded-full bg-amber-50 text-brand-gold border border-amber-200 flex items-center justify-center shrink-0">
+                    <i data-lucide="log-out" class="w-5 h-5 text-brand-gold"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-semibold text-brand-navy">Konfirmasi Keluar</h2>
+                    <p class="text-xs text-brand-steel mt-0.5">Apakah Anda yakin ingin keluar dari akun?</p>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2">
+                <!-- Tombol Batal -->
+                <button type="button" id="logout-cancel"
+                    class="px-4 py-2 rounded-md text-sm font-medium text-brand-steel border border-ui-border hover:bg-ui-main transition-colors">
+                    Batal
+                </button>
+                <!-- Tombol Konfirmasi Keluar -->
+                <button type="button" id="logout-confirm"
+                    class="px-4 py-2 rounded-md text-sm font-medium text-white bg-brand-navy hover:bg-brand-gold transition-colors duration-200">
+                    Keluar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Sidebar Responsive Toggle
+        const sidebar = document.getElementById("sidebar");
+        const openSidebarBtn = document.getElementById("open-sidebar-btn");
+        const closeSidebarBtn =
+            document.getElementById("close-sidebar-btn");
+
+        openSidebarBtn.addEventListener("click", () => {
+            sidebar.classList.remove("-translate-x-full");
+        });
+        closeSidebarBtn.addEventListener("click", () => {
+            sidebar.classList.add("-translate-x-full");
+        });
+
+        // Profile Menu Dropdown Toggle
+        const profileTrigger = document.getElementById("profile-trigger");
+        const profileCard = document.getElementById("profile-card");
+        profileTrigger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            profileCard.classList.toggle("hidden");
+        });
+        document.addEventListener("click", () => {
+            profileCard.classList.add("hidden");
+        });
+
+        // Logout Modal Toggle
+        const logoutButton = document.getElementById("logout-button");
+            const logoutModal = document.getElementById("logout-modal");
+            const logoutCancel = document.getElementById("logout-cancel");
+            const logoutConfirm = document.getElementById("logout-confirm"); // Tambahkan tombol konfirmasi
+
+            // Buka modal logout
+            if (logoutButton) {
+                logoutButton.addEventListener("click", () => {
+                    if (typeof profileCard !== 'undefined') {
+                        profileCard.classList.add("hidden");
+                    }
+                    logoutModal.classList.remove("hidden");
+                    logoutModal.classList.add("flex");
+                });
+            }
+
+            // Batal logout
+            if (logoutCancel) {
+                logoutCancel.addEventListener("click", () => {
+                    logoutModal.classList.add("hidden");
+                    logoutModal.classList.remove("flex");
+                });
+            }
+
+            // Konfirmasi Logout -> Redirect ke halaman Login
+            if (logoutConfirm) {
+                logoutConfirm.addEventListener("click", () => {
+                    // Ganti 'login.html' sesuai nama file/URL halaman login Anda
+                   window.location.href = "/public/design/auth/login.html";
+                });
+            }
+
+        // Tab Switching & Navigation Active State
+        function switchTab(tabId) {
+            // Hide all tab contents
+            document
+                .querySelectorAll(".tab-content")
+                .forEach((el) => el.classList.add("hidden"));
+            // Show selected tab
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) targetTab.classList.remove("hidden");
+
+            // Update page title
+            const titles = {
+                dashboard: "Dashboard",
+                bookings: "Booking Servis",
+                "work-orders": "Work Order",
+                inspections: "Hasil Inspeksi",
+                monitoring: "Monitoring Servis",
+                customers: "Pelanggan",
+            };
+            document.getElementById("page-title").innerText =
+                titles[tabId] || "Dashboard";
+
+            // Update sidebar nav active styling
+            document.querySelectorAll(".nav-item").forEach((btn) => {
+                btn.className =
+                    "nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-brand-silver hover:text-white hover:bg-slate-800";
+            });
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className =
+                    "nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold";
+            }
+
+            // Close mobile sidebar if open
+            sidebar.classList.add("-translate-x-full");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        // Booking Detail Modal Controller
+        function openBookingDetail(data) {
+            document.getElementById("modalBookingCode").innerText =
+                data.code;
+            document.getElementById("modalStatus").innerText = data.status;
+
+            // Status badge styling
+            const statusEl = document.getElementById("modalStatus");
+            statusEl.className =
+                "px-3 py-1 rounded-full text-xs font-semibold ";
+            if (data.status.includes("Terkonfirmasi"))
+                statusEl.className +=
+                    "bg-blue-50 text-blue-700 border border-blue-200";
+            else if (data.status.includes("Menunggu"))
+                statusEl.className +=
+                    "bg-amber-50 text-amber-700 border border-amber-200";
+            else
+                statusEl.className +=
+                    "bg-purple-50 text-purple-700 border border-purple-200";
+
+            document.getElementById("modalCustomer").innerText =
+                data.customer;
+            document.getElementById("modalPhone").innerText = data.phone;
+            document.getElementById("modalVehicle").innerText =
+                data.vehicle;
+            document.getElementById("modalService").innerText =
+                data.service;
+            document.getElementById("modalDateTime").innerText =
+                data.datetime;
+            document.getElementById("modalComplaint").innerText =
+                data.complaint;
+
+            const modal = document.getElementById("bookingDetailModal");
+            const box = document.getElementById("modalBox");
+            modal.classList.remove("hidden");
+            setTimeout(() => {
+                box.classList.remove("scale-95", "opacity-0");
+                box.classList.add("scale-100", "opacity-100");
+            }, 10);
+        }
+
+        function closeBookingDetail() {
+            const modal = document.getElementById("bookingDetailModal");
+            const box = document.getElementById("modalBox");
+            box.classList.remove("scale-100", "opacity-100");
+            box.classList.add("scale-95", "opacity-0");
+            setTimeout(() => {
+                modal.classList.add("hidden");
+            }, 200);
+        }
+
+        // Mechanic Modal Controller
+        function openMechanicModal() {
+            document
+                .getElementById("mechanic-modal")
+                .classList.remove("hidden");
+            document.getElementById("mechanic-modal").classList.add("flex");
+        }
+        function closeMechanicModal() {
+            document
+                .getElementById("mechanic-modal")
+                .classList.add("hidden");
+            document
+                .getElementById("mechanic-modal")
+                .classList.remove("flex");
+        }
+        function submitMechanic() {
+            alert("Mekanik berhasil dipilih! Status booking diubah.");
+            closeMechanicModal();
+        }
+
+        // DATA DUMMY BOOKING
+        let bookingsData = [
+            {
+                id: 1,
+                booking_code: "BKG-20261014-001",
+                customer: { name: "Budi Santoso", phone: "081234567890" },
+                vehicle: {
+                    license_plate: "B 4567 XYZ",
+                    brand: "Honda",
+                    model: "CBR 250R",
+                },
+                service_type: "Servis Berkala",
+                booking_date: "2026-10-14",
+                booking_time: "09:00:00",
+                status: "PENDING",
+                complaint:
+                    "Mesin agak bergetar di RPM tinggi dan tarikan berat.",
+                rejection_reason: null,
+                cancellation_reason: null,
+            },
+            {
+                id: 2,
+                booking_code: "BKG-20261014-002",
+                customer: { name: "Siti Aminah", phone: "089876543210" },
+                vehicle: {
+                    license_plate: "D 1234 ABC",
+                    brand: "Yamaha",
+                    model: "NMAX 155",
+                },
+                service_type: "Ganti Oli & Kampas Rem",
+                booking_date: "2026-10-14",
+                booking_time: "10:30:00",
+                status: "CONFIRMED",
+                complaint: "Rem belakang bersuara berdecit saat ditekan.",
+                rejection_reason: null,
+                cancellation_reason: null,
+            },
+            {
+                id: 3,
+                booking_code: "BKG-20261014-003",
+                customer: { name: "Joko Widodo", phone: "081122334455" },
+                vehicle: {
+                    license_plate: "F 8899 WW",
+                    brand: "Kawasaki",
+                    model: "Ninja 250",
+                },
+                service_type: "Tune Up Total",
+                booking_date: "2026-10-14",
+                booking_time: "13:00:00",
+                status: "IN_PROGRESS",
+                complaint: "Servis rutin 10.000 KM.",
+                rejection_reason: null,
+                cancellation_reason: null,
+            },
+            {
+                id: 4,
+                booking_code: "BKG-20261013-004",
+                customer: { name: "Dewi Lestari", phone: "085678901234" },
+                vehicle: {
+                    license_plate: "T 5566 YY",
+                    brand: "Honda",
+                    model: "Beats Fi",
+                },
+                service_type: "Ganti Ban & CVT",
+                booking_date: "2026-10-13",
+                booking_time: "14:00:00",
+                status: "COMPLETED",
+                complaint: "CVT berisik saat digas.",
+                rejection_reason: null,
+                cancellation_reason: null,
+            },
+            {
+                id: 5,
+                booking_code: "BKG-20261012-005",
+                customer: { name: "Ahmad Dani", phone: "087811223344" },
+                vehicle: {
+                    license_plate: "B 9988 ZZ",
+                    brand: "Suzuki",
+                    model: "Satria F150",
+                },
+                service_type: "Turun Mesin",
+                booking_date: "2026-10-12",
+                booking_time: "11:00:00",
+                status: "REJECTED",
+                complaint: "Oli bocor dari blok mesin.",
+                rejection_reason: "Bengkel penuh pada tanggal tersebut.",
+                cancellation_reason: null,
+            },
+        ];
+
+        let currentActiveBookingId = null;
+
+        // RENDER TABEL & FORMATTING STATUS
+        function renderTable(data) {
+            const tbody = document.getElementById("booking-table-body");
+            if (!tbody) return;
+
+            tbody.innerHTML = "";
+
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-8 text-center text-brand-steel">Tidak ada data booking yang ditemukan.</td></tr>`;
+                return;
+            }
+
+            data.forEach((booking) => {
+                let statusClasses = "bg-gray-100 text-gray-800";
+                let statusLabels = booking.status;
+
+                switch (booking.status) {
+                    case "PENDING":
+                        statusClasses = "bg-amber-100 text-amber-800";
+                        statusLabels = "Menunggu Konfirmasi";
+                        break;
+                    case "CONFIRMED":
+                        statusClasses = "bg-blue-100 text-blue-800";
+                        statusLabels = "Dikonfirmasi";
+                        break;
+                    case "IN_PROGRESS":
+                        statusClasses = "bg-purple-100 text-purple-800";
+                        statusLabels = "Sedang Diproses";
+                        break;
+                    case "COMPLETED":
+                        statusClasses = "bg-green-100 text-green-800";
+                        statusLabels = "Selesai";
+                        break;
+                    case "REJECTED":
+                        statusClasses = "bg-red-100 text-red-800";
+                        statusLabels = "Ditolak";
+                        break;
+                    case "CANCELLED":
+                        statusClasses = "bg-gray-100 text-gray-800";
+                        statusLabels = "Dibatalkan";
+                        break;
+                }
+
+                // Generate Tombol Aksi Sesuai Status
+                let actionsHtml = "";
+                if (booking.status === "PENDING") {
+                    actionsHtml = `
+                <div class="flex items-center justify-end gap-1.5">
+                    <button onclick="openBookingDetail(${booking.id})" class="px-2.5 py-1 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50">Detail</button>
+                    <button onclick="confirmBooking(${booking.id})" class="px-2.5 py-1 text-xs font-semibold text-white bg-green-600 rounded-md hover:bg-green-700">Konfirmasi</button>
+                    <button onclick="openRejectBooking(${booking.id})" class="px-2.5 py-1 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100">Tolak</button>
+                </div>
+            `;
+                } else if (booking.status === "CONFIRMED") {
+                    actionsHtml = `
+                <div class="flex items-center justify-end gap-1.5">
+                    <button onclick="openBookingDetail(${booking.id})" class="px-2.5 py-1 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50">Detail</button>
+                    <button onclick="openReceiveVehicle(${booking.id})" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-navy text-white hover:opacity-90">Terima Kendaraan</button>
+                </div>
+            `;
+                } else {
+                    actionsHtml = `
+                <div class="flex items-center justify-end gap-1.5">
+                    <button onclick="openBookingDetail(${booking.id})" class="px-2.5 py-1 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50">Detail</button>
+                </div>
+            `;
+                }
+
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-gray-50/50";
+                tr.innerHTML = `
+            <td class="px-4 py-3 font-semibold text-brand-navy">${booking.booking_code}</td>
+            <td class="px-4 py-3">${booking.customer.name}</td>
+            <td class="px-4 py-3">${booking.vehicle.license_plate} - ${booking.vehicle.brand} ${booking.vehicle.model}</td>
+            <td class="px-4 py-3">${booking.service_type}</td>
+            <td class="px-4 py-3">${booking.booking_date}</td>
+            <td class="px-4 py-3">${booking.booking_time.substring(0, 5)}</td>
+            <td class="px-4 py-3">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${statusClasses}">${statusLabels}</span>
+            </td>
+            <td class="px-4 py-3 text-right">${actionsHtml}</td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // FITUR FILTER & PENCARIAN REAL-TIME
+        function filterBookings() {
+            const searchVal = document
+                .getElementById("booking-search")
+                .value.toLowerCase();
+            const statusVal = document.getElementById(
+                "booking-filter-status",
+            ).value;
+            const dateVal = document.getElementById(
+                "booking-filter-date",
+            ).value;
+
+            const filtered = bookingsData.filter((b) => {
+                const matchSearch =
+                    b.booking_code.toLowerCase().includes(searchVal) ||
+                    b.customer.name.toLowerCase().includes(searchVal) ||
+                    b.vehicle.license_plate
+                        .toLowerCase()
+                        .includes(searchVal);
+
+                const matchStatus =
+                    statusVal === "" || b.status === statusVal;
+                const matchDate =
+                    dateVal === "" || b.booking_date === dateVal;
+
+                return matchSearch && matchStatus && matchDate;
+            });
+
+            renderTable(filtered);
+        }
+
+        // AKSI TOMBOL & MODAL CONTROLLER
+        function confirmBooking(id) {
+            const booking = bookingsData.find((item) => item.id === id);
+            if (booking) {
+                booking.status = "CONFIRMED";
+                filterBookings();
+                alert(
+                    `Booking ${booking.booking_code} berhasil dikonfirmasi!`,
+                );
+            }
+        }
+
+        function openReceiveVehicle(id) {
+            currentActiveBookingId = id;
+            const modal = document.getElementById("mechanic-modal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function openBookingDetail(id) {
+            const b = bookingsData.find((item) => item.id === id);
+            if (!b) return;
+
+            // Masukkan data ke elemen detail modal (pastikan ID elemen modal Anda sesuai)
+            if (document.getElementById("detail-booking-code"))
+                document.getElementById("detail-booking-code").innerText =
+                    b.booking_code;
+            if (document.getElementById("detail-customer"))
+                document.getElementById("detail-customer").innerText =
+                    `${b.customer.name} (${b.customer.phone})`;
+            if (document.getElementById("detail-vehicle"))
+                document.getElementById("detail-vehicle").innerText =
+                    `${b.vehicle.license_plate} - ${b.vehicle.brand} ${b.vehicle.model}`;
+            if (document.getElementById("detail-service-type"))
+                document.getElementById("detail-service-type").innerText =
+                    b.service_type;
+            if (document.getElementById("detail-date-time"))
+                document.getElementById("detail-date-time").innerText =
+                    `${b.booking_date} ${b.booking_time.substring(0, 5)}`;
+            if (document.getElementById("detail-complaint"))
+                document.getElementById("detail-complaint").innerText =
+                    b.complaint;
+
+            const modal = document.getElementById("booking-detail-modal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function openRejectBooking(id) {
+            currentActiveBookingId = id;
+            const modal = document.getElementById("reject-booking-modal");
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        // Inisialisasi render tabel pertama kali saat halaman dimuat
+        document.addEventListener("DOMContentLoaded", () => {
+            renderTable(bookingsData);
+        });
+
+        // DATA DUMMY WORK ORDER (WO)
+        let workOrdersData = [
+            {
+                id: 1,
+                wo_code: "WO-20261014-001",
+                customer: { name: "Budi Santoso", phone: "081234567890" },
+                vehicle: {
+                    license_plate: "B 4567 XYZ",
+                    brand: "Honda",
+                    model: "CBR 250R",
+                },
+                mechanic: "Slamet Riyadi",
+                progress: 75,
+                status: "IN_PROGRESS",
+            },
+            {
+                id: 2,
+                wo_code: "WO-20261014-002",
+                customer: { name: "Joko Widodo", phone: "081122334455" },
+                vehicle: {
+                    license_plate: "F 8899 WW",
+                    brand: "Kawasaki",
+                    model: "Ninja 250",
+                },
+                mechanic: "Budi Santoso",
+                progress: 40,
+                status: "IN_PROGRESS",
+            },
+            {
+                id: 3,
+                wo_code: "WO-20261013-003",
+                customer: { name: "Dewi Lestari", phone: "085678901234" },
+                vehicle: {
+                    license_plate: "T 5566 YY",
+                    brand: "Honda",
+                    model: "Beats Fi",
+                },
+                mechanic: "Slamet Riyadi",
+                progress: 100,
+                status: "COMPLETED",
+            },
+            {
+                id: 4,
+                wo_code: "WO-20261014-004",
+                customer: { name: "Rahmat Hidayat", phone: "081987654321" },
+                vehicle: {
+                    license_plate: "D 3321 AA",
+                    brand: "Yamaha",
+                    model: "Aerox 155",
+                },
+                mechanic: "Budi Santoso",
+                progress: 20,
+                status: "PENDING",
+            },
+        ];
+
+        // Kontrol Modal Detail Work Order
+        function openWorkOrderDetail(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+        }
+
+        function closeWorkOrderDetail(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        }
+
+        // hasil inspeksi
+        function showInspectionDetail() {
+            document
+                .getElementById("inspection-list-view")
+                .classList.add("hidden");
+            document
+                .getElementById("inspection-detail-view")
+                .classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function hideInspectionDetail() {
+            document
+                .getElementById("inspection-detail-view")
+                .classList.add("hidden");
+            document
+                .getElementById("inspection-list-view")
+                .classList.remove("hidden");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function updateWorkApproval(itemId, status) {
+            const container = document.getElementById(
+                `approval-status-${itemId}`,
+            );
+            if (!container) return;
+
+            if (status === "ACCEPTED") {
+                container.innerHTML = `
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-xs font-semibold text-green-700">
+                <i data-lucide="circle-check" class="h-4 w-4"></i> Disetujui Pelanggan
+            </span>
+        `;
+            } else {
+                container.innerHTML = `
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1.5 text-xs font-semibold text-red-700">
+                <i data-lucide="circle-x" class="h-4 w-4"></i> Ditolak Pelanggan
+            </span>
+        `;
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // monitoring
+        function showMonitoringDetail(
+            woCode,
+            customerName,
+            licensePlate,
+            mechanicName,
+        ) {
+            // Set Data Dynamically (Optional)
+            if (woCode)
+                document.getElementById("mon-detail-wo-code").innerText =
+                    woCode;
+            if (customerName)
+                document.getElementById("mon-detail-customer").innerText =
+                    customerName;
+            if (licensePlate)
+                document.getElementById("mon-detail-vehicle").innerText =
+                    licensePlate;
+            if (mechanicName)
+                document.getElementById("mon-detail-mechanic").innerText =
+                    mechanicName;
+
+            // Toggle Container View
+            document
+                .getElementById("monitoring-list-view")
+                .classList.add("hidden");
+            document
+                .getElementById("monitoring-detail-view")
+                .classList.remove("hidden");
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function hideMonitoringDetail() {
+            document
+                .getElementById("monitoring-detail-view")
+                .classList.add("hidden");
+            document
+                .getElementById("monitoring-list-view")
+                .classList.remove("hidden");
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        // Filter Real-Time Tabel Pelanggan
+        function filterCustomers() {
+            const input = document
+                .getElementById("customerSearch")
+                .value.toLowerCase();
+            const rows = document.querySelectorAll(".customer-row");
+
+            rows.forEach((row) => {
+                const name = row
+                    .querySelector(".customer-name")
+                    .innerText.toLowerCase();
+                const phone = row
+                    .querySelector(".customer-phone")
+                    .innerText.toLowerCase();
+                const email = row
+                    .querySelector(".customer-email")
+                    .innerText.toLowerCase();
+                const address = row
+                    .querySelector(".customer-address")
+                    .innerText.toLowerCase();
+
+                if (
+                    name.includes(input) ||
+                    phone.includes(input) ||
+                    email.includes(input) ||
+                    address.includes(input)
+                ) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // Control Tampil / Sembunyi Detail Pelanggan
+        function showCustomerDetail(name, phone, email, address) {
+            if (name)
+                document.getElementById("detail-cust-name").innerText =
+                    name;
+            if (phone)
+                document.getElementById("detail-cust-phone").innerText =
+                    phone;
+            if (email)
+                document.getElementById("detail-cust-email").innerText =
+                    email;
+            if (address)
+                document.getElementById("detail-cust-address").innerText =
+                    address;
+
+            document
+                .getElementById("customer-list-view")
+                .classList.add("hidden");
+            document
+                .getElementById("customer-detail-view")
+                .classList.remove("hidden");
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function hideCustomerDetail() {
+            document
+                .getElementById("customer-detail-view")
+                .classList.add("hidden");
+            document
+                .getElementById("customer-list-view")
+                .classList.remove("hidden");
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    </script>
+</body>
+
+</html>

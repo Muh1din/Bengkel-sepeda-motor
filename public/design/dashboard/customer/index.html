@@ -1,0 +1,1473 @@
+<!doctype html>
+<html lang="id" class="h-full bg-[#f8f9fa]">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Nirwana Garage | Dashboard Customer</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
+
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: [
+                                "Instrument Sans",
+                                "ui-sans-serif",
+                                "system-ui",
+                                "sans-serif",
+                            ],
+                        },
+                        colors: {
+                            brand: {
+                                navy: "#1b263b",
+                                gold: "#c58e4b",
+                                silver: "#bdc3c7",
+                                steel: "#5d7b93",
+                            },
+                            ui: {
+                                main: "#f8f9fa",
+                                card: "#ffffff",
+                                text: "#2d3436",
+                                border: "#dee2e6",
+                            },
+                        },
+                    },
+                },
+            };
+        </script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            body {
+                font-family:
+                    "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+            }
+
+            .sidebar-transition {
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .modal-panel {
+                transition:
+                    opacity 0.2s ease,
+                    transform 0.2s ease;
+            }
+
+            .nav-item.active {
+                color: #c58e4b;
+                background: rgb(197 142 75 / 0.15);
+                border-left: 2px solid #c58e4b;
+            }
+
+            .nav-item:not(.active) {
+                color: #bdc3c7;
+            }
+
+            .nav-item:not(.active):hover {
+                color: white;
+                background: #273449;
+            }
+
+            button:focus-visible,
+            a:focus-visible {
+                outline: 2px solid #c58e4b;
+                outline-offset: 3px;
+            }
+        </style>
+    </head>
+
+    <body
+        class="min-h-screen overflow-x-hidden bg-ui-main text-ui-text antialiased"
+    >
+        <!-- Mobile overlay -->
+        <div
+            id="sidebar-overlay"
+            class="fixed inset-0 z-30 hidden bg-slate-900/50 backdrop-blur-sm md:hidden"
+        ></div>
+
+        <!-- Sidebar -->
+        <aside
+            id="sidebar"
+            class="sidebar-transition fixed inset-y-0 left-0 z-40 flex h-screen w-64 -translate-x-full flex-col justify-between overflow-y-auto bg-brand-navy text-white md:translate-x-0"
+        >
+            <div>
+                <div
+                    class="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-slate-700/50 bg-brand-navy px-6"
+                >
+                    <a
+                        href="#dashboard"
+                        class="flex items-center gap-3"
+                        aria-label="Nirwana Garage Dashboard"
+                    >
+                        <div
+                            class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-brand-gold text-sm font-extrabold text-brand-navy"
+                        >
+                            NG
+                        </div>
+                        <h1 class="text-base font-bold leading-none text-white">
+                            NIRWANA GARAGE
+                        </h1>
+                    </a>
+                    <button
+                        id="close-sidebar-btn"
+                        type="button"
+                        class="rounded-lg p-1 text-brand-silver hover:text-white md:hidden"
+                        aria-label="Tutup navigasi"
+                    >
+                        <i data-lucide="x" class="h-6 w-6"></i>
+                    </button>
+                </div>
+
+                <nav class="space-y-1 p-4" aria-label="Navigasi customer">
+                    <div
+                        class="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-brand-silver"
+                    >
+                        Main Menu
+                    </div>
+                    <a
+                        href="#dashboard"
+                        data-view="dashboard"
+                        class="nav-item active flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i
+                            data-lucide="layout-dashboard"
+                            class="h-4 w-4 shrink-0"
+                        ></i
+                        ><span class="truncate">Dashboard</span>
+                    </a>
+                    <a
+                        href="#profile"
+                        data-view="profile"
+                        class="nav-item flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i data-lucide="user-round" class="h-4 w-4 shrink-0"></i
+                        ><span class="truncate">Profile Saya</span>
+                    </a>
+                    <a
+                        href="#vehicles"
+                        data-view="vehicles"
+                        class="nav-item flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i data-lucide="bike" class="h-4 w-4 shrink-0"></i
+                        ><span class="truncate">Kendaraan Saya</span>
+                    </a>
+
+                    <div
+                        class="px-3 pb-2 pt-4 text-xs font-semibold uppercase tracking-wider text-brand-silver"
+                    >
+                        Layanan Servis
+                    </div>
+                    <a
+                        href="#booking-service"
+                        data-view="booking-service"
+                        class="nav-item flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i
+                            data-lucide="calendar-plus"
+                            class="h-4 w-4 shrink-0"
+                        ></i
+                        ><span class="truncate">Booking Servis</span>
+                    </a>
+                    <a
+                        href="#bookings"
+                        data-view="bookings"
+                        class="nav-item flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i
+                            data-lucide="clipboard-list"
+                            class="h-4 w-4 shrink-0"
+                        ></i
+                        ><span class="truncate">Booking Aktif</span>
+                    </a>
+                    <a
+                        href="#tracking"
+                        data-view="tracking"
+                        class="nav-item flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i data-lucide="gauge" class="h-4 w-4 shrink-0"></i
+                        ><span class="truncate">Tracking Servis</span>
+                    </a>
+                    <a
+                        href="#history"
+                        data-view="history"
+                        class="nav-item flex items-center gap-3 rounded-lg border-l-2 border-transparent px-3 py-2.5 text-sm font-medium transition-colors"
+                    >
+                        <i data-lucide="history" class="h-4 w-4 shrink-0"></i
+                        ><span class="truncate">Riwayat Servis</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Profile dropdown -->
+            <div
+                class="sticky bottom-0 z-10 border-t border-slate-700/50 bg-brand-navy p-4"
+            >
+                <div
+                    id="profile-card"
+                    class="absolute bottom-full left-4 right-4 z-50 mb-2 hidden rounded-xl border border-slate-700 bg-slate-800 p-4 shadow-xl"
+                >
+                    <div
+                        class="flex items-center gap-3 border-b border-slate-700 pb-3"
+                    >
+                        <div
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-gold text-sm font-bold text-brand-navy"
+                        >
+                            AD
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="truncate text-sm font-bold text-white">
+                                Aditya Pratama
+                            </div>
+                            <div class="truncate text-xs text-brand-silver">
+                                aditya@example.com
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        id="logout-button"
+                        class="mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-400 transition-colors hover:bg-slate-700/50 hover:text-red-300"
+                    >
+                        <i data-lucide="log-out" class="h-4 w-4 shrink-0"></i
+                        ><span>Keluar</span>
+                    </button>
+                </div>
+                <button
+                    id="profile-trigger"
+                    type="button"
+                    class="flex w-full select-none items-center gap-3 rounded-lg p-1.5 text-left transition-colors hover:bg-slate-800"
+                >
+                    <div
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-700 text-sm font-semibold text-white"
+                    >
+                        AD
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="truncate text-sm font-medium text-white">
+                            Aditya Pratama
+                        </div>
+                        <div class="truncate text-xs text-brand-silver">
+                            aditya@example.com
+                        </div>
+                    </div>
+                    <i
+                        data-lucide="chevrons-up-down"
+                        class="h-4 w-4 text-brand-silver"
+                    ></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main wrapper -->
+        <div
+            class="flex min-h-screen min-w-0 flex-col transition-all duration-300 md:pl-64"
+        >
+            <header
+                class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-6"
+            >
+                <div class="flex items-center gap-3.5">
+                    <button
+                        id="open-sidebar-btn"
+                        type="button"
+                        class="flex items-center justify-center rounded-xl p-2.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 active:scale-95 md:hidden"
+                        aria-label="Buka navigasi"
+                    >
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                    <h1
+                        id="page-title"
+                        class="text-lg font-bold leading-none tracking-tight text-slate-900 sm:text-xl"
+                    >
+                        Dashboard
+                    </h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="hidden text-sm text-slate-500 sm:inline"
+                        >Customer Area</span
+                    >
+                    <div
+                        class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-navy text-sm font-bold text-white"
+                    >
+                        AD
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 space-y-6 p-4 sm:p-6 md:space-y-8 md:p-8">
+                <!-- Dashboard view -->
+                <section
+                    id="view-dashboard"
+                    class="page-view max-w-full space-y-6"
+                >
+                    <div>
+                        <h2
+                            class="text-xl font-bold tracking-tight text-brand-navy sm:text-2xl"
+                        >
+                            Selamat datang, Aditya Pratama
+                        </h2>
+                        <p class="mt-1 text-xs text-brand-steel sm:text-sm">
+                            Berikut adalah ikhtisar layanan servis kendaraan
+                            Anda hari ini.
+                        </p>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+                    >
+                        <article
+                            class="space-y-1 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm"
+                        >
+                            <span
+                                class="block text-xs font-semibold uppercase tracking-wider text-brand-steel"
+                                >Total Kendaraan</span
+                            >
+                            <div
+                                class="text-3xl font-extrabold text-brand-navy"
+                            >
+                                2
+                            </div>
+                        </article>
+                        <article
+                            class="space-y-1 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm"
+                        >
+                            <span
+                                class="block text-xs font-semibold uppercase tracking-wider text-brand-steel"
+                                >Booking Aktif</span
+                            >
+                            <div
+                                class="text-3xl font-extrabold text-brand-navy"
+                            >
+                                2
+                            </div>
+                        </article>
+                        <article
+                            class="space-y-1 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm"
+                        >
+                            <span
+                                class="block text-xs font-semibold uppercase tracking-wider text-brand-steel"
+                                >Servis Berjalan</span
+                            >
+                            <div
+                                class="text-3xl font-extrabold text-brand-navy"
+                            >
+                                1
+                            </div>
+                        </article>
+                        <article
+                            class="space-y-1 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm"
+                        >
+                            <span
+                                class="block text-xs font-semibold uppercase tracking-wider text-brand-steel"
+                                >Riwayat Servis</span
+                            >
+                            <div
+                                class="text-3xl font-extrabold text-brand-steel"
+                            >
+                                5
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Latest bookings -->
+                    <section
+                        class="space-y-4 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm sm:p-6"
+                    >
+                        <div
+                            class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"
+                        >
+                            <h3
+                                class="text-base font-bold tracking-tight text-brand-navy sm:text-lg"
+                            >
+                                Booking Terbaru
+                            </h3>
+                            <button
+                                type="button"
+                                data-view-link="booking-service"
+                                class="inline-flex items-center justify-center gap-2 rounded-md bg-brand-navy px-4 py-2 text-xs font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-brand-gold sm:text-sm"
+                            >
+                                <i data-lucide="plus" class="h-4 w-4"></i>Buat
+                                Booking Baru
+                            </button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <article
+                                class="flex flex-col justify-between gap-3 rounded-lg border border-ui-border bg-ui-main/30 p-4 transition-colors hover:border-brand-steel/40 sm:flex-row sm:items-center"
+                            >
+                                <div class="space-y-1">
+                                    <div
+                                        class="flex flex-wrap items-center gap-2"
+                                    >
+                                        <span
+                                            class="font-mono text-xs font-bold tracking-wide text-brand-steel"
+                                            >BK-20261010-001</span
+                                        >
+                                        <span
+                                            class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-medium text-blue-700"
+                                            >Terkonfirmasi</span
+                                        >
+                                    </div>
+                                    <h4
+                                        class="text-sm font-bold text-brand-navy"
+                                    >
+                                        B 1234 ABC - Honda Vario 160
+                                    </h4>
+                                    <p
+                                        class="flex flex-wrap items-center gap-1.5 text-xs text-brand-steel"
+                                    >
+                                        <span>Servis Berkala</span><span>•</span
+                                        ><span>2026-10-16 pukul 09:00</span>
+                                    </p>
+                                </div>
+                                <button
+                                    type="button"
+                                    data-view-link="tracking"
+                                    class="inline-flex items-center justify-center gap-2 self-start rounded-lg border border-ui-border bg-white px-3 py-2 text-xs font-semibold text-brand-navy transition-colors hover:bg-slate-50 sm:self-center"
+                                >
+                                    Lihat Tracking
+                                    <i
+                                        data-lucide="arrow-up-right"
+                                        class="h-3.5 w-3.5"
+                                    ></i>
+                                </button>
+                            </article>
+
+                            <article
+                                class="flex flex-col justify-between gap-3 rounded-lg border border-ui-border bg-ui-main/30 p-4 transition-colors hover:border-brand-steel/40 sm:flex-row sm:items-center"
+                            >
+                                <div class="space-y-1">
+                                    <div
+                                        class="flex flex-wrap items-center gap-2"
+                                    >
+                                        <span
+                                            class="font-mono text-xs font-bold tracking-wide text-brand-steel"
+                                            >BK-20261008-002</span
+                                        >
+                                        <span
+                                            class="inline-flex items-center rounded-full border border-purple-200 bg-purple-50 px-2 py-0.5 text-[10px] font-medium text-purple-700"
+                                            >Sedang Diproses</span
+                                        >
+                                    </div>
+                                    <h4
+                                        class="text-sm font-bold text-brand-navy"
+                                    >
+                                        B 5678 XYZ - Yamaha NMAX
+                                    </h4>
+                                    <p
+                                        class="flex flex-wrap items-center gap-1.5 text-xs text-brand-steel"
+                                    >
+                                        <span>Repaint</span><span>•</span
+                                        ><span>2026-10-08 pukul 10:30</span>
+                                    </p>
+                                </div>
+                                <button
+                                    type="button"
+                                    data-rejection="BK-20261008-002"
+                                    class="hidden rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 transition-colors hover:bg-red-100"
+                                >
+                                    Alasan Penolakan
+                                </button>
+                            </article>
+
+                            <div
+                                class="rounded-lg border border-dashed border-ui-border bg-ui-main/40 py-5 text-center text-xs text-brand-steel sm:text-sm"
+                            >
+                                Data booking di atas merupakan data dummy untuk
+                                kebutuhan mockup.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Current service -->
+                    <section
+                        class="space-y-4 rounded-xl border border-ui-border bg-ui-card p-5 shadow-sm sm:p-6"
+                    >
+                        <h3
+                            class="text-base font-bold tracking-tight text-brand-navy sm:text-lg"
+                        >
+                            Status Servis Saat Ini
+                        </h3>
+                        <div
+                            class="space-y-4 rounded-lg border border-ui-border p-4"
+                        >
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Booking
+                                    </p>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        BK-20261008-002
+                                    </p>
+                                </div>
+                                <span
+                                    class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700"
+                                    >Sedang Berjalan</span
+                                >
+                            </div>
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Kendaraan
+                                    </p>
+                                    <p
+                                        class="text-sm font-medium text-brand-navy"
+                                    >
+                                        B 5678 XYZ
+                                    </p>
+                                    <p class="text-xs text-brand-steel">
+                                        Yamaha NMAX
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Jenis Servis
+                                    </p>
+                                    <p
+                                        class="text-sm font-medium text-brand-navy"
+                                    >
+                                        Repaint
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="border-t border-ui-border pt-3">
+                                <p class="text-xs text-brand-steel">Keluhan</p>
+                                <p class="text-sm text-brand-navy">
+                                    Cat bodi mulai kusam dan terdapat beberapa
+                                    goresan pada bagian samping.
+                                </p>
+                            </div>
+                            <div>
+                                <div
+                                    class="mb-2 flex items-center justify-between text-xs text-brand-steel"
+                                >
+                                    <span>Progres servis</span><span>60%</span>
+                                </div>
+                                <div
+                                    class="h-2 overflow-hidden rounded-full bg-slate-100"
+                                >
+                                    <div
+                                        class="h-full w-3/5 rounded-full bg-brand-gold"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Other mockup views -->
+                <section id="view-profile" class="page-view hidden space-y-6">
+                    <div>
+                        <h2
+                            class="text-xl font-bold text-brand-navy sm:text-2xl"
+                        >
+                            Profile Saya
+                        </h2>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Informasi akun customer.
+                        </p>
+                    </div>
+                    <div
+                        class="rounded-xl border border-ui-border bg-white p-5 shadow-sm sm:p-6"
+                    >
+                        <div
+                            class="mb-6 flex items-center gap-4 border-b border-ui-border pb-5"
+                        >
+                            <div
+                                class="flex h-16 w-16 items-center justify-center rounded-full bg-brand-navy text-xl font-bold text-white"
+                            >
+                                AD
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-brand-navy">
+                                    Aditya Pratama
+                                </h3>
+                                <p class="text-sm text-brand-steel">
+                                    Customer terdaftar
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Nama Lengkap<input
+                                    class="mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-gold"
+                                    value="Aditya Pratama"
+                            /></label>
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Email<input
+                                    class="mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-gold"
+                                    value="aditya@example.com"
+                            /></label>
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Nomor Telepon<input
+                                    class="mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-gold"
+                                    value="081234567890"
+                            /></label>
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Alamat<input
+                                    class="mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-gold"
+                                    value="Cikarang, Jawa Barat"
+                            /></label>
+                        </div>
+                        <button
+                            type="button"
+                            id="save-profile"
+                            class="mt-6 rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-gold"
+                        >
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </section>
+
+                <section id="view-vehicles" class="page-view hidden space-y-6">
+                    <div
+                        class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"
+                    >
+                        <div>
+                            <h2
+                                class="text-xl font-bold text-brand-navy sm:text-2xl"
+                            >
+                                Kendaraan Saya
+                            </h2>
+                            <p class="mt-1 text-sm text-brand-steel">
+                                Daftar kendaraan yang terdaftar pada akun Anda.
+                            </p>
+                        </div>
+                        <button
+                            type="button"
+                            id="add-vehicle"
+                            class="rounded-lg bg-brand-navy px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-gold"
+                        >
+                            + Tambah Kendaraan
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                        <article
+                            class="rounded-xl border border-ui-border bg-white p-5 shadow-sm"
+                        >
+                            <div class="flex items-start justify-between">
+                                <div
+                                    class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-brand-navy"
+                                >
+                                    <i data-lucide="bike" class="h-6 w-6"></i>
+                                </div>
+                                <span
+                                    class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700"
+                                    >Terdaftar</span
+                                >
+                            </div>
+                            <h3 class="mt-4 text-lg font-bold text-brand-navy">
+                                Honda Vario 160
+                            </h3>
+                            <p class="mt-1 text-sm text-brand-steel">
+                                B 1234 ABC
+                            </p>
+                            <div
+                                class="mt-4 grid grid-cols-2 gap-3 border-t border-ui-border pt-4 text-sm"
+                            >
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Tahun
+                                    </p>
+                                    <p class="font-medium text-brand-navy">
+                                        2024
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Warna
+                                    </p>
+                                    <p class="font-medium text-brand-navy">
+                                        Hitam
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        <article
+                            class="rounded-xl border border-ui-border bg-white p-5 shadow-sm"
+                        >
+                            <div class="flex items-start justify-between">
+                                <div
+                                    class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-brand-navy"
+                                >
+                                    <i data-lucide="bike" class="h-6 w-6"></i>
+                                </div>
+                                <span
+                                    class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-700"
+                                    >Terdaftar</span
+                                >
+                            </div>
+                            <h3 class="mt-4 text-lg font-bold text-brand-navy">
+                                Yamaha NMAX
+                            </h3>
+                            <p class="mt-1 text-sm text-brand-steel">
+                                B 5678 XYZ
+                            </p>
+                            <div
+                                class="mt-4 grid grid-cols-2 gap-3 border-t border-ui-border pt-4 text-sm"
+                            >
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Tahun
+                                    </p>
+                                    <p class="font-medium text-brand-navy">
+                                        2023
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-brand-steel">
+                                        Warna
+                                    </p>
+                                    <p class="font-medium text-brand-navy">
+                                        Abu-abu
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section
+                    id="view-booking-service"
+                    class="page-view hidden space-y-6"
+                >
+                    <div>
+                        <h2
+                            class="text-xl font-bold text-brand-navy sm:text-2xl"
+                        >
+                            Booking Servis
+                        </h2>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Buat jadwal layanan untuk kendaraan Anda.
+                        </p>
+                    </div>
+                    <form
+                        id="booking-form"
+                        class="space-y-5 rounded-xl border border-ui-border bg-white p-5 shadow-sm sm:p-6"
+                    >
+                        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Kendaraan<select
+                                    required
+                                    class="mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm"
+                                >
+                                    <option value="">Pilih kendaraan</option>
+                                    <option>
+                                        Honda Vario 160 - B 1234 ABC
+                                    </option>
+                                    <option>Yamaha NMAX - B 5678 XYZ</option>
+                                </select></label
+                            >
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Jenis Servis<select
+                                    required
+                                    class="mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm"
+                                >
+                                    <option value="">Pilih layanan</option>
+                                    <option>Servis Berkala</option>
+                                    <option>Repaint</option>
+                                    <option>Body Repair</option>
+                                    <option>Restorasi</option>
+                                    <option>Polishing</option>
+                                    <option>Lainnya</option>
+                                </select></label
+                            >
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Tanggal Booking<input
+                                    required
+                                    type="date"
+                                    class="mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm"
+                            /></label>
+                            <label
+                                class="block text-sm font-medium text-slate-700"
+                                >Waktu Booking<select
+                                    required
+                                    class="mt-2 w-full rounded-lg border border-ui-border bg-white px-3 py-2.5 text-sm"
+                                >
+                                    <option value="">Pilih waktu</option>
+                                    <option>09:00</option>
+                                    <option>10:30</option>
+                                    <option>13:00</option>
+                                    <option>14:30</option>
+                                </select></label
+                            >
+                        </div>
+                        <label class="block text-sm font-medium text-slate-700"
+                            >Keluhan<textarea
+                                rows="4"
+                                placeholder="Ceritakan kendala atau kebutuhan servis kendaraan..."
+                                class="mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-gold"
+                            ></textarea>
+                        </label>
+                        <div class="flex justify-end">
+                            <button
+                                type="submit"
+                                class="rounded-lg bg-brand-navy px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-gold"
+                            >
+                                Kirim Booking
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section id="view-bookings" class="page-view hidden space-y-6">
+                    <div>
+                        <h2
+                            class="text-xl font-bold text-brand-navy sm:text-2xl"
+                        >
+                            Booking Aktif
+                        </h2>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Pantau booking servis kendaraan Anda.
+                        </p>
+                    </div>
+                    <div
+                        class="overflow-hidden rounded-xl border border-ui-border bg-white shadow-sm"
+                    >
+                        <div class="overflow-x-auto">
+                            <table
+                                class="min-w-full divide-y divide-ui-border text-left text-sm"
+                            >
+                                <thead
+                                    class="bg-slate-50 text-xs uppercase tracking-wider text-brand-steel"
+                                >
+                                    <tr>
+                                        <th class="px-5 py-3">Kode Booking</th>
+                                        <th class="px-5 py-3">Kendaraan</th>
+                                        <th class="px-5 py-3">Layanan</th>
+                                        <th class="px-5 py-3">Tanggal</th>
+                                        <th class="px-5 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-ui-border">
+                                    <tr>
+                                        <td
+                                            class="whitespace-nowrap px-5 py-4 font-mono text-xs font-bold"
+                                        >
+                                            BK-20261010-001
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Honda Vario 160
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Servis Berkala
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            16 Okt 2026
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-blue-50 px-2.5 py-1 text-xs text-blue-700"
+                                                >Terkonfirmasi</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            class="whitespace-nowrap px-5 py-4 font-mono text-xs font-bold"
+                                        >
+                                            BK-20261008-002
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Yamaha NMAX
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Repaint
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            8 Okt 2026
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-purple-50 px-2.5 py-1 text-xs text-purple-700"
+                                                >Sedang Diproses</span
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-tracking" class="page-view hidden space-y-6">
+                    <div>
+                        <h2
+                            class="text-xl font-bold text-brand-navy sm:text-2xl"
+                        >
+                            Tracking Servis
+                        </h2>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Perkembangan pengerjaan kendaraan Anda.
+                        </p>
+                    </div>
+                    <div
+                        class="rounded-xl border border-ui-border bg-white p-5 shadow-sm sm:p-6"
+                    >
+                        <div
+                            class="flex flex-col justify-between gap-3 border-b border-ui-border pb-5 sm:flex-row sm:items-center"
+                        >
+                            <div>
+                                <p class="text-xs text-brand-steel">
+                                    Kode Booking
+                                </p>
+                                <h3
+                                    class="mt-1 font-mono text-lg font-bold text-brand-navy"
+                                >
+                                    BK-20261008-002
+                                </h3>
+                                <p class="mt-1 text-sm text-brand-steel">
+                                    Yamaha NMAX · B 5678 XYZ
+                                </p>
+                            </div>
+                            <span
+                                class="self-start rounded-full bg-purple-50 px-3 py-1.5 text-xs font-semibold text-purple-700"
+                                >Sedang Diproses</span
+                            >
+                        </div>
+                        <ol class="mt-6 space-y-6">
+                            <li class="flex gap-4">
+                                <span
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700"
+                                    ><i data-lucide="check" class="h-4 w-4"></i
+                                ></span>
+                                <div>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        Booking Dikonfirmasi
+                                    </p>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Booking telah dikonfirmasi oleh Service
+                                        Advisor.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700"
+                                    ><i data-lucide="check" class="h-4 w-4"></i
+                                ></span>
+                                <div>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        Kendaraan Diterima
+                                    </p>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Kendaraan sudah diterima di bengkel.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-700"
+                                    ><i data-lucide="check" class="h-4 w-4"></i
+                                ></span>
+                                <div>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        Pemeriksaan
+                                    </p>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Mekanik melakukan pemeriksaan awal.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4">
+                                <span
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-gold text-white ring-4 ring-amber-100"
+                                    ><i data-lucide="wrench" class="h-4 w-4"></i
+                                ></span>
+                                <div>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        Proses Servis
+                                    </p>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Pengerjaan repaint sedang berlangsung.
+                                    </p>
+                                    <span
+                                        class="mt-2 inline-flex rounded-full bg-amber-50 px-2 py-1 text-[11px] font-medium text-amber-700"
+                                        >Tahap saat ini</span
+                                    >
+                                </div>
+                            </li>
+                            <li class="flex gap-4 opacity-50">
+                                <span
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500"
+                                    ><i
+                                        data-lucide="clipboard-check"
+                                        class="h-4 w-4"
+                                    ></i
+                                ></span>
+                                <div>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        Pemeriksaan Akhir
+                                    </p>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Menunggu tahap pengerjaan selesai.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex gap-4 opacity-50">
+                                <span
+                                    class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500"
+                                    ><i
+                                        data-lucide="check-circle-2"
+                                        class="h-4 w-4"
+                                    ></i
+                                ></span>
+                                <div>
+                                    <p
+                                        class="text-sm font-semibold text-brand-navy"
+                                    >
+                                        Selesai
+                                    </p>
+                                    <p class="mt-1 text-xs text-brand-steel">
+                                        Kendaraan siap diambil.
+                                    </p>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section id="view-history" class="page-view hidden space-y-6">
+                    <div>
+                        <h2
+                            class="text-xl font-bold text-brand-navy sm:text-2xl"
+                        >
+                            Riwayat Servis
+                        </h2>
+                        <p class="mt-1 text-sm text-brand-steel">
+                            Daftar layanan yang pernah dilakukan.
+                        </p>
+                    </div>
+                    <div
+                        class="overflow-hidden rounded-xl border border-ui-border bg-white shadow-sm"
+                    >
+                        <div class="overflow-x-auto">
+                            <table
+                                class="min-w-full divide-y divide-ui-border text-left text-sm"
+                            >
+                                <thead
+                                    class="bg-slate-50 text-xs uppercase tracking-wider text-brand-steel"
+                                >
+                                    <tr>
+                                        <th class="px-5 py-3">Tanggal</th>
+                                        <th class="px-5 py-3">Kendaraan</th>
+                                        <th class="px-5 py-3">Jenis Servis</th>
+                                        <th class="px-5 py-3">Kode Booking</th>
+                                        <th class="px-5 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-ui-border">
+                                    <tr>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            12 Sep 2026
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Honda Vario 160
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Servis Berkala
+                                        </td>
+                                        <td
+                                            class="whitespace-nowrap px-5 py-4 font-mono text-xs"
+                                        >
+                                            BK-20260912-003
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-green-50 px-2.5 py-1 text-xs text-green-700"
+                                                >Selesai</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            20 Jul 2026
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Yamaha NMAX
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            Polishing
+                                        </td>
+                                        <td
+                                            class="whitespace-nowrap px-5 py-4 font-mono text-xs"
+                                        >
+                                            BK-20260720-001
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4">
+                                            <span
+                                                class="rounded-full bg-green-50 px-2.5 py-1 text-xs text-green-700"
+                                                >Selesai</span
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Rejection reason modal -->
+        <div
+            id="rejection-reason-modal"
+            class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-900/50 px-4 backdrop-blur-sm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="rejection-modal-title"
+        >
+            <div
+                id="rejection-reason-modal-box"
+                class="modal-panel w-full max-w-md scale-95 overflow-hidden rounded-2xl border border-ui-border bg-white opacity-0 shadow-2xl"
+            >
+                <div
+                    class="flex items-center justify-between border-b border-ui-border px-5 py-4"
+                >
+                    <div>
+                        <h2
+                            id="rejection-modal-title"
+                            class="text-base font-bold text-brand-navy"
+                        >
+                            Alasan Penolakan
+                        </h2>
+                        <p
+                            id="rejection-booking-code"
+                            class="mt-1 text-xs text-brand-steel"
+                        ></p>
+                    </div>
+                    <button
+                        type="button"
+                        id="close-rejection-modal"
+                        class="flex h-8 w-8 items-center justify-center rounded-lg text-brand-steel transition-colors hover:bg-ui-main"
+                        aria-label="Tutup modal"
+                    >
+                        <i data-lucide="x" class="h-4 w-4"></i>
+                    </button>
+                </div>
+                <div class="px-5 py-5">
+                    <div
+                        class="rounded-xl border border-red-100 bg-red-50 px-4 py-4"
+                    >
+                        <p
+                            id="rejection-reason-message"
+                            class="text-sm leading-relaxed text-red-700"
+                        >
+                            Alasan penolakan belum tersedia.
+                        </p>
+                    </div>
+                </div>
+                <div
+                    class="flex justify-end border-t border-ui-border bg-gray-50 px-5 py-4"
+                >
+                    <button
+                        type="button"
+                        id="dismiss-rejection-modal"
+                        class="rounded-lg border border-ui-border bg-white px-4 py-2 text-sm font-semibold text-brand-navy transition-colors hover:bg-ui-main"
+                    >
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout confirmation modal -->
+        <div id="logout-modal"
+            class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
+            role="dialog" aria-modal="true" aria-labelledby="logout-modal-title">
+            <div class="w-full max-w-sm rounded-xl border border-ui-border bg-white p-5 shadow-2xl">
+                <div class="mb-5 flex items-center gap-3">
+                    <div
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-amber-200 bg-amber-50 text-brand-gold">
+                        <i data-lucide="log-out" class="h-5 w-5"></i>
+                    </div>
+                    <div>
+                        <h2 id="logout-modal-title" class="text-base font-semibold text-brand-navy">Konfirmasi Keluar</h2>
+                        <p class="mt-0.5 text-xs text-brand-steel">Apakah Anda yakin ingin keluar dari akun?</p>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" id="logout-cancel"
+                        class="rounded-md border border-ui-border px-4 py-2 text-sm font-medium text-brand-steel transition-colors hover:bg-ui-main">
+                        Batal
+                    </button>
+                    <button type="button" id="logout-confirm"
+                        class="rounded-md bg-brand-navy px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-brand-gold">
+                        Keluar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast notification -->
+        <div
+            id="toast"
+            class="fixed bottom-5 right-5 z-[80] hidden max-w-sm rounded-xl border border-ui-border bg-white px-4 py-3 text-sm text-brand-navy shadow-xl"
+            role="status"
+        ></div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                if (window.lucide) lucide.createIcons();
+
+                const sidebar = document.getElementById("sidebar");
+                const overlay = document.getElementById("sidebar-overlay");
+                const openSidebarButton =
+                    document.getElementById("open-sidebar-btn");
+                const closeSidebarButton =
+                    document.getElementById("close-sidebar-btn");
+                const profileTrigger =
+                    document.getElementById("profile-trigger");
+                const profileCard = document.getElementById("profile-card");
+                const logoutButton = document.getElementById("logout-button");
+                const logoutModal = document.getElementById("logout-modal");
+                const logoutCancel = document.getElementById("logout-cancel");
+                const logoutConfirm = document.getElementById("logout-confirm");
+                const pageTitle = document.getElementById("page-title");
+                const toast = document.getElementById("toast");
+
+                const pageTitles = {
+                    dashboard: "Dashboard",
+                    profile: "Profile Saya",
+                    vehicles: "Kendaraan Saya",
+                    "booking-service": "Booking Servis",
+                    bookings: "Booking Aktif",
+                    tracking: "Tracking Servis",
+                    history: "Riwayat Servis",
+                };
+
+                function openSidebar() {
+                    sidebar.classList.remove("-translate-x-full");
+                    overlay.classList.remove("hidden");
+                }
+
+                function closeSidebar() {
+                    sidebar.classList.add("-translate-x-full");
+                    overlay.classList.add("hidden");
+                }
+
+                openSidebarButton.addEventListener("click", openSidebar);
+                closeSidebarButton.addEventListener("click", closeSidebar);
+                overlay.addEventListener("click", closeSidebar);
+
+                profileTrigger.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    profileCard.classList.toggle("hidden");
+                });
+
+                document.addEventListener("click", function (event) {
+                    if (
+                        !profileCard.contains(event.target) &&
+                        !profileTrigger.contains(event.target)
+                    ) {
+                        profileCard.classList.add("hidden");
+                    }
+                });
+
+                function showToast(message) {
+                    toast.textContent = message;
+                    toast.classList.remove("hidden");
+                    window.clearTimeout(showToast.timeout);
+                    showToast.timeout = window.setTimeout(
+                        () => toast.classList.add("hidden"),
+                        2800,
+                    );
+                }
+
+                function showView(viewName) {
+                    const target = document.getElementById("view-" + viewName);
+                    if (!target) return;
+
+                    document
+                        .querySelectorAll(".page-view")
+                        .forEach((section) => section.classList.add("hidden"));
+                    target.classList.remove("hidden");
+                    pageTitle.textContent = pageTitles[viewName] || "Dashboard";
+
+                    document.querySelectorAll(".nav-item").forEach((link) => {
+                        const active = link.dataset.view === viewName;
+                        link.classList.toggle("active", active);
+                        link.classList.toggle("border-brand-gold", active);
+                        link.classList.toggle("border-transparent", !active);
+                    });
+
+                    profileCard.classList.add("hidden");
+                    closeSidebar();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+
+                document.querySelectorAll("[data-view]").forEach((link) => {
+                    link.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        const viewName = this.dataset.view;
+                        history.replaceState(null, "", "#" + viewName);
+                        showView(viewName);
+                    });
+                });
+
+                document
+                    .querySelectorAll("[data-view-link]")
+                    .forEach((button) => {
+                        button.addEventListener("click", function () {
+                            const viewName = this.dataset.viewLink;
+                            history.replaceState(null, "", "#" + viewName);
+                            showView(viewName);
+                        });
+                    });
+
+                function openLogoutModal() {
+                    logoutModal.classList.remove("hidden");
+                    logoutModal.classList.add("flex");
+                    profileCard.classList.add("hidden");
+                }
+
+                function closeLogoutModal() {
+                    logoutModal.classList.add("hidden");
+                    logoutModal.classList.remove("flex");
+                }
+
+                logoutButton.addEventListener("click", openLogoutModal);
+                logoutCancel.addEventListener("click", closeLogoutModal);
+                logoutModal.addEventListener("click", function (event) {
+                    if (event.target === logoutModal) closeLogoutModal();
+                });
+
+                logoutConfirm.addEventListener("click", function () {
+                    closeLogoutModal();
+                    showToast("Anda telah keluar dari akun demo.");
+                    window.setTimeout(() => {
+                        window.location.href = "/public/design/auth/login.html";
+                    }, 500);
+                });
+
+                const rejectionModal = document.getElementById(
+                    "rejection-reason-modal",
+                );
+                const rejectionModalBox = document.getElementById(
+                    "rejection-reason-modal-box",
+                );
+
+                function openRejectionReason(code, reason) {
+                    document.getElementById(
+                        "rejection-booking-code",
+                    ).textContent = "Kode Booking: " + code;
+                    document.getElementById(
+                        "rejection-reason-message",
+                    ).textContent =
+                        reason ||
+                        "Booking ditolak. Silakan hubungi Service Advisor untuk informasi lebih lanjut.";
+                    rejectionModal.classList.remove("hidden");
+                    rejectionModal.classList.add("flex");
+                    requestAnimationFrame(() => {
+                        rejectionModalBox.classList.remove(
+                            "scale-95",
+                            "opacity-0",
+                        );
+                        rejectionModalBox.classList.add(
+                            "scale-100",
+                            "opacity-100",
+                        );
+                    });
+                }
+
+                function closeRejectionReason() {
+                    rejectionModalBox.classList.add("scale-95", "opacity-0");
+                    rejectionModalBox.classList.remove(
+                        "scale-100",
+                        "opacity-100",
+                    );
+                    window.setTimeout(() => {
+                        rejectionModal.classList.add("hidden");
+                        rejectionModal.classList.remove("flex");
+                    }, 200);
+                }
+
+                document
+                    .querySelectorAll("[data-rejection]")
+                    .forEach((button) => {
+                        button.addEventListener("click", function () {
+                            openRejectionReason(
+                                this.dataset.rejection,
+                                "Alasan penolakan belum tersedia pada data dummy ini.",
+                            );
+                        });
+                    });
+
+                document
+                    .getElementById("close-rejection-modal")
+                    .addEventListener("click", closeRejectionReason);
+                document
+                    .getElementById("dismiss-rejection-modal")
+                    .addEventListener("click", closeRejectionReason);
+                rejectionModal.addEventListener("click", function (event) {
+                    if (event.target === rejectionModal) closeRejectionReason();
+                });
+
+                document
+                    .getElementById("booking-form")
+                    .addEventListener("submit", function (event) {
+                        event.preventDefault();
+                        showToast(
+                            "Booking demo berhasil dikirim. Data belum disimpan ke database.",
+                        );
+                        this.reset();
+                    });
+
+                document
+                    .getElementById("save-profile")
+                    .addEventListener("click", function () {
+                        showToast(
+                            "Perubahan profil hanya simulasi dan belum disimpan.",
+                        );
+                    });
+
+                document
+                    .getElementById("add-vehicle")
+                    .addEventListener("click", function () {
+                        showToast(
+                            "Fitur tambah kendaraan hanya simulasi untuk mockup.",
+                        );
+                    });
+
+                document.addEventListener("keydown", function (event) {
+                    if (event.key === "Escape") {
+                        closeSidebar();
+                        closeLogoutModal();
+                        closeRejectionReason();
+                        profileCard.classList.add("hidden");
+                    }
+                });
+
+                const initialView = window.location.hash.replace("#", "");
+                if (pageTitles[initialView]) showView(initialView);
+                else showView("dashboard");
+            });
+        </script>
+    </body>
+</html>
