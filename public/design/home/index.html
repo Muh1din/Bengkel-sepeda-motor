@@ -906,10 +906,10 @@
                         <li>✓ Pantau dan kelola booking</li>
                     </ul>
 
-                <a href="../auth/login.html"
-                    class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90">
-                    Daftar / Login
-                </a>
+            <button type="button" onclick="goToLogin()"
+                class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90 cursor-pointer">
+                Daftar / Login
+            </button>
                 </div>
 
                 <!-- Separator -->
@@ -2680,6 +2680,11 @@
                         }
                     }
                 }
+
+                function goToLogin() {
+                        closeBookingModal();
+                        window.location.href = "https://nirwarna-garage.web.id/design/auth/login.html";
+                    }
 
 
 
