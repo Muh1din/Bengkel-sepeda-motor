@@ -907,11 +907,11 @@
                     </ul>
 
         <!-- GANTI KODE TOMBOL DAFTAR/LOGIN MENJADI SEPERTI INI: -->
-            <a href="../../design/auth/register.html"
-                onclick="event.stopPropagation(); window.location.href='../../design/auth/register.html'; return false;"
+            <button type="button"
+                onclick="event.preventDefault(); event.stopPropagation(); window.location.replace('../../design/auth/register.html'); return false;"
                 class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90 cursor-pointer">
-                Daftar / Login
-            </a>
+                Daftar / Login (Direct)
+            </button>
                 </div>
 
                 <!-- Separator -->
