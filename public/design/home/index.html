@@ -2882,33 +2882,32 @@
             });
 
             // SMOOTH SCROLL
-            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-                anchor.addEventListener("click", function (event) {
-                    const href = this.getAttribute("href");
+                document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                    anchor.addEventListener("click", function (event) {
+                        const href = this.getAttribute("href");
 
-                    // Abaikan anchor kosong.
-                    if (!href || href === "#") return;
+                        // Pastikan ini benar-benar anchor internal (hanya berisi # dan teks di belakangnya, misal: #layanan)
+                        if (!href || !href.startsWith("#") || href === "#") return;
 
-                    const target = document.querySelector(href);
+                        const target = document.querySelector(href);
 
-                    // Jangan mencegah perilaku default jika target tidak ditemukan.
-                    if (!target) return;
+                        // Jika elemen target tidak ada di halaman ini, biarkan link berjalan normal (jangan di-preventDefault)
+                        if (!target) return;
 
-                    event.preventDefault();
+                        event.preventDefault();
 
-                    const offset = 72;
+                        const offset = 72;
+                        const top =
+                            target.getBoundingClientRect().top +
+                            window.scrollY -
+                            offset;
 
-                    const top =
-                        target.getBoundingClientRect().top +
-                        window.scrollY -
-                        offset;
-
-                    window.scrollTo({
-                        top,
-                        behavior: "smooth",
+                        window.scrollTo({
+                            top,
+                            behavior: "smooth",
+                        });
                     });
                 });
-            });
 
             // ACTIVE NAV LINK
             const sections = document.querySelectorAll("section[id]");
