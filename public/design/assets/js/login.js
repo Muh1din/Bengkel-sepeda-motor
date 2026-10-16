@@ -28,28 +28,28 @@ document.addEventListener("DOMContentLoaded", function () {
         admin: {
             email: "admin@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/design/dashboard/admin/index.html",
+            dashboard: "design/dashboard/admin/index.html",
             name: "Admin",
         },
 
         "service-advisor": {
             email: "sa@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/design/dashboard/service-advisor/index.html",
+            dashboard: "design/dashboard/service-advisor/index.html",
             name: "Service Advisor",
         },
 
         mechanic: {
             email: "mekanik@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/design/dashboard/mechanic/index.html",
+            dashboard: "design/dashboard/mechanic/index.html",
             name: "Mekanik",
         },
 
         customer: {
             email: "customer@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/design/dashboard/customer/index.html",
+            dashboard: "design/dashboard/customer/index.html",
             name: "Customer",
         },
     };
