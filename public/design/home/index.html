@@ -906,10 +906,11 @@
                         <li>✓ Pantau dan kelola booking</li>
                     </ul>
 
-            <button type="button" onclick="goToLogin()"
-                class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90 cursor-pointer">
-                Daftar / Login
-            </button>
+        <!-- GANTI KODE TOMBOL DAFTAR/LOGIN MENJADI SEPERTI INI: -->
+                <a href="design/auth/login.html"
+                    class="mt-5 block w-full rounded-xl bg-brand-gold px-4 py-3 text-center text-sm font-bold text-white transition hover:opacity-90 cursor-pointer">
+                    Daftar / Login
+                </a>
                 </div>
 
                 <!-- Separator -->
@@ -2679,12 +2680,6 @@
                             modal.classList.remove("flex");
                         }
                     }
-                }
-
-             function goToLogin() {
-                    closeBookingModal();
-                    // JANGAN PAKAI SLASH DI DEPAN
-                    window.location.href = "design/auth/login.html";
                 }
 
 
