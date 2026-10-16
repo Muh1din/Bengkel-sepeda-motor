@@ -21,35 +21,35 @@ document.addEventListener("DOMContentLoaded", function () {
         owner: {
             email: "owner@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/public/design/dashboard/owner/index.html",
+            dashboard: "/design/dashboard/owner/index.html",
             name: "Owner",
         },
 
         admin: {
             email: "admin@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/public/design/dashboard/admin/index.html",
+            dashboard: "/design/dashboard/admin/index.html",
             name: "Admin",
         },
 
         "service-advisor": {
             email: "sa@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/public/design/dashboard/service-advisor/index.html",
+            dashboard: "/design/dashboard/service-advisor/index.html",
             name: "Service Advisor",
         },
 
         mechanic: {
             email: "mekanik@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/public/design/dashboard/mechanic/index.html",
+            dashboard: "/design/dashboard/mechanic/index.html",
             name: "Mekanik",
         },
 
         customer: {
             email: "customer@nirwanagarage.test",
             password: "rahasia",
-            dashboard: "/public/design/dashboard/customer/index.html",
+            dashboard: "/design/dashboard/customer/index.html",
             name: "Customer",
         },
     };
