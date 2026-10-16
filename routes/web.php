@@ -50,6 +50,12 @@ use Illuminate\Image\Transformations\Rotate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// mock up
+
+Route::get('/mockup-login', function () {
+    return "public/design/auth/login.html";
+});
+
 
 // Guest
 Route::get('/', [HomeController::class, 'index'])->name('home');
