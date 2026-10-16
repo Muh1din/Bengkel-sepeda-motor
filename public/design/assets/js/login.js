@@ -17,42 +17,42 @@ document.addEventListener("DOMContentLoaded", function () {
     const registerLink = document.getElementById("registerLink");
 
     // 2. KONFIGURASI AKUN DEMO
-    const demoUsers = {
-        owner: {
-            email: "owner@nirwanagarage.test",
-            password: "rahasia",
-            dashboard: "/design/dashboard/owner/index.html",
-            name: "Owner",
-        },
+   const demoUsers = {
+       owner: {
+           email: "owner@nirwanagarage.test",
+           password: "rahasia",
+           dashboard: "/design/dashboard/owner/index.html",
+           name: "Owner",
+       },
 
-        admin: {
-            email: "admin@nirwanagarage.test",
-            password: "rahasia",
-            dashboard: "design/dashboard/admin/index.html",
-            name: "Admin",
-        },
+       admin: {
+           email: "admin@nirwanagarage.test",
+           password: "rahasia",
+           dashboard: "/design/dashboard/admin/index.html",
+           name: "Admin",
+       },
 
-        "service-advisor": {
-            email: "sa@nirwanagarage.test",
-            password: "rahasia",
-            dashboard: "design/dashboard/service-advisor/index.html",
-            name: "Service Advisor",
-        },
+       "service-advisor": {
+           email: "sa@nirwanagarage.test",
+           password: "rahasia",
+           dashboard: "/design/dashboard/service-advisor/index.html",
+           name: "Service Advisor",
+       },
 
-        mechanic: {
-            email: "mekanik@nirwanagarage.test",
-            password: "rahasia",
-            dashboard: "design/dashboard/mechanic/index.html",
-            name: "Mekanik",
-        },
+       mechanic: {
+           email: "mekanik@nirwanagarage.test",
+           password: "rahasia",
+           dashboard: "/design/dashboard/mechanic/index.html",
+           name: "Mekanik",
+       },
 
-        customer: {
-            email: "customer@nirwanagarage.test",
-            password: "rahasia",
-            dashboard: "design/dashboard/customer/index.html",
-            name: "Customer",
-        },
-    };
+       customer: {
+           email: "customer@nirwanagarage.test",
+           password: "rahasia",
+           dashboard: "/design/dashboard/customer/index.html",
+           name: "Customer",
+       },
+   };
 
     // 3. VALIDASI ELEMEN HTML
     if (!roleSelect || !identityInput || !passwordInput || !loginForm) {
