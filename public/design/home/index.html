@@ -728,11 +728,8 @@
                             >Kontak</a
                         >
 
-                        <button
-                            type="button"
-                            onclick="openBookingModal()"
-                            class="btn-primary bg-brand-gold px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all duration-300 ease-out hover:bg-amber-500 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 cursor-pointer"
-                        >
+                        <button type="button" onclick="openBookingModal()"
+                            class="btn-primary bg-brand-gold px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all duration-300 ease-out hover:bg-amber-500 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 cursor-pointer">
                             Booking
                         </button>
                     </div>
@@ -856,13 +853,9 @@
                         ></i>
                         Kontak
                     </a>
-                    <button
-                        type="button"
-                        onclick="openBookingModal()"
-                        class="mobile-link mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center w-full cursor-pointer"
-                    >
-                        <i class="fa-solid fa-calendar-check w-5"></i> Booking
-                        Sekarang
+                    <button type="button" onclick="openBookingModal()"
+                        class="mobile-link mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center w-full cursor-pointer">
+                        <i class="fa-solid fa-calendar-check w-5"></i> Booking Sekarang
                     </button>
                 </div>
             </div>
@@ -2695,11 +2688,9 @@
                     mobileMenu.classList.toggle("open", menuOpen);
                 });
 
-                mobileMenu.querySelectorAll("a, button").forEach((link) => {
+                mobileMenu.querySelectorAll("a.mobile-link").forEach((link) => {
                     link.addEventListener("click", () => {
-                        menuOpen = false;
-                        mobileMenu.classList.add("hidden");
-                        mobileMenu.classList.remove("open");
+                        closeMobileMenu();
                     });
                 });
             }
