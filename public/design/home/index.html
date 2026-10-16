@@ -2682,8 +2682,8 @@
                 }
 
                 function goToLogin() {
-                        closeBookingModal(); // Tutup modal jika ada
-                        window.location.href = "design/auth/login.html"; // Tanpa slash (/) di awal!
+                        closeBookingModal();
+                       window.location.href = "{{ url('design/auth/login.html') }}";
                     }
 
 
