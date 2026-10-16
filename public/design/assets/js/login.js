@@ -185,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 7. PROSES LOGIN DEMO
+    // 7. PROSES LOGIN DEMO (DIUBAH AGAR 100% BEBAS DARI PUBLIC)
     loginForm.addEventListener("submit", function (event) {
         event.preventDefault();
 
@@ -207,15 +208,15 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Tentukan tujuan berdasarkan role yang dipilih.
-        const targetUrl = new URL(user.dashboard, window.location.origin);
+        // Paksa gabungkan origin domain utama langsung dengan string dashboard (tanpa objek URL)
+        const targetUrl = window.location.origin + user.dashboard;
 
         console.clear();
         console.log("Role:", selectedRole);
-        console.log("URL tujuan:", targetUrl.href);
+        console.log("URL tujuan:", targetUrl);
 
-        // Langsung redirect tanpa setTimeout / konfirmasi
-        window.location.assign(targetUrl.href);
+        // Langsung redirect
+        window.location.assign(targetUrl);
     });
 
     // 8. SIMULASI LUPA PASSWORD
