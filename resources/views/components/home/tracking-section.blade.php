@@ -422,8 +422,8 @@
             </p>
 
         </div>
-
+{{-- 
         @push('scripts')
             @vite('resources/js/tracking-section.js')
-        @endpush
+        @endpush --}}
 </section>

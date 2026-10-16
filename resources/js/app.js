@@ -17,6 +17,7 @@ import "./rejected-reson";
 import "./mechanic/modal-detail-dashboard";
 import "./mechanic/inspection";
 import "./home";
+import "./tracking-section";
 import "./modal-booking-confirm";
 
 

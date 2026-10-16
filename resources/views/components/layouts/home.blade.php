@@ -9,11 +9,13 @@
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @stack('scripts')
+
 </head>
 
 <!-- Hapus overflow-x-hidden dari <body> -->
+
 <body class="bg-ui-main text-ui-text font-sans">
 
     <x-home.navigation.navigation></x-home.navigation.navigation>
