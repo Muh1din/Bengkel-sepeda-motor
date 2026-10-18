@@ -1,21 +1,25 @@
 <aside id="sidebar"
     class="fixed inset-y-0 left-0 z-40 flex h-dvh w-64 shrink-0 -translate-x-full flex-col overflow-hidden bg-brand-navy text-white shadow-xl transition-transform duration-300 ease-in-out no-print md:translate-x-0 md:shadow-none">
+    
     {{-- Brand Header --}}
-    <div class="flex h-16 shrink-0 items-center justify-between border-b border-slate-700/50 bg-brand-navy px-6">
-        <div class="flex min-w-0 items-center gap-3">
+    <div class="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-700/50 bg-brand-navy px-4">
+
+        {{-- Logo --}}
+        <div class="flex min-w-0 flex-1 items-center gap-2">
             <img src="{{ asset('logo/logo.jpeg') }}" alt="Nirwana Garage Logo"
                 class="h-8 w-8 shrink-0 rounded-lg object-cover">
 
-            <h1 class="whitespace-nowrap text-base font-bold leading-none text-white">
+            <h1 class="min-w-0 whitespace-nowrap text-sm font-bold leading-none text-white">
                 NIRWANA <span class="text-brand-gold">GARAGE</span>
             </h1>
         </div>
 
         {{-- Close Button Mobile --}}
         <button id="close-sidebar-btn" type="button" aria-label="Tutup menu navigasi"
-            class="shrink-0 rounded-lg p-1 text-brand-silver transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-600 md:hidden">
-            <i data-lucide="x" class="h-6 w-6"></i>
+            class="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-brand-silver transition-colors hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-600 md:hidden">
+            <i data-lucide="x" class="h-5 w-5"></i>
         </button>
+
     </div>
 
     {{-- Navigation Container --}}
@@ -211,7 +215,7 @@
 
         {{-- Profile Button Trigger --}}
         <button type="button" id="profile-trigger" aria-expanded="false" aria-controls="profile-card"
-            class="flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-lg p-1.5 text-left transition-colors select-none hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-600">
+            class="flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-lg p-1.5 text-left transition-colors select-none hover:bg-slate-800">
             <span
                 class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-700 text-sm font-semibold text-white">
                 {{ $initials }}
