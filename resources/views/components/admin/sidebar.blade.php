@@ -8,7 +8,7 @@
             <div class="flex items-center gap-3">
                 <img src="{{ asset('logo/logo.jpeg') }}" alt="Nirwana Garage Logo"
                     class="w-8 h-8 rounded-lg object-cover shrink-0">
-               <h1 class="font-bold text-base leading-none text-white">
+                <h1 class="font-bold text-base leading-none text-white">
                     NIRWANA <span class="text-brand-gold">GARAGE</span>
                 </h1>
             </div>

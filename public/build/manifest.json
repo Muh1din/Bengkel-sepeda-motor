@@ -87,5 +87,11 @@
     "name": "chart-dashboard",
     "src": "resources/js/owner/chart-dashboard.js",
     "isEntry": true
+  },
+  "resources/js/owner/work-orders.js": {
+    "file": "assets/work-orders-x_DDPyyz.js",
+    "name": "work-orders",
+    "src": "resources/js/owner/work-orders.js",
+    "isEntry": true
   }
 }
