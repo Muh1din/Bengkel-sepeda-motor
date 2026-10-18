@@ -10,14 +10,18 @@
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="icon" type="image/png" href="{{ asset('logo/logo.jpeg') }}">
+
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-ui-main text-ui-text antialiased font-sans">
-    
-    <x-home.navigation.navigation></x-home.navigation.navigation>    
-     {{ $slot }}
-    
+
+    <x-home.navigation.navigation></x-home.navigation.navigation>
+    {{ $slot }}
+
     <x-home.footer.footer></x-home.footer.footer>
-</body>  
+</body>
+
 </html>

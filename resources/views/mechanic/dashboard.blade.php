@@ -18,7 +18,7 @@
 
             </div>
 
-            <a href="#"
+            <a href=" {{ route('mechanic.work-orders.index') }} "
                 class="bg-brand-navy text-white hover:bg-slate-800 px-4 py-2 rounded-md text-sm font-medium transition shadow-sm">
                 Lihat Semua Work Order
             </a>
@@ -158,10 +158,6 @@
                 <h4 class="font-bold text-brand-navy">
                     Work Order Terbaru
                 </h4>
-
-                <a href="#" class="text-sm text-brand-gold hover:underline font-semibold">
-                    Lihat Semua
-                </a>
 
             </div>
 

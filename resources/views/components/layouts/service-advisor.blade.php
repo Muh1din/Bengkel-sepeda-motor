@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nirwana Garage | {{ $title }} </title>
 
+    <link rel="icon" type="image/png" href="{{ asset('logo/logo.jpeg') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -15,7 +17,7 @@
 
     <x-service-advisor.sidebar></x-service-advisor.sidebar>
 
-     <div class="flex-1 md:pl-64 flex flex-col min-w-0 min-h-screen transition-all duration-300">
+    <div class="flex-1 md:pl-64 flex flex-col min-w-0 min-h-screen transition-all duration-300">
         <!-- Header Component -->
         <x-service-advisor.header :title="$title"></x-service-advisor.header>
 

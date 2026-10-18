@@ -1,7 +1,4 @@
-// ============================================
 // SCROLL ANIMATION
-// ============================================
-
 const scrollObserver = new IntersectionObserver(
     (entries, observer) => {
         entries.forEach((entry) => {
@@ -39,10 +36,7 @@ document.querySelectorAll(".stagger-children").forEach((parent) => {
     });
 });
 
-// ============================================
 // MOBILE MENU (UPDATE FIX)
-// ============================================
-
 const menuBtn = document.getElementById("menu-btn");
 const mobileMenu = document.getElementById("mobile-menu");
 
@@ -103,10 +97,7 @@ if (menuBtn && mobileMenu) {
     });
 }
 
-// ============================================
 // NAVBAR SCROLL EFFECT
-// ============================================
-
 const navbar = document.getElementById("navbar");
 
 function updateNavbar() {
@@ -124,10 +115,7 @@ window.addEventListener("scroll", updateNavbar, {
 
 updateNavbar();
 
-// ============================================
 // FAQ ACCORDION
-// ============================================
-
 document.querySelectorAll(".faq-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
         const content = btn.nextElementSibling;
@@ -163,10 +151,7 @@ document.querySelectorAll(".faq-btn").forEach((btn) => {
     });
 });
 
-// ============================================
 // SMOOTH SCROLL
-// ============================================
-
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (event) {
         const href = this.getAttribute("href");
@@ -193,10 +178,7 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     });
 });
 
-// ============================================
 // ACTIVE NAV LINK
-// ============================================
-
 const sections = document.querySelectorAll("section[id]");
 const navLinks = document.querySelectorAll(".nav-link");
 
@@ -222,10 +204,40 @@ window.addEventListener("scroll", updateActiveNavLink, {
 
 updateActiveNavLink();
 
-// ============================================
 // KONSULTASI VIA WHATSAPP
-// ============================================
+document.addEventListener("DOMContentLoaded", function () {
+    const section = document.getElementById("kontak");
 
+    if (!section) {
+        return;
+    }
+
+    const serviceType = section.querySelector("#service_type");
+    const otherServiceWrapper = section.querySelector("#other_service_wrapper");
+    const otherServiceInput = section.querySelector("#other_service");
+
+    if (!serviceType || !otherServiceWrapper || !otherServiceInput) {
+        return;
+    }
+
+    function toggleOtherService() {
+        const isOther = serviceType.value === "Lainnya";
+
+        otherServiceWrapper.classList.toggle("hidden", !isOther);
+        otherServiceInput.required = isOther;
+
+        if (!isOther) {
+            otherServiceInput.value = "";
+        }
+    }
+
+    serviceType.addEventListener("change", toggleOtherService);
+
+    toggleOtherService();
+});
+
+
+// Mengirim konsultasi melalui WhatsApp
 window.handleKonsultasiSubmit = function () {
     const section = document.getElementById("kontak");
 
@@ -235,36 +247,63 @@ window.handleKonsultasiSubmit = function () {
     }
 
     const nama =
-        section.querySelector('input[type="text"]')?.value.trim() ?? "";
+        section.querySelector('input[type="text"]:not(#other_service)')
+            ?.value.trim() ?? "";
 
-    const wa = section.querySelector('input[type="tel"]')?.value.trim() ?? "";
+    const serviceType =
+        section.querySelector("#service_type");
 
-    const layanan = section.querySelector("select")?.value ?? "";
+    const otherService =
+        section.querySelector("#other_service");
 
-    const detail = section.querySelector("textarea")?.value.trim() ?? "";
+    const detail =
+        section.querySelector("textarea")?.value.trim() ?? "";
 
-    if (!nama || !wa) {
-        alert("Nama dan nomor WhatsApp wajib diisi.");
+    if (!nama) {
+        alert("Nama wajib diisi.");
         return;
     }
+
+    if (!serviceType || !serviceType.value) {
+        alert("Silakan pilih jenis layanan.");
+        serviceType?.focus();
+        return;
+    }
+
+    if (
+        serviceType.value === "Lainnya" &&
+        !otherService?.value.trim()
+    ) {
+        alert("Silakan tuliskan layanan yang Anda inginkan.");
+        otherService?.focus();
+        return;
+    }
+
+    if (!detail) {
+        alert("Silakan isi detail rencana motor Anda.");
+        section.querySelector("textarea")?.focus();
+        return;
+    }
+
+    const layanan = serviceType.value === "Lainnya"
+        ? `Lainnya - ${otherService.value.trim()}`
+        : serviceType.value;
 
     const nomorWA = "6285717676292";
 
     const pesan =
         `Halo Admin, saya ${nama} ingin konsultasi gratis.\n\n` +
-        `Layanan: ${layanan || "-"}\n` +
-        `Detail: ${detail || "-"}\n\n` +
-        `Nomor WhatsApp saya: ${wa}`;
+        `Layanan: ${layanan}\n` +
+        `Detail: ${detail}\n\n` +
+        `Mohon informasi lebih lanjut. Terima kasih.`;
 
-    const url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+    const url =
+        `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
 
     window.open(url, "_blank", "noopener,noreferrer");
 };
 
-// ============================================
 // RESERVATION VIA WHATSAPP
-// ============================================
-
 window.handleReservationSubmit = function () {
     const btn = document.querySelector(
         'button[onclick="handleReservationSubmit()"]',
@@ -320,10 +359,7 @@ window.handleReservationSubmit = function () {
     window.open(url, "_blank", "noopener,noreferrer");
 };
 
-// ============================================
 // TESTIMONIAL SLIDER
-// ============================================
-
 document.addEventListener("DOMContentLoaded", () => {
     const track = document.getElementById("testimonialTrack");
     const cards = document.querySelectorAll(".testi-card");
@@ -406,11 +442,26 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("resize", setupSlider);
 });
 
-// ============================================
+// mengosongkan form konsultasi
+document.addEventListener("DOMContentLoaded", function () {
+    const section = document.getElementById("kontak");
+
+    if (!section) return;
+
+    const formInputs = section.querySelectorAll("input, select, textarea");
+
+    formInputs.forEach((input) => {
+        if (input.tagName === "SELECT") {
+            input.selectedIndex = 0;
+            input.dispatchEvent(new Event("change"));
+        } else {
+            input.value = "";
+        }
+    });
+});
+
 // FIX: AUTO-TRIGGER RENDER ENGINE (LOAD EVENT)
-// ============================================
 window.addEventListener("load", () => {
-    // Jalankan kalkulasi ulang setelah seluruh aset termuat sempurna
     updateNavbar();
     updateActiveNavLink();
 

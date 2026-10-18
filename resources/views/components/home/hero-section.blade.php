@@ -195,7 +195,7 @@
                     @if (!request()->routeIs('booking.form.index'))
                         <button type="button" onclick="openBookingModal()"
                             class="ml-auto px-4 py-2 bg-brand-gold/20 border border-brand-gold/40 text-brand-gold text-xs font-bold rounded-xl hover:bg-brand-gold hover:text-white transition-all whitespace-nowrap">
-                            Ambil →
+                            Booking Sekarang
                         </button>
                     @endif
 

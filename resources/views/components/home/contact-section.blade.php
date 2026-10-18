@@ -59,11 +59,7 @@
                             <p class="text-[10px] font-black text-brand-navy uppercase tracking-widest mb-1">
                                 WhatsApp Langsung</p>
                             <p class="text-brand-steel text-sm">0812-XXXX-XXXX</p>
-                            <span
-                                class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-green-600 mt-0.5">
-                                <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
-                                Online sekarang
-                            </span>
+                            
                         </div>
                     </div>
 
@@ -87,7 +83,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                         <!-- Nama -->
-                        <div>
+                        <div class="sm:col-span-2">
                             <label
                                 class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Nama
                                 Lengkap</label>
@@ -95,33 +91,40 @@
                                 class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-brand-steel/60 focus:border-brand-gold focus:outline-none transition-all duration-200">
                         </div>
 
-                        <!-- WhatsApp -->
-                        <div>
-                            <label
-                                class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Nomor
-                                WhatsApp</label>
-                            <input type="tel" inputmode="numeric" placeholder="0812..."
-                                class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-brand-steel/60 focus:border-brand-gold focus:outline-none transition-all duration-200">
-                        </div>
-
                         <!-- Layanan -->
                         <div class="sm:col-span-2">
-                            <label
-                                class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Jenis
-                                Layanan</label>
+                            <label class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">
+                                Jenis Layanan
+                            </label>
+
                             <div class="relative">
-                                <select
+                                <select id="service_type" name="service_type" required
                                     class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy appearance-none cursor-pointer focus:border-brand-gold focus:outline-none transition-all duration-200 pr-10">
+
                                     <option value="" disabled selected>Pilih Layanan</option>
-                                    <option>Full Restorasi</option>
-                                    <option>Repaint Body</option>
-                                    <option>Bore Up / Mesin</option>
-                                    <option>Service Rutin</option>
+                                    <option value="Full Restorasi">Full Restorasi</option>
+                                    <option value="Repaint Body">Repaint Body</option>
+                                    <option value="Bore Up / Mesin">Bore Up / Mesin</option>
+                                    <option value="Service Rutin">Service Rutin</option>
+                                    <option value="Lainnya">Lainnya</option>
                                 </select>
+
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-brand-steel">
                                     <i class="fa-solid fa-chevron-down text-xs"></i>
                                 </div>
+                            </div>
+
+                            <!-- Input khusus jika memilih Lainnya -->
+                            <div id="other_service_wrapper" class="hidden mt-4">
+                                <label for="other_service"
+                                    class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">
+                                    Layanan yang Diinginkan
+                                </label>
+
+                                <input type="text" id="other_service" name="other_service"
+                                    placeholder="Tuliskan jenis layanan yang Anda inginkan..." maxlength="255"
+                                    class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-gray-400 focus:border-brand-gold focus:outline-none transition-all duration-200">
                             </div>
                         </div>
 
@@ -130,7 +133,7 @@
                             <label
                                 class="block text-[10px] font-black text-brand-navy uppercase tracking-widest mb-2">Detail
                                 Rencana Motor Anda</label>
-                            <textarea rows="4" placeholder="Ceritakan kondisi motor dan keinginan Anda..."
+                            <textarea rows="6" placeholder="Ceritakan kondisi motor dan keinginan Anda..."
                                 class="w-full px-5 py-3.5 bg-ui-main border-2 border-transparent rounded-2xl text-sm font-medium text-brand-navy placeholder:text-brand-steel/60 focus:border-brand-gold focus:outline-none transition-all duration-200 resize-none"></textarea>
                         </div>
 
