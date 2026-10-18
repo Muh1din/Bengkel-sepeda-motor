@@ -131,7 +131,7 @@
 
         <!-- Profile Button Trigger -->
         <div id="profile-trigger"
-            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none -mt-25 md:mt-0">
+            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none -mt-20 md:mt-0">
             <div
                 class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
                 {{ $initials }}
