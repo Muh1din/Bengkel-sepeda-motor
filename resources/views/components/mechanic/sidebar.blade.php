@@ -51,67 +51,6 @@
                 </svg>
                 <span class="truncate">Work Order</span>
             </a>
-
-            
-            {{-- Bookings --}}
-            {{-- <a href="{{ route('service-advisor.bookings') }}" id="nav-profile"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.bookings') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span class="truncate">Booking</span>
-            </a> --}}
-
-            {{-- Work order --}}
-            {{-- <a href="{{ route('service-advisor.work-order') }}" id="nav-profile"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.work-order') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <span class="truncate">Work order</span>
-            </a> --}}
-
-            <!-- Kendaraan Saya -->
-            {{-- <a href="{{ route('customer.vehicles.index') }}" id="nav-vehicles"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.vehicles.*') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="bike" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Kendaraan Saya</span>
-            </a>
-
-            <!-- Layanan Servis -->
-            <div class="pt-4 px-3 py-2 text-xs font-semibold text-brand-silver uppercase tracking-wider">Layanan Servis
-            </div>
-
-            <!-- Booking Servis -->
-            <a href="{{ route('customer.bookingService') }}" id="nav-booking-service"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.bookingService') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="calendar-plus" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Booking Servis</span>
-            </a>
-
-            <!-- Booking Aktif -->
-            <a href="{{ route('customer.bookings.index') }}" id="nav-booking-active"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.bookings.index') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="clipboard-list" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Booking Aktif</span>
-            </a>
-
-            <!-- Tracking Servis -->
-            <a href="{{ route('customer.trackingService') }}" id="nav-tracking-service"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.trackingService*') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-
-                <i data-lucide="gauge" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Tracking Servis</span>
-            </a>
-
-            <!-- Riwayat Servis -->
-            <a href="{{ route('customer.riwayatService') }}" id="nav-service-history"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.riwayatService*') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="history" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Riwayat Servis</span>
-            </a> --}}
         </nav>
     </div>
 
@@ -166,7 +105,7 @@
 
         <!-- Profile Button Trigger -->
         <div id="profile-trigger"
-            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none">
+            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none -mt-20 md:mt-0">
             <div
                 class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
                 {{ $initials }}

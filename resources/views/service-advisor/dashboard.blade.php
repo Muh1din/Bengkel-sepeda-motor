@@ -11,7 +11,7 @@
         </div>
         @if (session('success'))
             <div id="flash-message"
-                class="fixed top-5 right-5 z-100 flex items-center gap-3 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white shadow-lg">
+                class="fixed top-5 right-5 z-100 flex items-center gap-3 rounded-lg bg-green-200 px-4 py-3 text-sm font-medium text-white shadow-lg">
                 <span>
                     {{ session('success') }}
                 </span>
@@ -25,7 +25,7 @@
 
         @if (session('error'))
             <div id="flash-message"
-                class="fixed top-5 right-5 z-100 flex items-center gap-3 rounded-lg bg-red-600 px-4 py-3 text-sm font-medium text-white shadow-lg">
+                class="fixed top-5 right-5 z-100 flex items-center gap-3 rounded-lg bg-red-500 px-4 py-3 text-sm font-medium text-white shadow-lg">
                 <span>
                     {{ session('error') }}
                 </span>
@@ -120,161 +120,169 @@
                 </a>
             </div>
 
-            <div class="overflow-x-auto">
-
-                <table class="w-full text-left text-sm">
-
-                    <thead
-                        class="bg-ui-main text-xs uppercase text-brand-steel font-semibold border-b border-ui-border">
-                        <tr>
-                            <th class="px-4 py-3">Kode Booking</th>
-                            <th class="px-4 py-3">Pelanggan</th>
-                            <th class="px-4 py-3">Kendaraan</th>
-                            <th class="px-4 py-3">Jenis Servis</th>
-                            <th class="px-4 py-3">Jam</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3 text-right">Aksi</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="divide-y divide-ui-border">
-
-                        @forelse ($bookings as $booking)
-                            @php
-                                $statusClasses = match (strtolower($booking->status)) {
-                                    'pending' => 'bg-amber-50 text-amber-700 border-amber-200',
-                                    'confirmed' => 'bg-blue-50 text-blue-700 border-blue-200',
-                                    'in_progress',
-                                    'sedang diproses'
-                                        => 'bg-purple-50 text-purple-700 border-purple-200',
-                                    'completed' => 'bg-green-50 text-green-700 border-green-200',
-                                    'rejected' => 'bg-red-50 text-red-700 border-red-200',
-                                    'cancelled' => 'bg-slate-50 text-slate-600 border-slate-200',
-                                    default => 'bg-ui-main text-brand-steel border-ui-border',
-                                };
-                                $statusLabels = match (strtolower($booking->status)) {
-                                    'pending' => 'Menunggu Konfirmasi',
-                                    'confirmed' => 'Terkonfirmasi',
-                                    'in_progress', 'sedang diproses' => 'Sedang Diproses',
-                                    'completed' => 'Selesai',
-                                    'rejected' => 'Ditolak',
-                                    'cancelled' => 'Dibatalkan',
-                                    default => ucfirst($booking->status),
-                                };
-                            @endphp <tr class="hover:bg-gray-50/50">
-                                <td class="px-4 py-3 font-medium text-brand-navy"> {{ $booking->booking_code }} </td>
-                                <td class="px-4 py-3"> {{ $booking->customer->name }} </td>
-                                <td class="px-4 py-3"> {{ $booking->vehicle->license_plate }} -
-                                    {{ $booking->vehicle->brand }} {{ $booking->vehicle->model }} </td>
-                                <td class="px-4 py-3"> {{ $booking->service_type }} </td>
-                                <td class="px-4 py-3">
-                                    {{ \Carbon\Carbon::parse($booking->booking_time)->format('H:i') }} </td>
-                                {{-- STATUS --}} <td class="px-4 py-3"> <span
-                                        class="inline-flex px-2.5 py-1 rounded-full text-xs font-semibold border {{ $statusClasses }}">
-                                        {{ $statusLabels }} </span> </td> {{-- ACTION --}} <td
-                                    class="px-4 py-3 text-right"> <button type="button" data-booking-detail
-                                        data-booking-code="{{ $booking->booking_code }}"
-                                        data-status="{{ $booking->status }}"
-                                        data-customer="{{ $booking->customer->name }}"
-                                        data-phone="{{ $booking->customer->phone }}"
-                                        data-vehicle="{{ $booking->vehicle->license_plate }} - {{ $booking->vehicle->brand }} {{ $booking->vehicle->model }}"
-                                        data-service="{{ $booking->service_type }}"
-                                        data-datetime="{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }} {{ \Carbon\Carbon::parse($booking->booking_time)->format('H:i') }}"
-                                        data-complaint="{{ $booking->complaint }}"
-                                        data-rejection-reason="{{ $booking->rejection_reason }}"
-                                        data-cancellation-reason="{{ $booking->cancellation_reason }}"
-                                        class="text-xs font-semibold text-brand-navy hover:text-brand-gold"> Detail
-                                    </button>
-                                    @if ($booking->status === 'CONFIRMED')
-                                        <button type="button" onclick="openReceiveVehicle( {{ $booking->id }} )"
-                                            class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-navy text-white hover:opacity-90">
-                                            Terima Kendaraan
-                                        </button>
-                                    @endif
-                                </td>
-                            </tr>
-
-
-                            {{-- modal terima kendaraan --}}
-                            <div id="mechanic-modal"
-                                class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
-                                <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-
-                                    <div class="flex items-center justify-between mb-5">
-                                        <h2 class="text-lg font-semibold text-gray-800">
-                                            Pilih Mekanik
-                                        </h2>
-
-                                        <button type="button" id="close-mechanic-modal"
-                                            class="text-gray-400 hover:text-gray-600">
-                                            ✕
-                                        </button>
-                                    </div>
-
-                                    <p class="mb-4 text-sm text-gray-500">
-                                        Pilih mekanik yang akan melakukan pemeriksaan kendaraan.
-                                    </p>
-
-                                    <form
-                                        action="{{ route('service-advisor.bookings.receive', ['booking' => $booking->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-
-                                        <div class="space-y-3">
-                                            @forelse ($mechanics as $mechanic)
-                                                <label
-                                                    class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 hover:bg-gray-50">
-
-                                                    <input type="radio" name="mechanic_id"
-                                                        value="{{ $mechanic->id }}" required>
-
-                                                    <div>
-                                                        <p class="font-medium text-gray-800">
-                                                            {{ $mechanic->name }}
-                                                        </p>
-
-                                                        <p class="text-xs text-gray-500">
-                                                            Mekanik
-                                                        </p>
-                                                    </div>
-
-                                                </label>
-                                            @empty
-                                                <p class="text-sm text-gray-500">
-                                                    Tidak ada mekanik.
-                                                </p>
-                                            @endforelse
-                                        </div>
-
-                                        <div class="mt-6 flex justify-end gap-2">
-                                            <button type="button" id="cancel-mechanic-modal"
-                                                class="rounded-lg border px-4 py-2 text-sm">
-                                                Batal
-                                            </button>
-
-                                            <button type="submit"
-                                                class="rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white">
-                                                Terima & Assign
-                                            </button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        @empty
-
+            <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        {{-- Table Header --}}
+                        <thead
+                            class="bg-ui-main text-xs uppercase text-brand-steel font-semibold border-b border-ui-border">
                             <tr>
-                                <td colspan="7" class="px-4 py-10 text-center text-brand-steel">
-                                    Tidak ada booking untuk hari ini.
-                                </td>
+                                <th class="px-4 py-3">Kode Booking</th>
+                                <th class="px-4 py-3">Pelanggan</th>
+                                <th class="px-4 py-3">Kendaraan</th>
+                                <th class="px-4 py-3">Jenis Servis</th>
+                                <th class="px-4 py-3">Jam</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3 text-right">Aksi</th>
                             </tr>
-                        @endforelse
+                        </thead>
 
-                    </tbody>
+                        {{-- Table Body --}}
+                        <tbody class="divide-y divide-ui-border">
+                            @forelse ($bookings as $booking)
+                                @php
+                                    $status = strtolower($booking->status);
 
-                </table>
+                                    $statusClasses = match ($status) {
+                                        'pending' => 'bg-amber-50 text-amber-700 border-amber-200',
+                                        'confirmed' => 'bg-blue-50 text-blue-700 border-blue-200',
+                                        'in_progress' => 'bg-purple-50 text-purple-700 border-purple-200',
+                                        'completed' => 'bg-green-50 text-green-700 border-green-200',
+                                        'rejected' => 'bg-red-50 text-red-700 border-red-200',
+                                        'cancelled' => 'bg-slate-50 text-slate-600 border-slate-200',
+                                        default => 'bg-ui-main text-brand-steel border-ui-border',
+                                    };
 
+                                    $statusLabels = match ($status) {
+                                        'pending' => 'Menunggu Konfirmasi',
+                                        'confirmed' => 'Terkonfirmasi',
+                                        'in_progress' => 'Sedang Diproses',
+                                        'completed' => 'Selesai',
+                                        'rejected' => 'Ditolak',
+                                        'cancelled' => 'Dibatalkan',
+                                        default => ucfirst($status),
+                                    };
+
+                                    $vehicle = $booking->vehicle;
+
+                                    $vehicleLabel =
+                                        $vehicle->license_plate . ' - ' . $vehicle->brand . ' ' . $vehicle->model;
+
+                                    $bookingDateTime =
+                                        \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') .
+                                        ' ' .
+                                        \Carbon\Carbon::parse($booking->booking_time)->format('H:i');
+
+                                    $workOrder = $booking->workOrder;
+                                @endphp
+
+                                <tr class="hover:bg-gray-50/50">
+                                    {{-- Booking Code --}}
+                                    <td class="px-4 py-3 font-medium text-brand-navy">
+                                        {{ $booking->booking_code }}
+                                    </td>
+
+                                    {{-- Customer --}}
+                                    <td class="px-4 py-3">
+                                        {{ $booking->customer->name }}
+                                    </td>
+
+                                    {{-- Vehicle --}}
+                                    <td class="px-4 py-3">
+                                        {{ $vehicleLabel }}
+                                    </td>
+
+                                    {{-- Service Type --}}
+                                    <td class="px-4 py-3">
+                                        {{ $booking->service_type }}
+                                    </td>
+
+                                    {{-- Booking Time --}}
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        {{ \Carbon\Carbon::parse($booking->booking_time)->format('H:i') }}
+                                    </td>
+
+                                    {{-- Status --}}
+                                    <td class="px-4 py-3">
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold border {{ $statusClasses }}">
+                                            {{ $statusLabels }}
+                                        </span>
+                                    </td>
+
+                                    {{-- Actions --}}
+                                    <td class="px-4 py-3 text-right whitespace-nowrap">
+                                        {{-- Detail: all statuses --}}
+                                        @if (in_array($status, ['pending', 'confirmed', 'completed', 'rejected', 'cancelled']))
+                                            <button type="button" data-booking-detail
+                                                data-booking-code="{{ $booking->booking_code }}"
+                                                data-status="{{ $booking->status }}"
+                                                data-customer="{{ $booking->customer->name }}"
+                                                data-phone="{{ $booking->customer->phone }}"
+                                                data-vehicle="{{ $vehicleLabel }}"
+                                                data-service="{{ $booking->service_type }}"
+                                                data-datetime="{{ $bookingDateTime }}"
+                                                data-complaint="{{ $booking->complaint }}"
+                                                data-rejection-reason="{{ $booking->rejection_reason }}"
+                                                data-cancellation-reason="{{ $booking->cancellation_reason }}"
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50 transition-colors">
+                                                Detail
+                                            </button>
+                                        @endif
+
+                                        {{-- Pending Actions --}}
+                                        @if ($status === 'pending')
+                                            <form action="{{ route('service-advisor.bookings.confirm', $booking) }}"
+                                                method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <button type="submit"
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors">
+                                                    Konfirmasi
+                                                </button>
+                                            </form>
+
+                                            <button type="button" onclick="openRejectBooking({{ $booking->id }})"
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 transition-colors">
+                                                Tolak
+                                            </button>
+                                        @endif
+
+                                        {{-- Confirmed Actions --}}
+                                        @if ($status === 'confirmed')
+                                            <button type="button" onclick="openReceiveVehicle({{ $booking->id }})"
+                                                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-white bg-brand-navy rounded-md hover:opacity-90 transition-colors">
+                                                Terima Kendaraan
+                                            </button>
+                                        @endif
+
+                                        {{-- In Progress Actions --}}
+                                        @if ($status === 'in_progress')
+                                            @if ($workOrder)
+                                                <a href="{{ route('service-advisor.work-orders.monitoring', ['workOrder' => $workOrder->id]) }}"
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-brand-navy bg-white border border-ui-border rounded-md hover:bg-gray-50 transition-colors">
+                                                    Monitoring
+                                                </a>
+                                            @else
+                                                <span
+                                                    class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-gray-400">
+                                                    WO Belum Tersedia
+                                                </span>
+                                            @endif
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="px-4 py-10 text-center text-brand-steel">
+                                        Tidak ada booking untuk hari ini.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -592,4 +600,165 @@
 
         </div>
     </div>
+
+    <div id="reject-booking-modal"
+        class="hidden fixed inset-0 z-50 w-screen h-screen items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-ui-border">
+
+            {{-- Header --}}
+            <div class="flex items-center justify-between px-6 py-5 border-b border-ui-border">
+
+                <div>
+
+                    <h2 class="text-lg font-bold text-brand-navy">
+                        Tolak Booking
+                    </h2>
+
+                    <p class="text-sm text-brand-steel mt-1">
+                        Berikan alasan penolakan booking
+                    </p>
+
+                </div>
+
+
+                <button type="button" onclick="closeRejectBooking()"
+                    class="flex items-center justify-center w-9 h-9 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors text-xl">
+                    &times;
+                </button>
+
+            </div>
+
+
+            {{-- Body --}}
+            <div class="px-6 py-6">
+
+                <form id="reject-booking-form" method="POST">
+
+                    @csrf
+                    @method('PATCH')
+
+
+                    <label for="rejection_reason" class="block text-sm font-semibold text-ui-text mb-2">
+                        Alasan Penolakan
+                    </label>
+
+
+                    <textarea id="rejection_reason" name="rejection_reason" rows="4" required
+                        placeholder="Contoh: Jadwal servis pada tanggal tersebut sudah penuh..."
+                        class="w-full px-3 py-2.5 text-sm border border-ui-border rounded-lg focus:outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy resize-none"></textarea>
+
+
+                    <p class="text-xs text-brand-steel mt-2">
+                        Alasan ini akan dicatat sebagai alasan penolakan booking.
+                    </p>
+
+
+                    {{-- Footer --}}
+                    <div class="flex justify-end gap-2 mt-6">
+
+                        <button type="button" onclick="closeRejectBooking()"
+                            class="px-4 py-2 text-sm font-semibold text-brand-navy bg-white border border-ui-border rounded-lg hover:bg-gray-100 transition-colors">
+                            Batal
+                        </button>
+
+
+                        <button type="submit"
+                            class="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
+                            Tolak Booking
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- RECEIVE VEHICLE MODAL --}}
+    <div id="mechanic-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+
+        <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+
+            {{-- Header --}}
+            <div class="flex items-center justify-between mb-5">
+
+                <h2 class="text-lg font-semibold text-gray-800">
+                    Pilih Mekanik
+                </h2>
+
+                <button type="button" id="close-mechanic-modal" class="text-gray-400 hover:text-gray-600">
+                    ✕
+                </button>
+
+            </div>
+
+
+            {{-- Description --}}
+            <p class="mb-4 text-sm text-gray-500">
+                Pilih mekanik yang akan melakukan pemeriksaan kendaraan.
+            </p>
+
+
+            {{-- Form --}}
+            <form id="mechanic-form" method="POST">
+
+                @csrf
+                @method('PATCH')
+
+
+                <div class="space-y-3">
+
+                    @forelse ($mechanics as $mechanic)
+                        <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 hover:bg-gray-50">
+
+                            <input type="radio" name="mechanic_id" value="{{ $mechanic->id }}" required>
+
+                            <div>
+
+                                <p class="font-medium text-gray-800">
+                                    {{ $mechanic->name }}
+                                </p>
+
+                                <p class="text-xs text-gray-500">
+                                    Mekanik
+                                </p>
+
+                            </div>
+
+                        </label>
+
+                    @empty
+
+                        <p class="text-sm text-gray-500">
+                            Tidak ada mekanik.
+                        </p>
+                    @endforelse
+
+                </div>
+
+
+                {{-- Footer --}}
+                <div class="mt-6 flex justify-end gap-2">
+
+                    <button type="button" id="cancel-mechanic-modal" class="rounded-lg border px-4 py-2 text-sm">
+                        Batal
+                    </button>
+
+                    <button type="submit"
+                        class="rounded-lg bg-brand-navy px-4 py-2 text-sm font-semibold text-white">
+                        Terima & Assign
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
 </x-layouts.service-advisor>

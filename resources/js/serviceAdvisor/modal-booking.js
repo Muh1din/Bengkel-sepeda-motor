@@ -104,7 +104,7 @@ window.closeRejectBooking = function () {
 
     form.reset();
 };
-
+// modal mecanic
 const mechanicModal = document.getElementById("mechanic-modal");
 const mechanicForm = document.getElementById("mechanic-form");
 

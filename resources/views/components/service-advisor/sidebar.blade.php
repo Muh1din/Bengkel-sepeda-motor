@@ -24,7 +24,7 @@
             <!-- Main Menu -->
             <div class="px-3 py-2 text-xs font-semibold text-brand-silver uppercase tracking-wider">Main Menu</div>
 
-             {{-- Dashboard  --}}
+            {{-- Dashboard  --}}
             <a href="{{ route('service-advisor.dashboard') }}" id="nav-dashboard"
                 class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.dashboard') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
                 <i data-lucide="layout-dashboard" class="w-4 h-4 shrink-0"></i>
@@ -38,21 +38,40 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span class="truncate">Booking</span>
+                <span class="flex-1 truncate">Booking</span>
+
+                {{-- @if ($pendingBookingsCount > 0)
+                    <span
+                        class="ml-auto inline-flex min-w-5 h-5 items-center justify-center
+                                rounded-md bg-brand-gold px-1.5 text-xs font-bold text-brand-navy
+                                shadow-sm"
+                        aria-label="{{ $pendingBookingsCount }} booking menunggu konfirmasi">
+                        {{ $pendingBookingsCount > 99 ? '99+' : $pendingBookingsCount }}
+                    </span>
+                @endif --}}
             </a>
 
             {{-- Work order --}}
-             <a href="{{ route('service-advisor.work-orders.index') }}" id="nav-profile"
+            <a href="{{ route('service-advisor.work-orders.index') }}" id="nav-profile"
                 class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.work-orders.index') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <span class="truncate">Work order</span>
+                <span class="flex-1 truncate">Work Order</span>
+
+                {{-- @if ($pendingBookingsCount > 0)
+                    <span
+                        class="ml-auto inline-flex min-w-5 h-5 items-center justify-center
+               rounded-md bg-brand-gold px-1.5 text-xs font-bold text-brand-navy shadow-sm"
+                        aria-label="{{ $pendingBookingsCount }} booking menunggu konfirmasi">
+                        {{ $pendingBookingsCount > 99 ? '99+' : $pendingBookingsCount }}
+                    </span>
+                @endif --}}
             </a>
 
             {{-- Inspection Result --}}
-             <a href="{{ route('service-advisor.inspections.index') }}" id="nav-profile"
+            <a href="{{ route('service-advisor.inspections.index') }}" id="nav-profile"
                 class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.inspections.index') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -62,16 +81,16 @@
             </a>
 
             {{-- Monitoring --}}
-             <a href="{{ route('service-advisor.monitoring.index') }}" id="nav-profile"
+            <a href="{{ route('service-advisor.monitoring.index') }}" id="nav-profile"
                 class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.monitoring.index') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-               <i data-lucide="eye" class="w-5 h-5"></i>
+                <i data-lucide="eye" class="w-5 h-5"></i>
                 <span class="truncate">Monitoring</span>
             </a>
 
-             {{-- Customer --}}
-             <a href="{{ route('service-advisor.customer.index') }}" id="nav-profile"
+            {{-- Customer --}}
+            <a href="{{ route('service-advisor.customer.index') }}" id="nav-profile"
                 class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('service-advisor.customer.index') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-               <i data-lucide="users" class="w-5 h-5"></i>
+                <i data-lucide="users" class="w-5 h-5"></i>
                 <span class="truncate">Pelanggan</span>
             </a>
 
