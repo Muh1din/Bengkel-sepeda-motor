@@ -44,6 +44,27 @@
             </div>
         @endif
 
+        @if (session('success'))
+            <div id="success-notification" role="status" aria-live="polite"
+                class="mb-6 flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor"
+                    aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l3.414-3.414z"
+                        clip-rule="evenodd" />
+                </svg>
+
+                <p class="flex-1 text-sm font-medium">
+                    {{ session('success') }}
+                </p>
+
+                <button type="button" onclick="document.getElementById('success-notification')?.remove()"
+                    class="shrink-0 rounded p-1 hover:bg-green-100" aria-label="Tutup notifikasi">
+                    &times;
+                </button>
+            </div>
+        @endif
+
         <!-- Login Form -->
         <form action="{{ route('login') }}" method="POST" class="space-y-5" autocomplete="off">
             @csrf
