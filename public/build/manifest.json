@@ -75,5 +75,11 @@
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
+  },
+  "resources/js/option-booking-form.js": {
+    "file": "assets/option-booking-form-CjkmjGp9.js",
+    "name": "option-booking-form",
+    "src": "resources/js/option-booking-form.js",
+    "isEntry": true
   }
 }

@@ -1,0 +1,1 @@
+document.addEventListener(`DOMContentLoaded`,function(){let e=document.getElementById(`service_type`),t=document.getElementById(`custom_service_wrapper`),n=document.getElementById(`custom_service`);function r(){let r=e.value===`Lainnya`;t.classList.toggle(`hidden`,!r),n.required=r,r||(n.value=``)}e.addEventListener(`change`,r),r()});
