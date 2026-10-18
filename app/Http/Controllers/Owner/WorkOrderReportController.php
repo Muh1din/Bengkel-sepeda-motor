@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\WorkOrder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -42,8 +43,9 @@ class WorkOrderReportController extends Controller
                 ->whereNotNull('completed_at')
                 ->count(),
 
-            'not_received' => (clone $query)
-                ->whereNull('received_at')
+            'not_received' => Booking::where('status', 'CONFIRMED')
+                ->whereDate('created_at', '>=', $startDate)
+                ->whereDate('created_at', '<=', $endDate)
                 ->count(),
         ];
 

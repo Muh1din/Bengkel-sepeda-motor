@@ -15,7 +15,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $owner = Role::where('name', 'Owner')->first();
-        $customer = Role::query()->where('name', 'Customer')->first();
         $service_advisor = Role::where('name', 'ServiceAdvisor')->first();
         $mechanic = Role::where('name', 'Mechanic')->first();
         $admin = Role::where('name', 'Admin')->first();

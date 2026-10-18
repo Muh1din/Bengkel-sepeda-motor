@@ -119,11 +119,11 @@
                                 Kategori
                             </th>
 
-                            <th class="whitespace-nowrap px-5 py-4 text-right font-semibold">
+                            <th class="whitespace-nowrap px-5 py-4 font-semibold">
                                 Stok
                             </th>
 
-                            <th class="whitespace-nowrap px-5 py-4 text-right font-semibold">
+                            <th class="whitespace-nowrap px-5 py-4 font-semibold">
                                 Stok Minimum
                             </th>
 
@@ -171,14 +171,14 @@
                                     {{ $material->category?->name ?? '-' }}
                                 </td>
 
-                                <td class="whitespace-nowrap px-5 py-4 text-right font-semibold text-gray-800">
+                                <td class="whitespace-nowrap px-5 py-4 font-semibold text-gray-800">
                                     {{ number_format($material->stock) }}
                                     <span class="font-normal text-gray-500">
                                         {{ $material->unit }}
                                     </span>
                                 </td>
 
-                                <td class="whitespace-nowrap px-5 py-4 text-right text-gray-600">
+                                <td class="whitespace-nowrap px-5 py-4 text-gray-600">
                                     {{ number_format($material->minimum_stock) }}
                                     {{ $material->unit }}
                                 </td>
@@ -254,15 +254,15 @@
                                 Jenis Transaksi
                             </th>
 
-                            <th class="whitespace-nowrap px-5 py-4 text-right font-semibold">
+                            <th class="whitespace-nowrap px-5 py-4 font-semibold">
                                 Jumlah
                             </th>
 
-                            <th class="whitespace-nowrap px-5 py-4 text-right font-semibold">
+                            <th class="whitespace-nowrap px-5 py-4 font-semibold">
                                 Stok Sebelum
                             </th>
 
-                            <th class="whitespace-nowrap px-5 py-4 text-right font-semibold">
+                            <th class="whitespace-nowrap px-5 py-4 font-semibold">
                                 Stok Sesudah
                             </th>
 
@@ -316,15 +316,15 @@
                                     </span>
                                 </td>
 
-                                <td class="whitespace-nowrap px-5 py-4 text-right font-semibold text-gray-800">
+                                <td class="whitespace-nowrap px-5 py-4 font-semibold text-gray-800">
                                     {{ number_format($movement->quantity) }}
                                 </td>
 
-                                <td class="whitespace-nowrap px-5 py-4 text-right text-gray-600">
+                                <td class="whitespace-nowrap px-5 py-4 text-gray-600">
                                     {{ number_format($movement->stock_before) }}
                                 </td>
 
-                                <td class="whitespace-nowrap px-5 py-4 text-right font-semibold text-gray-800">
+                                <td class="whitespace-nowrap px-5 py-4 font-semibold text-gray-800">
                                     {{ number_format($movement->stock_after) }}
                                 </td>
 

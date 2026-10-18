@@ -104,11 +104,9 @@ class AuthenticationTest extends TestCase
 
     public function test_guest_cannot_access_authenticated_page(): void
     {
-        $response = $this->get('/dashboard');
+        $response = $this->get('/owner/dashboard');
 
-        $response->assertRedirect(
-            route('login')
-        );
+        $response->assertRedirect(route('login'));
 
         $this->assertGuest();
     }

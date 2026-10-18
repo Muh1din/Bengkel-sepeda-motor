@@ -100,6 +100,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (statusCanvas) {
         const entries = Object.entries(statusData);
 
+        const statusColors = {
+            PENDING: "#f59e0b", // Amber
+            CONFIRMED: "#3b82f6", // Biru
+            IN_PROGRESS: "#8b5cf6", // Ungu
+            COMPLETED: "#10b981", // Hijau
+            REJECTED: "#ef4444", // Merah
+            CANCELLED: "#64748b", // Abu-abu
+        };
+
         new Chart(statusCanvas, {
             type: "doughnut",
 
@@ -111,14 +120,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 datasets: [
                     {
                         data: entries.map(([, total]) => Number(total)),
-                        backgroundColor: [
-                            "#c58e4b",
-                            "#5d7b93",
-                            "#16a34a",
-                            "#dc2626",
-                            "#7c3aed",
-                            "#64748b",
-                        ],
+
+                        backgroundColor: entries.map(
+                            ([status]) => statusColors[status] ?? "#94a3b8",
+                        ),
+
                         borderWidth: 2,
                     },
                 ],

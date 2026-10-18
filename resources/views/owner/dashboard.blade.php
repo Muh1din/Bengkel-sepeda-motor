@@ -2,7 +2,7 @@
     <div class="space-y-6" id="ownerDashboard" data-chart-labels="{{ json_encode($chartLabels) }}"
         data-booking-data="{{ json_encode($bookingChartData) }}"
         data-completed-data="{{ json_encode($completedChartData) }}"
-        data-status-data="{{ json_encode($workOrderStatusData) }}">
+        data-status-data="{{ json_encode($bookingStatusData) }}">
 
         {{-- Header --}}
         <div>
@@ -154,15 +154,13 @@
             {{-- Grafik Status Work Order --}}
             <div class="rounded-xl border border-slate-200 bg-white p-5">
 
-                <div class="mb-6">
-                    <h2 class="text-base font-semibold text-slate-800">
-                        Status Work Order
-                    </h2>
+                <h2 class="text-base font-semibold text-slate-800">
+                    Status Booking
+                </h2>
 
-                    <p class="mt-1 text-sm text-slate-500">
-                        Distribusi seluruh Work Order berdasarkan status saat ini.
-                    </p>
-                </div>
+                <p class="mt-1 text-sm text-slate-500">
+                    Distribusi seluruh Booking berdasarkan status saat ini.
+                </p>
 
                 <div class="relative h-72">
                     <canvas id="workOrderStatusChart"></canvas>

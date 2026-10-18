@@ -11,7 +11,7 @@
         </div>
         @if (session('success'))
             <div id="flash-message"
-                class="fixed top-5 right-5 z-100 flex items-center gap-3 rounded-lg bg-green-200 px-4 py-3 text-sm font-medium text-white shadow-lg">
+                class="fixed top-5 right-5 z-100 flex items-center gap-3 rounded-lg bg-green-500 px-4 py-3 text-sm font-medium text-white shadow-lg">
                 <span>
                     {{ session('success') }}
                 </span>
@@ -115,8 +115,8 @@
                 <h3 class="font-bold text-brand-navy">Booking Hari Ini</h3>
 
                 <a href="{{ route('service-advisor.bookings') }}"
-                    class="text-xs text-brand-navy hover:underline font-semibold cursor-pointer">
-                    Lihat Semua ->
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-brand-navy text-white text-xs font-semibold rounded-lg transition-colors duration-200 shadow-sm">
+                    <span>Lihat Semua</span>
                 </a>
             </div>
 
@@ -295,10 +295,10 @@
                     Servis Sedang Berjalan
                 </h3>
 
-                <button @click="navigateTo('service-monitoring')"
-                    class="text-xs text-brand-navy hover:underline font-semibold">
-                    Monitoring Detail ->
-                </button>
+                <a href=" {{ route('service-advisor.monitoring.index')}} "
+                    class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-white bg-brand-navy rounded-md hover:opacity-90 transition-colors">
+                    Monitoring Detail
+                </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

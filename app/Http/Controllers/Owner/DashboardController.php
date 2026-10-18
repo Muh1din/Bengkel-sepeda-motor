@@ -84,7 +84,8 @@ class DashboardController extends Controller
         }
 
         // Distribusi status Work Order.
-        $workOrderStatusData = WorkOrder::query()
+        // Distribusi status Booking.
+        $bookingStatusData = Booking::query()
             ->select('status', DB::raw('COUNT(*) as total'))
             ->groupBy('status')
             ->pluck('total', 'status');
@@ -95,7 +96,7 @@ class DashboardController extends Controller
             'chartLabels',
             'bookingChartData',
             'completedChartData',
-            'workOrderStatusData',
+            'bookingStatusData',
         ));
     }
 }
