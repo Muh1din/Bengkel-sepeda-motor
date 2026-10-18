@@ -96,36 +96,42 @@
 
         <!-- Profile Dropdown Card -->
         <div id="profile-card"
-            class="hidden absolute bottom-full left-4 right-4 mb-2 bg-slate-800 rounded-xl p-4 shadow-xl border border-slate-700 transition-all duration-200 z-50">
+            class="hidden absolute bottom-full left-4 right-4 mb-25 md:mb-4 bg-slate-800 rounded-xl p-4 shadow-xl border border-slate-700 transition-all duration-200 z-50">
+
             <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
+
                 <div
                     class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center font-bold text-brand-navy text-sm shrink-0">
                     {{ $initials }}
                 </div>
+
                 <div class="min-w-0 flex-1">
                     <div class="text-sm font-bold text-white truncate">{{ Auth::user()->name }}</div>
                     <div class="text-xs text-brand-silver truncate">{{ Auth::user()->email }}</div>
                 </div>
-            </div>
-            <div class="pt-2">
 
+            </div>
+
+            <div class="pt-2">
                 <form action="{{ route('logout') }}" method="POST" id="logout-form" class="m-0">
                     @csrf
 
                     <button type="button" id="logout-button"
                         class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-slate-700/50 transition-colors font-medium">
+
                         <i data-lucide="log-out" class="w-4 h-4 shrink-0"></i>
                         <span>Keluar</span>
+
                     </button>
-
                 </form>
-
             </div>
+
         </div>
+
 
         <!-- Profile Button Trigger -->
         <div id="profile-trigger"
-            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none">
+            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none -mt-25 md:mt-0">
             <div
                 class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
                 {{ $initials }}

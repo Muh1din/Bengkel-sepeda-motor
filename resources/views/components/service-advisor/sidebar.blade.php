@@ -93,46 +93,6 @@
                 <i data-lucide="users" class="w-5 h-5"></i>
                 <span class="truncate">Pelanggan</span>
             </a>
-
-            <!-- Kendaraan Saya -->
-            {{-- <a href="{{ route('customer.vehicles.index') }}" id="nav-vehicles"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.vehicles.*') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="bike" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Kendaraan Saya</span>
-            </a>
-
-            <!-- Layanan Servis -->
-            <div class="pt-4 px-3 py-2 text-xs font-semibold text-brand-silver uppercase tracking-wider">Layanan Servis
-            </div>
-
-            <!-- Booking Servis -->
-            <a href="{{ route('customer.bookingService') }}" id="nav-booking-service"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.bookingService') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="calendar-plus" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Booking Servis</span>
-            </a>
-
-            <!-- Booking Aktif -->
-            <a href="{{ route('customer.bookings.index') }}" id="nav-booking-active"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.bookings.index') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="clipboard-list" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Booking Aktif</span>
-            </a>
-
-            <!-- Tracking Servis -->
-            <a href="{{ route('customer.trackingService') }}" id="nav-tracking-service"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.trackingService*') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-
-                <i data-lucide="gauge" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Tracking Servis</span>
-            </a>
-
-            <!-- Riwayat Servis -->
-            <a href="{{ route('customer.riwayatService') }}" id="nav-service-history"
-                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('customer.riwayatService*') ? 'bg-brand-gold/15 text-brand-gold border-l-2 border-brand-gold' : 'text-brand-silver hover:text-white hover:bg-slate-800' }}">
-                <i data-lucide="history" class="w-4 h-4 shrink-0"></i>
-                <span class="truncate">Riwayat Servis</span>
-            </a> --}}
         </nav>
     </div>
 
@@ -152,7 +112,7 @@
 
         <!-- Profile Dropdown Card -->
         <div id="profile-card"
-            class="hidden absolute bottom-full left-4 right-4 mb-4 bg-slate-800 rounded-xl p-4 shadow-xl border border-slate-700 transition-all duration-200 z-50">
+            class="hidden absolute bottom-full left-4 right-4 mb-25 md:mb-4 bg-slate-800 rounded-xl p-4 shadow-xl border border-slate-700 transition-all duration-200 z-50">
 
             <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
 
@@ -187,7 +147,7 @@
 
         <!-- Profile Button Trigger -->
         <div id="profile-trigger"
-            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none">
+            class="flex items-center gap-3 cursor-pointer p-1.5 rounded-lg hover:bg-slate-800 transition-colors select-none -mt-25 md:mt-0">
             <div
                 class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-semibold text-sm shrink-0 text-white">
                 {{ $initials }}
