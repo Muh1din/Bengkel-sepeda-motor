@@ -81,5 +81,11 @@
     "name": "option-booking-form",
     "src": "resources/js/option-booking-form.js",
     "isEntry": true
+  },
+  "resources/js/owner/chart-dashboard.js": {
+    "file": "assets/chart-dashboard-DGPBc0xl.js",
+    "name": "chart-dashboard",
+    "src": "resources/js/owner/chart-dashboard.js",
+    "isEntry": true
   }
 }

@@ -10,6 +10,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/js/option-booking-form.js",
+                "resources/js/owner/chart-dashboard.js",
             ],
             refresh: true,
             fonts: [
