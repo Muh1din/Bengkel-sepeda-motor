@@ -141,6 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Mechanic Modal
     const mechanicModal = document.getElementById("mechanic-modal");
+    const mechanicForm = document.getElementById("mechanic-form");
+
     const closeMechanicModalBtn = document.getElementById(
         "close-mechanic-modal",
     );
@@ -149,21 +151,25 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     window.openReceiveVehicle = function (bookingId) {
-        if (!mechanicModal) {
+        if (!mechanicModal || !mechanicForm) {
             return;
         }
+
+        mechanicForm.action = `/service-advisor/bookings/${bookingId}/receive`;
 
         mechanicModal.classList.remove("hidden");
         mechanicModal.classList.add("flex");
     };
 
     function closeMechanicModal() {
-        if (!mechanicModal) {
+        if (!mechanicModal || !mechanicForm) {
             return;
         }
 
         mechanicModal.classList.add("hidden");
         mechanicModal.classList.remove("flex");
+
+        mechanicForm.reset();
     }
 
     if (closeMechanicModalBtn) {
@@ -181,5 +187,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
 });

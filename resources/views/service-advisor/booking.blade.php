@@ -293,10 +293,7 @@
     </section>
 
 
-    {{-- ========================================================= --}}
     {{-- RECEIVE VEHICLE MODAL --}}
-    {{-- ========================================================= --}}
-
     <div id="mechanic-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
 
         <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
@@ -380,10 +377,7 @@
     </div>
 
 
-    {{-- ========================================================= --}}
     {{-- BOOKING DETAIL MODAL --}}
-    {{-- ========================================================= --}}
-
     <div id="booking-detail-modal"
         class="hidden fixed inset-0 z-50 items-center w-screen h-screen justify-center bg-slate-900/50 backdrop-blur-sm px-4">
 
@@ -580,10 +574,7 @@
     </div>
 
 
-    {{-- ========================================================= --}}
     {{-- REJECT BOOKING MODAL --}}
-    {{-- ========================================================= --}}
-
     <div id="reject-booking-modal"
         class="hidden fixed inset-0 z-50 w-screen h-screen items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
 

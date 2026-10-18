@@ -11,20 +11,38 @@
             </p>
         </div>
         @if (session('success'))
-            <div id="success-alert"
-                class="flex items-center gap-3 p-4 rounded-lg border border-green-200 bg-green-50 text-green-700 transition-opacity duration-500">
-                <i data-lucide="check-circle" class="w-5 h-5"></i>
-                <p class="text-sm font-medium">{{ session('success') }}</p>
+            <div id="success-alert" role="status" aria-live="polite"
+                class="fixed top-5 right-5 z-[9999] flex items-center gap-3
+               rounded-lg border border-green-200 bg-green-50
+               p-4 text-green-700 shadow-lg
+               transition-all duration-500">
+                <i data-lucide="check-circle" class="h-5 w-5 shrink-0"></i>
+
+                <p class="text-sm font-medium">
+                    {{ session('success') }}
+                </p>
+
+                <button type="button" onclick="document.getElementById('success-alert')?.remove()"
+                    class="ml-2 text-green-700 hover:text-green-900" aria-label="Tutup notifikasi">
+                    &times;
+                </button>
             </div>
 
             <script>
-                setTimeout(() => {
+                document.addEventListener('DOMContentLoaded', function() {
                     const alert = document.getElementById('success-alert');
-                    if (alert) {
+
+                    if (!alert) return;
+
+                    setTimeout(() => {
                         alert.style.opacity = '0';
-                        setTimeout(() => alert.remove(), 500);
-                    }
-                }, 4000);
+                        alert.style.transform = 'translateY(-10px)';
+
+                        setTimeout(() => {
+                            alert.remove();
+                        }, 500);
+                    }, 4000);
+                });
             </script>
         @endif
 
