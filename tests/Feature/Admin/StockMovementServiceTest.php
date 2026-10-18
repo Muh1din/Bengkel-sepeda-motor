@@ -125,6 +125,7 @@ class StockMovementServiceTest extends TestCase
             $material,
             3,
             $user,
+            null,
             'Material digunakan'
         );
 
@@ -164,15 +165,15 @@ class StockMovementServiceTest extends TestCase
                 $material,
                 11,
                 $user,
+                null,
                 'Material digunakan'
             );
 
-            $this->fail('Stock out should fail when quantity exceeds available stock.');
-        } catch (\InvalidArgumentException $e) {
-            $this->assertEquals(
-                'Insufficient stock.',
-                $e->getMessage()
+            $this->fail(
+                'Stock out should fail when quantity exceeds available stock.'
             );
+        } catch (\InvalidArgumentException $e) {
+            $this->assertEquals('Insufficient stock.', $e->getMessage());
         }
 
         $this->assertEquals(10, $material->fresh()->stock);
@@ -246,6 +247,7 @@ class StockMovementServiceTest extends TestCase
             $material,
             10,
             $user,
+            null,
             'Semua material digunakan'
         );
 

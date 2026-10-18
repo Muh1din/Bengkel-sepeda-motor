@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class StockOutControllerTest extends TestCase
+class StockInControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,10 +20,11 @@ class StockOutControllerTest extends TestCase
 
         return User::factory()->create([
             'role_id' => $adminRole->id,
+            'is_active' => true,
         ]);
     }
 
-    public function test_admin_can_stock_out_material(): void
+    public function test_admin_can_stock_in_material(): void
     {
         $material = Material::factory()->create([
             'stock' => 10,
@@ -32,32 +33,29 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
                 'quantity' => 5,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
         $response->assertSessionHas(
             'success',
-            'Stock berhasil dikeluarkan.'
+            'Stock In berhasil diproses.'
         );
 
-        $this->assertEquals(
-            5,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(15, $material->fresh()->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'material_id' => $material->id,
             'user_id' => $user->id,
-            'type' => 'OUT',
+            'type' => 'IN',
             'quantity' => 5,
             'stock_before' => 10,
-            'stock_after' => 5,
-            'notes' => 'Stock keluar untuk kebutuhan bengkel',
+            'stock_after' => 15,
+            'notes' => 'Stock masuk dari supplier',
         ]);
     }
 
@@ -66,10 +64,10 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'quantity' => 5,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
@@ -83,11 +81,11 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => 999999,
                 'quantity' => 5,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
@@ -105,10 +103,10 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
@@ -126,11 +124,11 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
                 'quantity' => 'abc',
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
@@ -148,11 +146,11 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
                 'quantity' => 0,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
@@ -170,7 +168,7 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
                 'quantity' => 5,
@@ -179,21 +177,18 @@ class StockOutControllerTest extends TestCase
 
         $response->assertSessionHas(
             'success',
-            'Stock berhasil dikeluarkan.'
+            'Stock In berhasil diproses.'
         );
 
-        $this->assertEquals(
-            5,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(15, $material->fresh()->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'material_id' => $material->id,
             'user_id' => $user->id,
-            'type' => 'OUT',
+            'type' => 'IN',
             'quantity' => 5,
             'stock_before' => 10,
-            'stock_after' => 5,
+            'stock_after' => 15,
             'notes' => null,
         ]);
     }
@@ -207,7 +202,7 @@ class StockOutControllerTest extends TestCase
         $user = $this->createAdmin();
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
                 'quantity' => 5,
@@ -220,73 +215,7 @@ class StockOutControllerTest extends TestCase
         ]);
     }
 
-    public function test_stock_out_cannot_exceed_available_stock(): void
-    {
-        $material = Material::factory()->create([
-            'stock' => 10,
-        ]);
-
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
-            [
-                'material_id' => $material->id,
-                'quantity' => 15,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
-            ]
-        );
-
-        $this->assertEquals(
-            10,
-            $material->fresh()->stock
-        );
-
-        $this->assertDatabaseCount(
-            'stock_movements',
-            0
-        );
-    }
-
-    public function test_stock_out_can_reduce_stock_to_zero(): void
-    {
-        $material = Material::factory()->create([
-            'stock' => 10,
-        ]);
-
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
-            [
-                'material_id' => $material->id,
-                'quantity' => 10,
-                'notes' => 'Stock habis digunakan',
-            ]
-        );
-
-        $response->assertSessionHas(
-            'success',
-            'Stock berhasil dikeluarkan.'
-        );
-
-        $this->assertEquals(
-            0,
-            $material->fresh()->stock
-        );
-
-        $this->assertDatabaseHas('stock_movements', [
-            'material_id' => $material->id,
-            'user_id' => $user->id,
-            'type' => 'OUT',
-            'quantity' => 10,
-            'stock_before' => 10,
-            'stock_after' => 0,
-            'notes' => 'Stock habis digunakan',
-        ]);
-    }
-
-    public function test_non_admin_cannot_stock_out_material(): void
+    public function test_non_admin_cannot_stock_in_material(): void
     {
         $material = Material::factory()->create([
             'stock' => 10,
@@ -298,27 +227,22 @@ class StockOutControllerTest extends TestCase
 
         $user = User::factory()->create([
             'role_id' => $mechanicRole->id,
+            'is_active' => true,
         ]);
 
         $response = $this->actingAs($user)->post(
-            route('admin.stock-out.store'),
+            route('admin.stock-in.store'),
             [
                 'material_id' => $material->id,
                 'quantity' => 5,
-                'notes' => 'Stock keluar untuk kebutuhan bengkel',
+                'notes' => 'Stock masuk dari supplier',
             ]
         );
 
         $response->assertForbidden();
 
-        $this->assertEquals(
-            10,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(10, $material->fresh()->stock);
 
-        $this->assertDatabaseCount(
-            'stock_movements',
-            0
-        );
+        $this->assertDatabaseCount('stock_movements', 0);
     }
 }

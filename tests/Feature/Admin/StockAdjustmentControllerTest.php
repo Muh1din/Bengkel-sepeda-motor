@@ -20,19 +20,35 @@ class StockAdjustmentControllerTest extends TestCase
 
         return User::factory()->create([
             'role_id' => $adminRole->id,
+            'is_active' => true,
         ]);
     }
 
+    private function createMechanic(): User
+    {
+        $mechanicRole = Role::factory()->create([
+            'name' => 'Mechanic',
+        ]);
+
+        return User::factory()->create([
+            'role_id' => $mechanicRole->id,
+            'is_active' => true,
+        ]);
+    }
+
+    /**
+     * Admin dapat menyesuaikan stok material.
+     */
     public function test_admin_can_adjust_material_stock(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 7,
@@ -40,19 +56,18 @@ class StockAdjustmentControllerTest extends TestCase
             ]
         );
 
+        $response->assertRedirect(route('admin.stock-adjustments.index'));
+
         $response->assertSessionHas(
             'success',
-            'Stock berhasil disesuaikan.'
+            'Stok berhasil disesuaikan.'
         );
 
-        $this->assertEquals(
-            7,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(7, $material->fresh()->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'material_id' => $material->id,
-            'user_id' => $user->id,
+            'user_id' => $admin->id,
             'type' => 'ADJUSTMENT',
             'quantity' => 3,
             'stock_before' => 10,
@@ -61,135 +76,139 @@ class StockAdjustmentControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * material_id wajib diisi.
+     */
     public function test_material_id_is_required(): void
     {
-        $user = $this->createAdmin();
+        $admin = $this->createAdmin();
 
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'physical_stock' => 7,
-                'notes' => 'Hasil pengecekan stok fisik',
+                'notes' => 'Pengecekan stok',
             ]
         );
 
-        $response->assertSessionHasErrors([
-            'material_id',
-        ]);
+        $response->assertSessionHasErrors('material_id');
     }
 
+    /**
+     * material_id harus menunjuk material yang tersedia.
+     */
     public function test_material_id_must_exist(): void
     {
-        $user = $this->createAdmin();
+        $admin = $this->createAdmin();
 
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => 999999,
                 'physical_stock' => 7,
-                'notes' => 'Hasil pengecekan stok fisik',
+                'notes' => 'Pengecekan stok',
             ]
         );
 
-        $response->assertSessionHasErrors([
-            'material_id',
-        ]);
+        $response->assertSessionHasErrors('material_id');
     }
 
+    /**
+     * physical_stock wajib diisi.
+     */
     public function test_physical_stock_is_required(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
-                'notes' => 'Hasil pengecekan stok fisik',
             ]
         );
 
-        $response->assertSessionHasErrors([
-            'physical_stock',
-        ]);
+        $response->assertSessionHasErrors('physical_stock');
     }
 
+    /**
+     * physical_stock harus berupa bilangan bulat.
+     */
     public function test_physical_stock_must_be_integer(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 'abc',
-                'notes' => 'Hasil pengecekan stok fisik',
             ]
         );
 
-        $response->assertSessionHasErrors([
-            'physical_stock',
-        ]);
+        $response->assertSessionHasErrors('physical_stock');
     }
 
+    /**
+     * physical_stock tidak boleh negatif.
+     */
     public function test_physical_stock_cannot_be_negative(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => -1,
-                'notes' => 'Hasil pengecekan stok fisik',
             ]
         );
 
-        $response->assertSessionHasErrors([
-            'physical_stock',
-        ]);
+        $response->assertSessionHasErrors('physical_stock');
     }
 
+    /**
+     * Catatan boleh dikosongkan.
+     */
     public function test_notes_is_optional(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 7,
             ]
         );
 
+        $response->assertRedirect(route('admin.stock-adjustments.index'));
+
         $response->assertSessionHas(
             'success',
-            'Stock berhasil disesuaikan.'
+            'Stok berhasil disesuaikan.'
         );
 
-        $this->assertEquals(
-            7,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(7, $material->fresh()->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'material_id' => $material->id,
-            'user_id' => $user->id,
+            'user_id' => $admin->id,
             'type' => 'ADJUSTMENT',
             'quantity' => 3,
             'stock_before' => 10,
@@ -198,38 +217,65 @@ class StockAdjustmentControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * Catatan harus berupa string.
+     */
     public function test_notes_must_be_string(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 7,
-                'notes' => 12345,
+                'notes' => ['Catatan tidak valid'],
             ]
         );
 
-        $response->assertSessionHasErrors([
-            'notes',
-        ]);
+        $response->assertSessionHasErrors('notes');
     }
 
-    public function test_adjustment_can_increase_stock(): void
+    /**
+     * Catatan tidak boleh melebihi 500 karakter.
+     */
+    public function test_notes_cannot_exceed_500_characters(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
+            [
+                'material_id' => $material->id,
+                'physical_stock' => 7,
+                'notes' => str_repeat('a', 501),
+            ]
+        );
 
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response->assertSessionHasErrors('notes');
+    }
+
+    /**
+     * Stok dapat bertambah.
+     */
+    public function test_adjustment_can_increase_stock(): void
+    {
+        $admin = $this->createAdmin();
+
+        $material = Material::factory()->create([
+            'stock' => 10,
+        ]);
+
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 15,
@@ -239,17 +285,14 @@ class StockAdjustmentControllerTest extends TestCase
 
         $response->assertSessionHas(
             'success',
-            'Stock berhasil disesuaikan.'
+            'Stok berhasil disesuaikan.'
         );
 
-        $this->assertEquals(
-            15,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(15, $material->fresh()->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'material_id' => $material->id,
-            'user_id' => $user->id,
+            'user_id' => $admin->id,
             'type' => 'ADJUSTMENT',
             'quantity' => 5,
             'stock_before' => 10,
@@ -257,16 +300,19 @@ class StockAdjustmentControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * Stok dapat disesuaikan menjadi nol.
+     */
     public function test_adjustment_can_reduce_stock_to_zero(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 0,
@@ -276,17 +322,14 @@ class StockAdjustmentControllerTest extends TestCase
 
         $response->assertSessionHas(
             'success',
-            'Stock berhasil disesuaikan.'
+            'Stok berhasil disesuaikan.'
         );
 
-        $this->assertEquals(
-            0,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(0, $material->fresh()->stock);
 
         $this->assertDatabaseHas('stock_movements', [
             'material_id' => $material->id,
-            'user_id' => $user->id,
+            'user_id' => $admin->id,
             'type' => 'ADJUSTMENT',
             'quantity' => 10,
             'stock_before' => 10,
@@ -294,16 +337,19 @@ class StockAdjustmentControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * Penyesuaian ditolak jika stok tidak berubah.
+     */
     public function test_adjustment_is_rejected_when_stock_is_unchanged(): void
     {
+        $admin = $this->createAdmin();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $user = $this->createAdmin();
-
-        $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($admin)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 10,
@@ -311,33 +357,24 @@ class StockAdjustmentControllerTest extends TestCase
             ]
         );
 
-        $this->assertEquals(
-            10,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(10, $material->fresh()->stock);
 
-        $this->assertDatabaseCount(
-            'stock_movements',
-            0
-        );
+        $this->assertDatabaseCount('stock_movements', 0);
     }
 
+    /**
+     * Mekanik tidak boleh menyesuaikan stok.
+     */
     public function test_non_admin_cannot_adjust_material_stock(): void
     {
+        $mechanic = $this->createMechanic();
+
         $material = Material::factory()->create([
             'stock' => 10,
         ]);
 
-        $mechanicRole = Role::factory()->create([
-            'name' => 'Mechanic',
-        ]);
-
-        $user = User::factory()->create([
-            'role_id' => $mechanicRole->id,
-        ]);
-
-        $response = $this->actingAs($user)->post(
-            route('admin.stock-adjustment.store'),
+        $response = $this->actingAs($mechanic)->post(
+            route('admin.stock-adjustments.store'),
             [
                 'material_id' => $material->id,
                 'physical_stock' => 5,
@@ -347,14 +384,8 @@ class StockAdjustmentControllerTest extends TestCase
 
         $response->assertForbidden();
 
-        $this->assertEquals(
-            10,
-            $material->fresh()->stock
-        );
+        $this->assertEquals(10, $material->fresh()->stock);
 
-        $this->assertDatabaseCount(
-            'stock_movements',
-            0
-        );
+        $this->assertDatabaseCount('stock_movements', 0);
     }
 }

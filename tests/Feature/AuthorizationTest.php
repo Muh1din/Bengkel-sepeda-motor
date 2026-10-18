@@ -2,25 +2,25 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
 use App\Models\Customer;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AuthorizationTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function createUser(String $roleName): User
+    private function createUser(string $roleName): User
     {
         $role = Role::create([
-            'name' => $roleName
+            'name' => $roleName,
         ]);
 
         return User::factory()->create([
-            'role_id' => $role->id
+            'role_id' => $role->id,
+            'is_active' => true,
         ]);
     }
 
@@ -34,7 +34,7 @@ class AuthorizationTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_owner_can_access_service_advisor_dashboard(): void
+    public function test_owner_cannot_access_service_advisor_dashboard(): void
     {
         $user = $this->createUser('Owner');
 
@@ -66,16 +66,13 @@ class AuthorizationTest extends TestCase
 
     public function test_customer_can_access_customer_dashboard(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createUser('Customer');
 
         Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $response = $this
-            ->actingAs($user)
+        $response = $this->actingAs($user)
             ->get(route('customer.dashboard'));
 
         $response->assertOk();
@@ -84,6 +81,7 @@ class AuthorizationTest extends TestCase
     public function test_guest_cannot_access_owner_dashboard(): void
     {
         $response = $this->get('/owner/dashboard');
+
         $response->assertRedirect(route('login'));
     }
 }

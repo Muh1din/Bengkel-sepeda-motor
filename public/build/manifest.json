@@ -70,6 +70,24 @@
       "assets/fa-v4compatibility-CErXDOsT.woff2"
     ]
   },
+  "resources/js/admin/material-requests.js": {
+    "file": "assets/material-requests-CWw0ePJf.js",
+    "name": "material-requests",
+    "src": "resources/js/admin/material-requests.js",
+    "isEntry": true
+  },
+  "resources/js/admin/stock-adjustments.js": {
+    "file": "assets/stock-adjustments-BHznhZk_.js",
+    "name": "stock-adjustments",
+    "src": "resources/js/admin/stock-adjustments.js",
+    "isEntry": true
+  },
+  "resources/js/admin/stock-preview.js": {
+    "file": "assets/stock-preview-CXH1F6cb.js",
+    "name": "stock-preview",
+    "src": "resources/js/admin/stock-preview.js",
+    "isEntry": true
+  },
   "resources/js/app.js": {
     "file": "assets/app-BYPowsCI.js",
     "name": "app",

@@ -23,6 +23,7 @@ class MaterialRequestControllerTest extends TestCase
 
         return User::factory()->create([
             'role_id' => $adminRole->id,
+            'is_active' => true,
         ]);
     }
 

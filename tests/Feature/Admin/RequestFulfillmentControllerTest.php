@@ -23,6 +23,7 @@ class RequestFulfillmentControllerTest extends TestCase
 
         return User::factory()->create([
             'role_id' => $role->id,
+            'is_active' => true,
         ]);
     }
 

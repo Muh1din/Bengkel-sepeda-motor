@@ -15,6 +15,18 @@ class RequestItemControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function createMechanic(): User
+    {
+        $mechanicRole = Role::firstOrCreate([
+            'name' => 'Mechanic',
+        ]);
+
+        return User::factory()->create([
+            'role_id' => $mechanicRole->id,
+            'is_active' => true,
+        ]);
+    }
+
     public function test_mechanic_can_create_material_request_for_their_work_order(): void
     {
         $mechanic = $this->createMechanic();
@@ -495,17 +507,6 @@ class RequestItemControllerTest extends TestCase
             'material_request_id' => $materialRequest->id,
             'material_id' => $materialC->id,
             'quantity' => 3,
-        ]);
-    }
-
-    private function createMechanic(): User
-    {
-        $mechanicRole = Role::firstOrCreate([
-            'name' => 'Mechanic',
-        ]);
-
-        return User::factory()->create([
-            'role_id' => $mechanicRole->id,
         ]);
     }
 }
