@@ -16,6 +16,7 @@ export default defineConfig({
                 "resources/js/admin/stock-preview.js",
                 "resources/js/admin/stock-adjustments.js",
                 "resources/js/admin/create-admin-project.js",
+                "resources/js/admin/create-admin-project.js",
             ],
             refresh: true,
             fonts: [
