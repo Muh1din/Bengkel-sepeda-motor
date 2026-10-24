@@ -98,28 +98,28 @@ class ProjectController extends Controller
                 $isUpdate ? 'nullable' : 'required',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:5120',
+                'max:10240',
             ],
 
             'gallery' => ['nullable', 'array', 'max:5'],
             'gallery.*' => [
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:5120',
+                'max:10240',
             ],
 
             'before' => ['nullable', 'array', 'max:5'],
             'before.*' => [
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:5120',
+                'max:10240',
             ],
 
             'after' => ['nullable', 'array', 'max:5'],
             'after.*' => [
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:5120',
+                'max:10240',
             ],
 
             'remove_images' => ['nullable', 'array'],

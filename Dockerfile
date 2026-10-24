@@ -13,6 +13,8 @@ RUN npm run build
 # Stage 1: PHP Laravel Application
 FROM php:8.3-fpm-alpine AS app
 
+COPY docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # 1. Install System Dependencies
 RUN apk add --no-cache \
     icu-dev \
