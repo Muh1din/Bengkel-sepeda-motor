@@ -152,7 +152,7 @@
                             <p class="text-center text-[11px] text-brand-steel mt-3">
                                 Pesan langsung diterima via
                                 <span class="text-green-600 font-bold">WhatsApp</span>
-                                — respon cepat!
+                                - respon cepat!
                             </p>
                         </div>
 

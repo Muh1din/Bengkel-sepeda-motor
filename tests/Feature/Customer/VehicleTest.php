@@ -2,24 +2,39 @@
 
 namespace Tests\Feature\Customer;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Vehicle;
 use App\Models\Customer;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Vehicle;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class VehicleTest extends TestCase
 {
     use RefreshDatabase;
 
-    // Customer bisa melihat daftar kendaraannya
-    public function test_customer_can_view_their_vehicles(): void
+    /**
+     * Membuat user Customer yang aktif.
+     */
+    private function createActiveCustomerUser(): User
     {
-
         $user = User::factory()->create([
             'role_id' => 5,
         ]);
+
+        // Pastikan is_active tersimpan meskipun tidak ada di $fillable.
+        $user->forceFill([
+            'is_active' => true,
+        ])->save();
+
+        return $user;
+    }
+
+    /**
+     * Customer bisa melihat daftar kendaraannya.
+     */
+    public function test_customer_can_view_their_vehicles(): void
+    {
+        $user = $this->createActiveCustomerUser();
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -43,12 +58,12 @@ class VehicleTest extends TestCase
         $response->assertSee('Vario 160');
     }
 
-    // Customer bisa menambahkan kendaraan
+    /**
+     * Customer bisa menambahkan kendaraan.
+     */
     public function test_customer_can_add_a_vehicle(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveCustomerUser();
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -78,13 +93,12 @@ class VehicleTest extends TestCase
         ]);
     }
 
-    // Customer bisa membuka halaman edit kendaraan
+    /**
+     * Customer bisa membuka halaman edit kendaraannya.
+     */
     public function test_customer_can_view_vehicle_edit_page(): void
     {
-
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveCustomerUser();
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -112,13 +126,12 @@ class VehicleTest extends TestCase
         $response->assertSee('Black');
     }
 
-    // Customer bisa membuka halaman edit kendaraan
+    /**
+     * Customer bisa memperbarui kendaraannya.
+     */
     public function test_customer_can_update_their_vehicle(): void
     {
-
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveCustomerUser();
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -146,7 +159,9 @@ class VehicleTest extends TestCase
                 ]
             );
 
-        $response->assertRedirect('/customer/vehicles');
+        $response->assertRedirect(
+            route('customer.vehicles.index')
+        );
 
         $this->assertDatabaseHas('vehicles', [
             'id' => $vehicle->id,
@@ -159,15 +174,14 @@ class VehicleTest extends TestCase
         ]);
     }
 
-    // Customer tidak bisa membuka halaman edit kendaraan customer lain
+    /**
+     * Customer tidak bisa membuka halaman edit kendaraan customer lain.
+     */
     public function test_customer_cannot_edit_another_customers_vehicle(): void
     {
+        $user = $this->createActiveCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
-
-        $customer = Customer::factory()->create([
+        Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -184,15 +198,14 @@ class VehicleTest extends TestCase
         $response->assertNotFound();
     }
 
-    // Customer tidak bisa mengubah kendaraan customer lain
+    /**
+     * Customer tidak bisa memperbarui kendaraan customer lain.
+     */
     public function test_customer_cannot_update_another_customers_vehicle(): void
     {
+        $user = $this->createActiveCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
-
-        $customer = Customer::factory()->create([
+        Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -203,7 +216,7 @@ class VehicleTest extends TestCase
             'license_plate' => 'B 1234 XYZ',
             'brand' => 'Honda',
             'model' => 'Vario 160',
-            'year' => 2024,
+            'year' => '2024',
             'color' => 'Black',
         ]);
 
@@ -222,24 +235,24 @@ class VehicleTest extends TestCase
 
         $response->assertNotFound();
 
+        // Pastikan data kendaraan milik customer lain tidak berubah.
         $this->assertDatabaseHas('vehicles', [
             'id' => $vehicle->id,
             'customer_id' => $anotherCustomer->id,
             'license_plate' => 'B 1234 XYZ',
             'brand' => 'Honda',
             'model' => 'Vario 160',
-            'year' => 2024,
+            'year' => '2024',
             'color' => 'Black',
         ]);
     }
 
-    // Customer bisa menghapus kendaraan miliknya
+    /**
+     * Customer bisa menghapus kendaraannya.
+     */
     public function test_customer_can_delete_their_vehicle(): void
     {
-
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveCustomerUser();
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -250,7 +263,7 @@ class VehicleTest extends TestCase
             'license_plate' => 'B 1234 XYZ',
             'brand' => 'Honda',
             'model' => 'Vario 160',
-            'year' => 2024,
+            'year' => '2024',
             'color' => 'Black',
         ]);
 
@@ -260,22 +273,23 @@ class VehicleTest extends TestCase
                 route('customer.vehicles.destroy', $vehicle->id)
             );
 
-        $response->assertRedirect('/customer/vehicles');
+        $response->assertRedirect(
+            route('customer.vehicles.index')
+        );
 
         $this->assertDatabaseMissing('vehicles', [
             'id' => $vehicle->id,
         ]);
     }
 
-    // Customer tidak bisa menghapus kendaraan customer lain
+    /**
+     * Customer tidak bisa menghapus kendaraan customer lain.
+     */
     public function test_customer_cannot_delete_another_customers_vehicle(): void
     {
+        $user = $this->createActiveCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
-
-        $customer = Customer::factory()->create([
+        Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -298,6 +312,7 @@ class VehicleTest extends TestCase
 
         $response->assertNotFound();
 
+        // Kendaraan customer lain harus tetap ada.
         $this->assertDatabaseHas('vehicles', [
             'id' => $vehicle->id,
             'customer_id' => $anotherCustomer->id,

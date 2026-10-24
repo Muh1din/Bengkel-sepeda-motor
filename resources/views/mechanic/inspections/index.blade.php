@@ -3,9 +3,6 @@
 
         {{-- HEADER --}}
         <div>
-            <h2 class="text-xl font-bold text-brand-navy">
-                Inspeksi Kendaraan
-            </h2>
             <p class="text-sm text-brand-steel">
                 Lakukan pemeriksaan kendaraan berdasarkan booking yang telah diterima.
             </p>

@@ -2,18 +2,103 @@
 
 namespace Tests\Feature\Customer;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\Role;
 use App\Models\Booking;
-use App\Models\Vehicle;
 use App\Models\Customer;
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Vehicle;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BookingTest extends TestCase
 {
     use RefreshDatabase;
+
+    /**
+     * Membuat user dengan status aktif.
+     */
+    private function createActiveUser(int $roleId): User
+    {
+        $user = User::factory()->create([
+            'role_id' => $roleId,
+        ]);
+
+        // Pastikan atribut is_active tersimpan meskipun tidak
+        // tercantum dalam daftar fillable model User.
+        $user->forceFill([
+            'is_active' => true,
+        ])->save();
+
+        return $user;
+    }
+
+    /**
+     * Membuat user dengan role Customer.
+     */
+    private function createCustomerUser(): User
+    {
+        $role = Role::create([
+            'name' => 'Customer',
+        ]);
+
+        return $this->createActiveUser($role->id);
+    }
+
+    /**
+     * Membuat data customer yang terhubung ke user.
+     */
+    private function createCustomerFor(User $user): Customer
+    {
+        return Customer::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'user_id' => $user->id,
+        ]);
+    }
+
+    /**
+     * Membuat kendaraan milik customer.
+     */
+    private function createVehicleFor(
+        Customer $customer,
+        string $licensePlate = 'B 1234 XYZ'
+    ): Vehicle {
+        return Vehicle::create([
+            'license_plate' => $licensePlate,
+            'brand' => 'Honda',
+            'model' => 'Vario 160',
+            'year' => 2024,
+            'color' => 'Black',
+            'customer_id' => $customer->id,
+        ]);
+    }
+
+    /**
+     * Membuat booking dengan data default.
+     */
+    private function createBookingFor(
+        Customer $customer,
+        Vehicle $vehicle,
+        string $status = 'PENDING',
+        ?string $bookingCode = null
+    ): Booking {
+        return Booking::create([
+            'booking_code' => $bookingCode ?? 'BK-' . str_pad(
+                (string) random_int(1, 999999),
+                6,
+                '0',
+                STR_PAD_LEFT
+            ),
+            'customer_id' => $customer->id,
+            'vehicle_id' => $vehicle->id,
+            'service_type' => 'Service Berkala',
+            'booking_date' => now()->addDay()->toDateString(),
+            'booking_time' => '10:00',
+            'complaint' => 'Mesin terasa kasar',
+            'status' => $status,
+        ]);
+    }
 
     public function test_booking_factory_creates_valid_customer_and_vehicle_relationship(): void
     {
@@ -30,21 +115,13 @@ class BookingTest extends TestCase
 
     public function test_customer_can_view_their_bookings(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $vehicle = $customer->vehicles()->create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => '2024',
-            'color' => 'Black',
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
         $customer->bookings()->createMany([
             [
@@ -82,21 +159,13 @@ class BookingTest extends TestCase
 
     public function test_customer_can_view_booking_service_page(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $customer->vehicles()->create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => '2024',
-            'color' => 'Black',
-        ]);
+        $this->createVehicleFor($customer);
 
         $response = $this
             ->actingAs($user)
@@ -114,28 +183,22 @@ class BookingTest extends TestCase
 
     public function test_customer_can_create_booking(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $vehicle = $customer->vehicles()->create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => '2024',
-            'color' => 'Black',
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
+
+        $bookingDate = now()->addDays(3)->toDateString();
 
         $response = $this
             ->actingAs($user)
             ->post(route('customer.bookings.store'), [
                 'vehicle_id' => $vehicle->id,
                 'service_type' => 'Service Berkala',
-                'booking_date' => '2026-09-25',
+                'booking_date' => $bookingDate,
                 'booking_time' => '09:00:00',
                 'complaint' => 'Ganti oli dan cek rem',
             ]);
@@ -146,7 +209,7 @@ class BookingTest extends TestCase
             'customer_id' => $customer->id,
             'vehicle_id' => $vehicle->id,
             'service_type' => 'Service Berkala',
-            'booking_date' => '2026-09-25',
+            'booking_date' => $bookingDate,
             'booking_time' => '09:00:00',
             'complaint' => 'Ganti oli dan cek rem',
             'status' => 'PENDING',
@@ -157,9 +220,7 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_create_booking_for_another_customers_vehicle(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -167,20 +228,17 @@ class BookingTest extends TestCase
 
         $otherCustomer = Customer::factory()->create();
 
-        $otherVehicle = $otherCustomer->vehicles()->create([
-            'license_plate' => 'B 5678 ABC',
-            'brand' => 'Yamaha',
-            'model' => 'NMAX',
-            'year' => '2024',
-            'color' => 'Blue',
-        ]);
+        $otherVehicle = $this->createVehicleFor(
+            $otherCustomer,
+            'B 5678 ABC'
+        );
 
         $response = $this
             ->actingAs($user)
             ->post(route('customer.bookings.store'), [
                 'vehicle_id' => $otherVehicle->id,
                 'service_type' => 'Service Berkala',
-                'booking_date' => '2026-09-25',
+                'booking_date' => now()->addDays(3)->toDateString(),
                 'booking_time' => '09:00:00',
                 'complaint' => 'Ganti oli',
             ]);
@@ -192,11 +250,9 @@ class BookingTest extends TestCase
 
     public function test_booking_requires_required_fields(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
-        $customer = Customer::factory()->create([
+        Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
@@ -216,30 +272,27 @@ class BookingTest extends TestCase
 
     public function test_booking_code_is_generated_automatically(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        $vehicle = $customer->vehicles()->create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => '2024',
-            'color' => 'Black',
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $this->actingAs($user)
+        $bookingDate = now()->addDays(3)->toDateString();
+
+        $response = $this
+            ->actingAs($user)
             ->post(route('customer.bookings.store'), [
                 'vehicle_id' => $vehicle->id,
                 'service_type' => 'Service Berkala',
-                'booking_date' => '2026-09-25',
+                'booking_date' => $bookingDate,
                 'booking_time' => '09:00:00',
                 'complaint' => 'Ganti oli',
             ]);
+
+        $response->assertRedirect();
 
         $booking = $customer->bookings()->first();
 
@@ -254,9 +307,7 @@ class BookingTest extends TestCase
 
     public function test_customer_can_only_view_their_own_bookings(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 5,
-        ]);
+        $user = $this->createActiveUser(5);
 
         $customer = Customer::factory()->create([
             'user_id' => $user->id,
@@ -264,21 +315,12 @@ class BookingTest extends TestCase
 
         $otherCustomer = Customer::factory()->create();
 
-        $vehicle = $customer->vehicles()->create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => '2024',
-            'color' => 'Black',
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $otherVehicle = $otherCustomer->vehicles()->create([
-            'license_plate' => 'B 5678 ABC',
-            'brand' => 'Yamaha',
-            'model' => 'NMAX',
-            'year' => '2024',
-            'color' => 'Blue',
-        ]);
+        $otherVehicle = $this->createVehicleFor(
+            $otherCustomer,
+            'B 5678 ABC'
+        );
 
         $customer->bookings()->create([
             'booking_code' => 'BK-000001',
@@ -314,9 +356,7 @@ class BookingTest extends TestCase
 
     public function test_non_customer_cannot_access_customer_bookings(): void
     {
-        $user = User::factory()->create([
-            'role_id' => 1,
-        ]);
+        $user = $this->createActiveUser(1);
 
         $response = $this
             ->actingAs($user)
@@ -327,40 +367,18 @@ class BookingTest extends TestCase
 
     public function test_customer_can_cancel_pending_booking(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->addDay()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'PENDING',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'PENDING',
+            'BK-123456'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -379,40 +397,18 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_cancel_booking_without_reason(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->addDay()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'PENDING',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'PENDING',
+            'BK-123456'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -430,40 +426,18 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_cancel_confirmed_booking(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->addDay()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'CONFIRMED',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'CONFIRMED',
+            'BK-123456'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -482,51 +456,25 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_cancel_another_customer_booking(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $otherUser = $this->createCustomerUser();
 
-        $otherUser = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $this->createCustomerFor($user);
 
-        Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $otherCustomer = $this->createCustomerFor($otherUser);
 
-        $otherCustomer = Customer::create([
-            'name' => $otherUser->name,
-            'email' => $otherUser->email,
-            'phone' => $otherUser->phone,
-            'user_id' => $otherUser->id,
-        ]);
+        $otherVehicle = $this->createVehicleFor(
+            $otherCustomer,
+            'B 5678 ABC'
+        );
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 5678 ABC',
-            'brand' => 'Yamaha',
-            'model' => 'NMAX',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $otherCustomer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-654321',
-            'customer_id' => $otherCustomer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->addDay()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin bermasalah',
-            'status' => 'PENDING',
-        ]);
+        $booking = $this->createBookingFor(
+            $otherCustomer,
+            $otherVehicle,
+            'PENDING',
+            'BK-654321'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -545,39 +493,20 @@ class BookingTest extends TestCase
 
     public function test_canceled_booking_does_not_appear_in_active_bookings(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'CANCELLED',
+            'BK-123456'
+        );
 
-        Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->addDay()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'CANCELLED',
+        $booking->update([
             'cancellation_reason' => 'Ada keperluan mendadak.',
         ]);
 
@@ -585,45 +514,24 @@ class BookingTest extends TestCase
             ->actingAs($user)
             ->get(route('customer.bookings.index'));
 
+        $response->assertOk();
         $response->assertDontSee('BK-123456');
     }
 
     public function test_customer_can_review_completed_booking(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'COMPLETED',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'COMPLETED',
+            'BK-123456'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -647,40 +555,18 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_review_non_completed_booking(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->addDay()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'PENDING',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'PENDING',
+            'BK-123456'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -703,40 +589,18 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_review_booking_twice(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'COMPLETED',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'COMPLETED',
+            'BK-123456'
+        );
 
         $booking->review()->create([
             'customer_id' => $customer->id,
@@ -763,40 +627,18 @@ class BookingTest extends TestCase
 
     public function test_review_rating_must_be_between_one_and_five(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $customer = $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $vehicle = $this->createVehicleFor($customer);
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 1234 XYZ',
-            'brand' => 'Honda',
-            'model' => 'Vario 160',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $customer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-123456',
-            'customer_id' => $customer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin terasa kasar',
-            'status' => 'COMPLETED',
-        ]);
+        $booking = $this->createBookingFor(
+            $customer,
+            $vehicle,
+            'COMPLETED',
+            'BK-123456'
+        );
 
         $response = $this
             ->actingAs($user)
@@ -817,51 +659,25 @@ class BookingTest extends TestCase
 
     public function test_customer_cannot_review_another_customer_booking(): void
     {
-        $role = Role::create([
-            'name' => 'Customer',
-        ]);
+        $user = $this->createCustomerUser();
 
-        $user = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $otherUser = $this->createCustomerUser();
 
-        $otherUser = User::factory()->create([
-            'role_id' => $role->id,
-        ]);
+        $this->createCustomerFor($user);
 
-        $customer = Customer::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'user_id' => $user->id,
-        ]);
+        $otherCustomer = $this->createCustomerFor($otherUser);
 
-        $otherCustomer = Customer::create([
-            'name' => $otherUser->name,
-            'email' => $otherUser->email,
-            'phone' => $otherUser->phone,
-            'user_id' => $otherUser->id,
-        ]);
+        $otherVehicle = $this->createVehicleFor(
+            $otherCustomer,
+            'B 5678 ABC'
+        );
 
-        $vehicle = Vehicle::create([
-            'license_plate' => 'B 5678 ABC',
-            'brand' => 'Yamaha',
-            'model' => 'NMAX',
-            'year' => 2024,
-            'color' => 'Black',
-            'customer_id' => $otherCustomer->id,
-        ]);
-
-        $booking = Booking::create([
-            'booking_code' => 'BK-654321',
-            'customer_id' => $otherCustomer->id,
-            'vehicle_id' => $vehicle->id,
-            'service_type' => 'Service Berkala',
-            'booking_date' => now()->toDateString(),
-            'booking_time' => '10:00',
-            'complaint' => 'Mesin bermasalah',
-            'status' => 'COMPLETED',
-        ]);
+        $booking = $this->createBookingFor(
+            $otherCustomer,
+            $otherVehicle,
+            'COMPLETED',
+            'BK-654321'
+        );
 
         $response = $this
             ->actingAs($user)

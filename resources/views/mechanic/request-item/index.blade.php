@@ -4,10 +4,6 @@
 
         {{-- Page Caption --}}
         <div>
-            <h1 class="text-xl font-semibold text-brand-navy">
-                Request Material
-            </h1>
-
             <p class="mt-1 text-sm text-brand-steel">
                 Ajukan material yang dibutuhkan untuk pekerjaan Work Order.
             </p>
