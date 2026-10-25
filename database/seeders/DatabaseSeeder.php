@@ -28,11 +28,11 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class
         ]);
 
-        $customer = Customer::factory()->create();
+        // $customer = Customer::factory()->create();
 
-        Vehicle::factory()
-            ->count(3)
-            ->for($customer)
-            ->create();
+        // Vehicle::factory()
+        //     ->count(3)
+        //     ->for($customer)
+        //     ->create();
     }
 }
