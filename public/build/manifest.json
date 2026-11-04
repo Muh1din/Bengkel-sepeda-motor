@@ -51,8 +51,17 @@
     "file": "assets/fa-v4compatibility-CErXDOsT.woff2",
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
+  "node_modules/sweetalert2/dist/sweetalert2.all.js": {
+    "file": "assets/sweetalert2.all-BfdQrFjc.js",
+    "name": "sweetalert2.all",
+    "src": "node_modules/sweetalert2/dist/sweetalert2.all.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
   "resources/css/app.css": {
-    "file": "assets/app-D1aup3KJ.css",
+    "file": "assets/app-CTD05jqs.css",
     "name": "app",
     "names": [
       "app.css"
@@ -95,10 +104,13 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-BYPowsCI.js",
+    "file": "assets/app-sg8PDsEX.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/sweetalert2/dist/sweetalert2.all.js"
+    ]
   },
   "resources/js/option-booking-form.js": {
     "file": "assets/option-booking-form-CjkmjGp9.js",

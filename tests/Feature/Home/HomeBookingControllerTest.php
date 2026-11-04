@@ -5,7 +5,6 @@ namespace Tests\Feature\Home;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\User;
-use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -80,8 +79,8 @@ class HomeBookingControllerTest extends TestCase
             'status' => 'PENDING',
         ]);
 
-        $this->assertDatabaseCount('customers', 2);
-        $this->assertDatabaseCount('vehicles', 4);
+        $this->assertDatabaseCount('customers', 1);
+        $this->assertDatabaseCount('vehicles', 1);
         $this->assertDatabaseCount('bookings', 1);
     }
 
@@ -130,8 +129,8 @@ class HomeBookingControllerTest extends TestCase
             ])
         );
 
-        $this->assertDatabaseCount('customers', 2);
-        $this->assertDatabaseCount('vehicles', 5);
+        $this->assertDatabaseCount('customers', 1);
+        $this->assertDatabaseCount('vehicles', 2);
         $this->assertDatabaseCount('bookings', 2);
     }
 

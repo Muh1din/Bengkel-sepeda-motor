@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -26,16 +28,15 @@ class AuthController extends Controller
             ? 'email'
             : 'phone';
 
-        $loginData = [
-            $fieldType => $identity,
-            'password' => $credentials['password'],
-            'is_active' => true,
-        ];
+        $user = User::query()
+            ->where($fieldType, $identity)
+            ->where('is_active', true)
+            ->whereNotNull('password')
+            ->first();
 
-        if (Auth::attempt($loginData, $request->boolean('remember'))) {
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            Auth::login($user, $request->boolean('remember'));
             $request->session()->regenerate();
-
-            $user = Auth::user();
 
             if ($user->role->name === 'Owner') {
                 return redirect()->route('owner.dashboard');

@@ -57,8 +57,21 @@ class ProfileTest extends TestCase
 
         $response->assertViewHas(
             'customer',
-            fn($viewCustomer) => $viewCustomer->id === $customer->id
+            fn ($viewCustomer) => $viewCustomer->id === $customer->id
         );
+    }
+
+    public function test_customer_can_view_profile_before_adding_a_phone_number(): void
+    {
+        $user = $this->createActiveCustomerUser();
+        $user->update(['phone' => null]);
+        $this->createCustomer($user);
+
+        $response = $this
+            ->actingAs($user)
+            ->get(route('customer.profile'));
+
+        $response->assertOk();
     }
 
     /**

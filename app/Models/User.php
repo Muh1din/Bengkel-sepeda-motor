@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name','phone','email', 'password', 'role_id'])]
+#[Fillable(['name', 'phone', 'email', 'email_verified_at', 'password', 'role_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -32,7 +33,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function role(): BelongsTo {
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
@@ -41,19 +43,24 @@ class User extends Authenticatable
         return $this->hasOne(Customer::class, 'user_id', 'id');
     }
 
+    public function socialAccounts(): HasMany
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
     public function inspections()
     {
-        return $this->hasMany(VehicleInspection::class,'mechanic_id','id');
+        return $this->hasMany(VehicleInspection::class, 'mechanic_id', 'id');
     }
 
     public function createdInspections()
     {
-        return $this->hasMany(VehicleInspection::class,'created_by','id');
+        return $this->hasMany(VehicleInspection::class, 'created_by', 'id');
     }
 
     public function workOrders()
     {
-        return $this->hasMany(WorkOrder::class,'mechanic_id','id');
+        return $this->hasMany(WorkOrder::class, 'mechanic_id', 'id');
     }
 
     public function stockMovements()

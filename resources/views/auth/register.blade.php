@@ -57,7 +57,7 @@
                 <label for="phone" class="block text-sm font-semibold mb-1 text-brand-navy">Nomor HP</label>
                 <div
                     class="flex rounded-xl shadow-sm border border-ui-border overflow-hidden focus-within:ring-2 focus-within:ring-brand-gold focus-within:border-transparent transition duration-200 bg-ui-main">
-                    <input type="tel" id="phone" name="phone" required
+                    <input type="tel" id="phone" name="phone"
                         class="w-full px-4 py-3 bg-ui-main text-ui-text focus:outline-none" placeholder="081234567890">
                 </div>
             </div>
