@@ -16,13 +16,13 @@ class CustomerFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
-        // return [
-        //     'user_id' => User::factory(),
-        //     'name' => fake()->name(),
-        //     'phone' => fake()->phoneNumber(),
-        //     'email' => fake()->email()
-        // ];
+        return [
+            'user_id' => User::factory(),
+            'name' => fake()->name(),
+            'phone' => fake()->phoneNumber(),
+            'email' => fake()->email()
+        ];
     }
 }
