@@ -7,7 +7,7 @@ use App\Models\Customer;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -34,34 +34,53 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
 
-        $validate = $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone' => ['required', 'string', 'max:20', 'unique:users,phone'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email',
+                'unique:customers,email',
+            ],
+            'phone' => [
+                'nullable',
+                'string',
+                'max:20',
+                'unique:users,phone',
+                'unique:customers,phone',
+            ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        
-        $customerRole = Role::where('name', 'customer')->firstOrFail();
+        $customerRole = Role::where('name', 'Customer')->firstOrFail();
 
-        $user = User::create([
-            'name' => $validate['name'],
-            'email' => $validate['email'],
-            'phone' => $validate['phone'],
-            'password' => Hash::make($validate['password']),
-            'role_id' => $customerRole->id,
-        ]);
+        $user = DB::transaction(function () use ($validated, $customerRole) {
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'] ?? null,
+                'password' => Hash::make($validated['password']),
+                'role_id' => $customerRole->id,
+            ]);
 
-        Customer::create([
-            'name' => $validate['name'],
-            'email' => $validate['email'],
-            'phone' => $validate['phone'],
-            'user_id' => $user->id,
-        ]);
+            Customer::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'] ?? null,
+                'user_id' => $user->id,
+            ]);
+
+            return $user;
+        });
+
+
+
+        $user->sendEmailVerificationNotification();
 
         return redirect()
             ->route('login')
-            ->with('success', 'Registrasi berhasil, silahkan login dengan akun anda');
+            ->with('success', 'Registrasi berhasil. Silakan login dan verifikasi email Anda.');
     }
 
     /**

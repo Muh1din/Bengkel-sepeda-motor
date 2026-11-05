@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\Models\WorkOrder;
-use App\Models\VehicleInspection;
-use Illuminate\Support\Facades\View;
 use App\Models\Booking;
+use App\Models\VehicleInspection;
+use App\Models\WorkOrder;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        RateLimiter::for('login', function (Request $request) {
+            $identity = Str::lower(trim((string) $request->input('identity')));
+            $ipAddress = (string) $request->ip();
+
+            return [
+                Limit::perMinute(5)->by('login-account:'.hash('sha256', $identity.'|'.$ipAddress)),
+                Limit::perMinute(30)->by('login-ip:'.$ipAddress),
+            ];
+        });
+
+        RateLimiter::for('register', function (Request $request) {
+            return Limit::perHour(5)->by('register-ip:'.(string) $request->ip());
+        });
+
         // View::composer('components.service-advisor.sidebar', function ($view) {
         //     $pendingBookingsCount = Booking::where('status', 'PENDING')->count();
 
