@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingSettingController;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\InventoryDashboardController;
@@ -89,7 +91,29 @@ Route::post('/register', [RegisterController::class, 'store'])
 
 Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
 
-    Route::middleware('role:Customer')
+    // Halaman pemberitahuan verifikasi email
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    // Memproses verifikasi email
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return redirect()->route('customer.dashboard')
+            ->with('success', 'Email berhasil diverifikasi!');
+    })->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    // Mengirim ulang email verifikasi
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Link verifikasi berhasil dikirim ulang!');
+    })->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::middleware(['verified', 'role:Customer'])
         ->prefix('customer')
         ->name('customer.')
         ->group(function () {

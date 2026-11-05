@@ -55,7 +55,7 @@ class RegisterController extends Controller
 
         $customerRole = Role::where('name', 'Customer')->firstOrFail();
 
-        DB::transaction(function () use ($validated, $customerRole): void {
+        $user = DB::transaction(function () use ($validated, $customerRole) {
             $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -70,11 +70,17 @@ class RegisterController extends Controller
                 'phone' => $validated['phone'] ?? null,
                 'user_id' => $user->id,
             ]);
+
+            return $user;
         });
+
+
+
+        $user->sendEmailVerificationNotification();
 
         return redirect()
             ->route('login')
-            ->with('success', 'Registrasi berhasil, silahkan login dengan akun anda');
+            ->with('success', 'Registrasi berhasil. Silakan login dan verifikasi email Anda.');
     }
 
     /**
