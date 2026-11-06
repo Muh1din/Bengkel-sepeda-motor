@@ -11,116 +11,191 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-10">
+<body class="bg-ui-main text-ui-text font-sans antialiased min-h-screen flex items-center justify-center p-4">
 
-    <div class="w-full max-w-md">
+    {{-- Forgot Password Card --}}
+    <div class="w-full max-w-md bg-ui-card border border-ui-border rounded-3xl shadow-2xl overflow-hidden p-8 sm:p-10">
 
-        {{-- Brand --}}
+        {{-- Logo --}}
         <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-400 text-slate-950 mb-4">
-                <i data-lucide="wrench" class="w-8 h-8"></i>
-            </div>
 
-            <h1 class="text-2xl font-bold text-white tracking-wide">
-                NIRWANA <span class="text-amber-400">GARAGE</span>
+            <img src="{{ asset('logo/logo.jpeg') }}" alt="Logo Nirwana Garage"
+                class="w-16 h-16 mx-auto mb-4 rounded-2xl shadow-md object-cover border-2 border-brand-gold">
+
+            <h1 class="text-2xl font-bold text-brand-navy tracking-tight">
+                Nirwana Garage
             </h1>
 
-            <p class="text-slate-400 text-sm mt-2">
-                Motorcycle Service Management
+            <p class="text-sm text-brand-steel mt-1.5">
+                Account Recovery
             </p>
+
         </div>
 
-        {{-- Card --}}
-        <div class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8">
+        {{-- Heading --}}
+        <div class="text-center mb-8">
 
-            {{-- Heading --}}
-            <div class="mb-6">
-                <div class="flex items-center gap-2 mb-3">
-                    <i data-lucide="lock-keyhole" class="w-5 h-5 text-amber-500"></i>
+            <div
+                class="inline-flex items-center justify-center w-14 h-14 rounded-2xl
+                bg-brand-gold/10 border border-brand-gold/20 mb-4">
 
-                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-600">
-                        Account Recovery
-                    </span>
-                </div>
+                <svg class="w-7 h-7 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
 
-                <h2 class="text-2xl font-bold text-slate-900">
-                    Lupa Password?
-                </h2>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                    </path>
 
-                <p class="text-sm text-slate-500 mt-2 leading-relaxed">
-                    Jangan khawatir. Masukkan alamat email akun Customer
-                    Anda. Kami akan mengirimkan tautan untuk mengatur ulang password.
+                </svg>
+
+            </div>
+
+            <h2 class="text-xl font-bold text-brand-navy">
+                Lupa Password?
+            </h2>
+
+            <p class="text-sm text-brand-steel mt-2 leading-relaxed">
+                Jangan khawatir. Masukkan alamat email yang terdaftar
+                pada akun Customer Anda. Kami akan mengirimkan tautan
+                untuk mengatur ulang password.
+            </p>
+
+        </div>
+
+        {{-- Success / Status --}}
+        @if (session('status'))
+            <div role="status" aria-live="polite"
+                class="mb-5 p-4 bg-emerald-500/10 border border-emerald-500/20
+                    rounded-xl text-emerald-600 text-sm flex items-start gap-3">
+
+                <svg class="w-5 h-5 shrink-0 text-emerald-500 mt-0.5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                    </path>
+
+                </svg>
+
+                <span>{{ session('status') }}</span>
+
+            </div>
+        @endif
+
+        {{-- Email Error --}}
+        @error('email')
+            <div role="alert"
+                class="mb-5 p-4 bg-red-500/10 border border-red-500/20
+                    rounded-xl text-red-600 text-sm flex items-start gap-3">
+
+                <svg class="w-5 h-5 shrink-0 text-red-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                    </path>
+
+                </svg>
+
+                <span>{{ $message }}</span>
+
+            </div>
+        @enderror
+
+        {{-- Forgot Password Form --}}
+        <form action="{{ route('password.email') }}" method="POST" class="space-y-5">
+
+            @csrf
+
+            {{-- Email --}}
+            <div>
+
+                <label for="email" class="block text-sm font-semibold mb-1.5 text-brand-navy">
+
+                    Alamat Email
+
+                </label>
+
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus
+                    autocomplete="email" placeholder="nama@email.com"
+                    class="w-full px-4 py-3 bg-ui-main border
+                        @error('email')
+                            border-red-500 focus:ring-red-500
+                        @else
+                            border-ui-border focus:ring-brand-gold
+                        @enderror
+                        rounded-xl text-ui-text
+                        focus:outline-none focus:ring-2
+                        focus:border-transparent
+                        transition duration-200">
+
+                <p class="text-xs text-brand-steel mt-2">
+                    Gunakan email yang terdaftar pada akun Customer Anda.
                 </p>
+
             </div>
 
-            {{-- Status Message --}}
-            @if (session('status'))
-                <div class="flex items-start gap-3 p-4 mb-5 rounded-xl bg-green-50 border border-green-200">
-                    <i data-lucide="check-circle" class="w-5 h-5 text-green-600 shrink-0"></i>
+            {{-- Submit --}}
+            <button type="submit"
+                class="w-full py-3.5 px-4 bg-brand-navy hover:bg-[#23314a]
+                    text-white font-semibold rounded-xl shadow-lg
+                    hover:shadow-xl transition-all duration-200
+                    flex items-center justify-center gap-2
+                    border border-brand-gold/20 cursor-pointer">
 
-                    <p class="text-sm text-green-700">
-                        {{ session('status') }}
-                    </p>
-                </div>
-            @endif
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 
-            {{-- Form --}}
-            <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
-                @csrf
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                    </path>
 
-                <div>
-                    <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">
-                        Alamat Email
-                    </label>
+                </svg>
 
-                    <div class="relative">
-                        <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400">
-                        </i>
+                <span>Kirim Link Reset Password</span>
 
-                        <input type="email" id="email" name="email" value="{{ old('email') }}"
-                            placeholder="nama@email.com" autocomplete="email" required autofocus
-                            class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200
-                            text-slate-900 placeholder:text-slate-400
-                            focus:outline-none focus:ring-2 focus:ring-amber-400
-                            focus:border-amber-400 transition
-                            @error('email') border-red-500 focus:ring-red-400 @enderror">
-                    </div>
+            </button>
 
-                    @error('email')
-                        <p class="flex items-center gap-1.5 text-sm text-red-600 mt-2">
-                            <i data-lucide="alert-circle" class="w-4 h-4"></i>
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
+        </form>
 
-                {{-- Submit --}}
-                <button type="submit"
-                    class="w-full flex items-center justify-center gap-2
-                    bg-amber-400 hover:bg-amber-500
-                    text-slate-950 font-bold py-3 px-4 rounded-xl
-                    transition duration-200 shadow-lg shadow-amber-400/20">
-                    <i data-lucide="send" class="w-5 h-5"></i>
-                    Kirim Link Reset Password
-                </button>
-            </form>
+        {{-- Divider --}}
+        <div class="flex items-center justify-center gap-3 my-6">
 
-            {{-- Back to Login --}}
-            <div class="mt-6 pt-5 border-t border-slate-100 text-center">
-                <a href="{{ route('login') }}"
-                    class="inline-flex items-center gap-2 text-sm font-semibold
-                    text-slate-600 hover:text-amber-600 transition">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                    Kembali ke Login
-                </a>
-            </div>
+            <span class="h-px flex-1 bg-ui-border"></span>
+
+            <span class="text-xs font-medium tracking-wider text-brand-steel">
+                ATAU
+            </span>
+
+            <span class="h-px flex-1 bg-ui-border"></span>
 
         </div>
+
+        {{-- Back to Login --}}
+        <a href="{{ route('login') }}"
+            class="w-full py-3 px-4 bg-ui-main hover:bg-ui-card
+                text-brand-steel hover:text-brand-navy font-semibold
+                rounded-xl border border-ui-border
+                transition-all duration-200
+                flex items-center justify-center gap-2">
+
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+                </path>
+
+            </svg>
+
+            <span>Kembali ke Login</span>
+
+        </a>
 
         {{-- Footer --}}
-        <p class="text-center text-xs text-slate-500 mt-6">
-            &copy; {{ date('Y') }} Nirwana Garage. All rights reserved.
-        </p>
+        <div class="mt-8 text-center">
+
+            <p class="text-xs text-brand-steel">
+                &copy; {{ date('Y') }} Nirwana Garage. All rights reserved.
+            </p>
+
+        </div>
 
     </div>
 

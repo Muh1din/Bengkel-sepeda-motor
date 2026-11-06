@@ -141,8 +141,7 @@
                     <span class="ml-2 text-brand-steel">Ingat saya</span>
                 </label>
 
-                <a 
-                {{-- href="{{ route('password.request') }}" --}}
+                <a href="{{ route('password.request') }}"
                     class="ml-auto text-right text-brand-steel hover:text-brand-gold transition-colors font-medium">
                     Lupa kata sandi?
                 </a>
