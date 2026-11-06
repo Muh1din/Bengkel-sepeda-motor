@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingSettingController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\AuthController as AuthAuthController;
 use App\Http\Controllers\Admin\ProjectCategoryController;
 use App\Http\Controllers\Admin\PortfolioDashboardController;
@@ -78,6 +79,22 @@ Route::post('/login', [AuthAuthController::class, 'login']);
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+
+// Forgot Password
+Route::get('/forgot-password', [PasswordResetController::class, 'create'])
+    ->name('password.request');
+
+Route::post('/forgot-password', [PasswordResetController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('password.email');
+
+// Reset Password
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'edit'])
+    ->name('password.reset');
+
+Route::post('/reset-password', [PasswordResetController::class, 'update'])
+    ->middleware('throttle:5,1')
+    ->name('password.update');
 
 Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->group(function () {
 
