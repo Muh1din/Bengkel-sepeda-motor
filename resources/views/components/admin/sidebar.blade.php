@@ -1,13 +1,13 @@
 <aside id="sidebar"
     class="fixed inset-y-0 left-0 z-40 flex h-dvh w-64 shrink-0 -translate-x-full flex-col overflow-hidden bg-brand-navy text-white shadow-xl transition-transform duration-300 ease-in-out no-print md:translate-x-0 md:shadow-none">
-    
+
     {{-- Brand Header --}}
     <div class="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-700/50 bg-brand-navy px-4">
 
         {{-- Logo --}}
         <div class="flex min-w-0 flex-1 items-center gap-2">
             <img src="{{ asset('logo/logo.jpeg') }}" alt="Nirwana Garage Logo"
-                class="h-8 w-8 shrink-0 rounded-lg object-cover">
+                class="h-8 w-8 shrink-0 rounded-none object-cover">
 
             <h1 class="min-w-0 whitespace-nowrap text-sm font-bold leading-none text-white">
                 NIRWANA <span class="text-brand-gold">GARAGE</span>

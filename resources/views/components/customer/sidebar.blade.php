@@ -6,7 +6,7 @@
         {{-- Logo --}}
         <div class="flex min-w-0 flex-1 items-center gap-2">
             <img src="{{ asset('logo/logo.jpeg') }}" alt="Nirwana Garage Logo"
-                class="h-8 w-8 shrink-0 rounded-lg object-cover">
+                class="h-8 w-8 shrink-0 rounded-none object-cover">
 
             <h1 class="whitespace-nowrap text-sm font-bold leading-none text-white">
                 NIRWANA <span class="text-brand-gold">GARAGE</span>

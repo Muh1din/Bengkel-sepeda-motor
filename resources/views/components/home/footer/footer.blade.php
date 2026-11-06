@@ -22,11 +22,11 @@
                     "Membangun mesin dengan presisi, merestorasi dengan hati. Standar baru workshop otomotif."
                 </p>
                 <div class="flex gap-3">
-                    <a href="#"
+                    <a href="https://www.instagram.com/nirwana.garage77?vrfl=MTA3aWd1eGlpYjRmMA=="
                         class="w-11 h-11 border border-white/10 rounded-xl flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all duration-400">
                         <i class="fa-brands fa-instagram text-base"></i>
                     </a>
-                    <a href="#"
+                    <a href="https://www.tiktok.com/@nirwana.garage77?_r=1&_t=ZS-9BBHWIAx5SY"
                         class="w-11 h-11 border border-white/10 rounded-xl flex items-center justify-center hover:bg-brand-gold hover:border-brand-gold transition-all duration-400">
                         <i class="fa-brands fa-tiktok text-base"></i>
                     </a>

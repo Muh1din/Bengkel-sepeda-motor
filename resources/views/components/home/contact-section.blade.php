@@ -74,10 +74,9 @@
                 <!-- Google Maps -->
                 <div class="w-full h-52 rounded-3xl overflow-hidden border-4 border-white shadow-md">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.864006509979!2d106.79051837499!3d-6.319760793665516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ef0000000001%3A0x0!2sJl.%20Pondok%20Labu%2C%20Depok%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1715000000000!5m2!1sid!2sid"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5550.906753970885!2d106.79649947630928!3d-6.306876161724912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ef8704556447%3A0xf6112e9e8e72c5e5!2sNIRWANA%20GARAGE%2077!5e1!3m2!1sen!2sid!4v1793979150723!5m2!1sen!2sid"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
                 </div>
 
             </div>

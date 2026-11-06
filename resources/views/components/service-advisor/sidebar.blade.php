@@ -7,7 +7,7 @@
             class="h-16 flex items-center justify-between px-6 bg-brand-navy border-b border-slate-700/50 sticky top-0 z-10">
             <div class="flex items-center gap-3">
                 <img src="{{ asset('logo/logo.jpeg') }}" alt="Nirwana Garage Logo"
-                    class="w-8 h-8 rounded-lg object-cover shrink-0">
+                class="h-8 w-8 shrink-0 rounded-none object-cover">
                 <h1 class="font-bold text-base leading-none text-white">
                     NIRWANA <span class="text-brand-gold">GARAGE</span>
                 </h1>

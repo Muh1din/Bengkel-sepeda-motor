@@ -28,28 +28,28 @@
                             <p class="text-brand-navy font-bold text-sm">Repaint Velg</p>
                             <p class="text-[10px] text-brand-steel">Sepasang (Matic/Bebek)</p>
                         </div>
-                        <p class="text-brand-gold font-black">400rb+</p>
+                        <p class="text-brand-gold font-black">300rb - 350rb</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
                         <div>
                             <p class="text-brand-navy font-bold text-sm">Full Body Halus</p>
                             <p class="text-[10px] text-brand-steel">Matic Kecil (Mio/Beat)</p>
                         </div>
-                        <p class="text-brand-gold font-black">1.2jt+</p>
+                        <p class="text-brand-gold font-black">900rb - 1jt</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
                         <div>
                             <p class="text-brand-navy font-bold text-sm">Full Body Halus</p>
                             <p class="text-[10px] text-brand-steel">Matic Besar (NMAX/PCX)</p>
                         </div>
-                        <p class="text-brand-gold font-black">1.8jt+</p>
+                        <p class="text-brand-gold font-black">1,5jt – 2,5jt</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
                         <div>
                             <p class="text-brand-navy font-bold text-sm">Bak Mesin/CVT</p>
                             <p class="text-[10px] text-brand-steel">Kanan-Kiri</p>
                         </div>
-                        <p class="text-brand-gold font-black">350rb+</p>
+                        <p class="text-brand-gold font-black">150rb - 250rb</p>
                     </div>
                 </div>
                 <a target="_blank"
@@ -80,14 +80,14 @@
                             <p class="text-white font-bold text-sm">Tune Up Ultimate</p>
                             <p class="text-[10px] text-brand-silver italic">Gurun/TB/CVT Clean</p>
                         </div>
-                        <p class="text-brand-gold font-black">250rb</p>
+                        <p class="text-brand-gold font-black">150rb</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-white/10 pb-2">
                         <div>
                             <p class="text-white font-bold text-sm">Bore Up Harian</p>
                             <p class="text-[10px] text-brand-silver italic">Inc. Jasa & Paking</p>
                         </div>
-                        <p class="text-brand-gold font-black">800rb+</p>
+                        <p class="text-brand-gold font-black">900rb - 1jt</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-white/10 pb-2">
                         <div>
@@ -101,7 +101,7 @@
                             <p class="text-white font-bold text-sm">Porting Polish</p>
                             <p class="text-[10px] text-brand-silver italic">CNC Look Finish</p>
                         </div>
-                        <p class="text-brand-gold font-black">450rb+</p>
+                        <p class="text-brand-gold font-black">500rb</p>
                     </div>
                 </div>
                 <a target="_blank"
@@ -128,14 +128,14 @@
                             <p class="text-brand-navy font-bold text-sm">Carbon Kevlar Woven</p>
                             <p class="text-[10px] text-brand-steel">Part Kecil (Cover/Spion)</p>
                         </div>
-                        <p class="text-brand-gold font-black">250rb+</p>
+                        <p class="text-brand-gold font-black">300rb - 350rb</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
                         <div>
                             <p class="text-brand-navy font-bold text-sm">Carbon Forged</p>
                             <p class="text-[10px] text-brand-steel">Custom Finish</p>
                         </div>
-                        <p class="text-brand-gold font-black">350rb+</p>
+                        <p class="text-brand-gold font-black">600rb+</p>
                     </div>
                     <div class="flex justify-between items-end border-b border-dashed border-brand-silver/50 pb-2">
                         <div>
@@ -149,7 +149,7 @@
                             <p class="text-brand-navy font-bold text-sm">Coating Carbon</p>
                             <p class="text-[10px] text-brand-steel">Anti-UV & Glossy</p>
                         </div>
-                        <p class="text-brand-gold font-black">150rb+</p>
+                        <p class="text-brand-gold font-black">150rb - 250rb</p>
                     </div>
                 </div>
                 <a href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Carbon+Fiber"
@@ -162,7 +162,8 @@
         <p data-scroll="fade-up"
             class="mt-10 text-center text-brand-steel text-xs flex items-center justify-center gap-2">
             <i class="fa-solid fa-circle-info text-brand-gold"></i>
-            Pengerjaan menggunakan material A-Class (Spies Hecker/Sikkens) & Sparepart Original.
+            Catatan: Menggunakan produk premium dengan hasil cat anti-kusam dan tahan cuaca. Harga dapat berubah
+            sewaktu-waktu. Untuk informasi harga terbaru dan biaya upgrade sparepart opsional, silakan hubungi admin.
         </p>
     </div>
 </section>
