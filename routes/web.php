@@ -1,37 +1,38 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingSettingController;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\Auth\AuthController as AuthAuthController;
-use App\Http\Controllers\Admin\ProjectCategoryController;
-use App\Http\Controllers\Admin\PortfolioDashboardController;
-use App\Http\Controllers\Home\ProjectController;
-use App\Http\Controllers\Home\TrackingController;
-use App\Http\Controllers\Admin\InventoryDashboardController;
-use App\Http\Controllers\Admin\StockMovementController;
-use App\Http\Controllers\Admin\RequestRejectionController;
-use App\Http\Controllers\Admin\RequestFulfillmentController;
-use App\Http\Controllers\Admin\StockAdjustmentController;
-use App\Http\Controllers\Admin\StockOutController;
-use App\Http\Controllers\Admin\StockInController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\InventoryDashboardController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\MaterialRequestController;
+use App\Http\Controllers\Admin\PortfolioDashboardController;
+use App\Http\Controllers\Admin\ProjectCategoryController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
+use App\Http\Controllers\Admin\RequestFulfillmentController;
+use App\Http\Controllers\Admin\RequestRejectionController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
-use App\Http\Controllers\Mechanic\MechanicWorkOrderController;
-use App\Http\Controllers\ServiceAdvisor\WorkOrderController;
-use App\Http\Controllers\ServiceAdvisor\RecommendedWorkController;
-use App\Http\Controllers\Mechanic\InspectionController;
-use App\Http\Controllers\Customer\ReviewController;
+use App\Http\Controllers\Admin\StockAdjustmentController;
+use App\Http\Controllers\Admin\StockInController;
+use App\Http\Controllers\Admin\StockMovementController;
+use App\Http\Controllers\Admin\StockOutController;
+use App\Http\Controllers\Auth\AuthController as AuthAuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Customer\ProfileController;
+use App\Http\Controllers\Customer\ReviewController;
 use App\Http\Controllers\Customer\VehicleController;
 use App\Http\Controllers\Home\HomeBookingController;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Home\ProjectController;
+use App\Http\Controllers\Home\TrackingController;
 use App\Http\Controllers\Mechanic\DashboardController as MechanicDashboardController;
+use App\Http\Controllers\Mechanic\InspectionController;
+use App\Http\Controllers\Mechanic\MechanicWorkOrderController;
 use App\Http\Controllers\Mechanic\RequestItemController;
 use App\Http\Controllers\Owner\BookingController as OwnerBookingController;
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
@@ -45,10 +46,10 @@ use App\Http\Controllers\ServiceAdvisor\BookingController as ServiceAdvisorBooki
 use App\Http\Controllers\ServiceAdvisor\CustomerController;
 use App\Http\Controllers\ServiceAdvisor\DashboardController as ServiceAdvisorDashboardController;
 use App\Http\Controllers\ServiceAdvisor\InspectionController as ServiceAdvisorInspectionController;
-use Illuminate\Image\Transformations\Rotate;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ServiceAdvisor\RecommendedWorkController;
+use App\Http\Controllers\ServiceAdvisor\WorkOrderController;
+use App\Http\Middleware\EnsureUserIsActive;
 use Illuminate\Support\Facades\Route;
-
 
 // Guest
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -58,6 +59,12 @@ Route::get('/projects', [ProjectController::class, 'index'])
 
 Route::get('/projects/{slug}', [ProjectController::class, 'show'])
     ->name('projects.show');
+
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])
+    ->name('google.redirect');
+
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])
+    ->name('google.callback');
 
 // Route::get('/projects/{slug}', [ProjectController::class, 'show'])
 //     ->name('projects.show');
@@ -75,10 +82,13 @@ Route::post('/booking-form', [HomeBookingController::class, 'store'])
     ->name('booking.form.store');
 
 Route::get('/login', [AuthAuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthAuthController::class, 'login']);
+Route::post('/login', [AuthAuthController::class, 'login'])
+    ->middleware('throttle:login');
 
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+Route::post('/register', [RegisterController::class, 'store'])
+    ->name('register.store')
+    ->middleware('throttle:register');
 
 // Forgot Password
 Route::get('/forgot-password', [PasswordResetController::class, 'create'])
@@ -96,9 +106,31 @@ Route::post('/reset-password', [PasswordResetController::class, 'update'])
     ->middleware('throttle:5,1')
     ->name('password.update');
 
-Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->group(function () {
+Route::middleware(['auth', EnsureUserIsActive::class])->group(function () {
 
-    Route::middleware('role:Customer')
+    // Halaman pemberitahuan verifikasi email
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    // Memproses verifikasi email
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return redirect()->route('customer.dashboard')
+            ->with('success', 'Email berhasil diverifikasi!');
+    })->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    // Mengirim ulang email verifikasi
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Link verifikasi berhasil dikirim ulang!');
+    })->middleware('throttle:6,1')
+        ->name('verification.send');
+
+    Route::middleware(['verified', 'role:Customer'])
         ->prefix('customer')
         ->name('customer.')
         ->group(function () {
@@ -123,6 +155,7 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->gr
                 ->name('bookingService');
 
             Route::post('/bookings', [BookingController::class, 'store'])
+                ->middleware(['auth', 'customer.profile.complete'])
                 ->name('bookings.store');
 
             Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel'])
@@ -199,7 +232,7 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->gr
             )
                 ->name('work-orders.monitoring');
 
-            // Customer 
+            // Customer
             Route::get('/customer', [CustomerController::class, 'index'])
                 ->name('customer.index');
 
@@ -367,7 +400,7 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->gr
             Route::post('/material-requests/{materialRequest}/fulfill', [RequestFulfillmentController::class, 'store'])
                 ->name('material-requests.fulfill');
 
-            Route::post('/material-requests/{materialRequest}/reject', [RequestRejectionController::class, 'store',])
+            Route::post('/material-requests/{materialRequest}/reject', [RequestRejectionController::class, 'store'])
                 ->name('material-requests.reject');
 
             // Stock-in
@@ -427,7 +460,7 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->gr
                 ->name('reports.item-usage');
 
             // Employe
-            Route::get('/employees', [EmployeeController::class, 'index',])
+            Route::get('/employees', [EmployeeController::class, 'index'])
                 ->name('employees.index');
 
             Route::get('/employees/create', [
@@ -435,13 +468,13 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->gr
                 'create',
             ])->name('employees.create');
 
-            Route::post('/employees', [EmployeeController::class, 'store',])
+            Route::post('/employees', [EmployeeController::class, 'store'])
                 ->name('employees.store');
 
-            Route::get('/employees/{user}/edit', [EmployeeController::class, 'edit',])
+            Route::get('/employees/{user}/edit', [EmployeeController::class, 'edit'])
                 ->name('employees.edit');
 
-            Route::put('/employees/{user}', [EmployeeController::class, 'update',])
+            Route::put('/employees/{user}', [EmployeeController::class, 'update'])
                 ->name('employees.update');
 
             // reset password
@@ -456,7 +489,7 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsActive::class,])->gr
             ])->name('employees.reset-password.update');
 
             // Toggle status
-            Route::patch('/employees/{user}/toggle-status', [EmployeeController::class, 'toggleStatus',])
+            Route::patch('/employees/{user}/toggle-status', [EmployeeController::class, 'toggleStatus'])
                 ->name('employees.toggle-status');
         });
 });

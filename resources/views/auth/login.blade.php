@@ -95,12 +95,6 @@
                     <label for="password" class="block text-sm font-semibold text-brand-navy">
                         Password
                     </label>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}"
-                            class="text-xs text-brand-steel hover:text-brand-gold transition-colors font-medium">
-                            Lupa kata sandi?
-                        </a>
-                    @endif
                 </div>
 
                 <div class="relative flex items-center">
@@ -143,8 +137,15 @@
                 <label class="flex items-center cursor-pointer">
                     <input type="checkbox" name="remember" value="1"
                         class="w-4 h-4 text-brand-gold border-ui-border rounded focus:ring-brand-gold accent-brand-gold">
+
                     <span class="ml-2 text-brand-steel">Ingat saya</span>
                 </label>
+
+                <a 
+                {{-- href="{{ route('password.request') }}" --}}
+                    class="ml-auto text-right text-brand-steel hover:text-brand-gold transition-colors font-medium">
+                    Lupa kata sandi?
+                </a>
             </div>
 
             <!-- Submit -->
@@ -154,6 +155,39 @@
             </button>
         </form>
 
+        {{-- Divider --}}
+        <div class="flex items-center justify-center gap-3 my-6">
+            <span class="h-px flex-1 bg-ui-border"></span>
+
+            <span class="text-xs font-medium tracking-wider text-brand-steel">
+                ATAU
+            </span>
+
+            <span class="h-px flex-1 bg-ui-border"></span>
+        </div>
+
+        {{-- Google Login --}}
+        <a href="{{ route('google.redirect') }}"
+            class="w-full py-3 px-4 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl border border-gray-300 shadow-sm transition-all duration-200 flex items-center justify-center gap-3">
+
+            {{-- Google Logo --}}
+            <svg class="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#EA4335"
+                    d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+                    transform="translate(0 5)" />
+                <path fill="#4285F4"
+                    d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.76 7.18l7.73 6C44.42 37.99 46.98 31.78 46.98 24.55z"
+                    transform="translate(0 0)" />
+                <path fill="#FBBC05"
+                    d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.52 2.56 10.78l7.97-6.19z"
+                    transform="translate(0 0)" />
+                <path fill="#34A853"
+                    d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6c-2.15 1.45-4.92 2.3-8.18 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+                    transform="translate(0 0)" />
+            </svg>
+
+            <span>Masuk dengan Google</span>
+        </a>
         <!-- Register -->
         @if (Route::has('register'))
             <div class="mt-8 text-center text-sm text-brand-steel">
