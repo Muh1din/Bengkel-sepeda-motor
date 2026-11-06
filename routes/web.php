@@ -1,10 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\BookingSettingController;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Http\Controllers\Auth\GoogleAuthController;
-use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\InventoryDashboardController;
 use App\Http\Controllers\Admin\MaterialController;
@@ -20,6 +16,8 @@ use App\Http\Controllers\Admin\StockInController;
 use App\Http\Controllers\Admin\StockMovementController;
 use App\Http\Controllers\Admin\StockOutController;
 use App\Http\Controllers\Auth\AuthController as AuthAuthController;
+use App\Http\Controllers\Auth\GoogleAuthController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\DashboardController;
@@ -49,6 +47,8 @@ use App\Http\Controllers\ServiceAdvisor\InspectionController as ServiceAdvisorIn
 use App\Http\Controllers\ServiceAdvisor\RecommendedWorkController;
 use App\Http\Controllers\ServiceAdvisor\WorkOrderController;
 use App\Http\Middleware\EnsureUserIsActive;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Guest
