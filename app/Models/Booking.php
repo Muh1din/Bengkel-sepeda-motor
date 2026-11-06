@@ -14,6 +14,7 @@ class Booking extends Model
 
     protected $fillable = [
         'booking_code',
+        'ip_address',
         'customer_id',
         'vehicle_id',
         'service_type',

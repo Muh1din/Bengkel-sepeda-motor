@@ -79,6 +79,7 @@ Route::get('/booking-form', [HomeBookingController::class, 'index'])
     ->name('booking.form.index');
 
 Route::post('/booking-form', [HomeBookingController::class, 'store'])
+    ->middleware('throttle:guest-booking')
     ->name('booking.form.store');
 
 Route::get('/login', [AuthAuthController::class, 'showLogin'])->name('login');

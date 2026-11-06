@@ -41,6 +41,11 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perHour(5)->by('register-ip:'.(string) $request->ip());
         });
 
+        RateLimiter::for('guest-booking', function (Request $request) {
+            return Limit::perMinute(5)
+                ->by('guest-booking-ip:' . $request->ip());
+        });
+
         // View::composer('components.service-advisor.sidebar', function ($view) {
         //     $pendingBookingsCount = Booking::where('status', 'PENDING')->count();
 

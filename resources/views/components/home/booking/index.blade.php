@@ -147,6 +147,16 @@
 
                             @csrf
 
+                            @if ($errors->has('booking'))
+                                <div class="mb-4 rounded-lg border border-red-300 bg-red-50 p-4 text-red-700">
+                                    <p class="font-semibold">Booking tidak dapat diproses</p>
+
+                                    <p class="mt-1 text-sm">
+                                        {{ $errors->first('booking') }}
+                                    </p>
+                                </div>
+                            @endif
+                            
                             {{-- Booking Schedule --}}
                             <div>
                                 <h4 class="text-sm font-black text-brand-navy uppercase tracking-wider mb-4">

@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\DB;
 use App\Models\Booking;
-use App\Models\Vehicle;
 use App\Models\Customer;
+use App\Models\Vehicle;
+use App\Services\GuestBookingLimitService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class HomeBookingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the booking form.
      */
     public function index()
     {
@@ -29,10 +29,12 @@ class HomeBookingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created booking.
      */
-    public function store(Request $request)
-    {
+    public function store(
+        Request $request,
+        GuestBookingLimitService $bookingLimit
+    ) {
         // 1. Normalize user input
         $request->merge([
             'name' => trim((string) $request->input('name')),
@@ -75,6 +77,7 @@ class HomeBookingController extends Controller
                 'date',
                 'after_or_equal:today',
             ],
+
             'booking_time' => ['required', 'date_format:H:i'],
 
             'complaint' => ['nullable', 'string', 'max:5000'],
@@ -85,79 +88,85 @@ class HomeBookingController extends Controller
             ? trim($validated['custom_service'])
             : $validated['service_type'];
 
-        // 4. Save customer, vehicle, and booking atomically
-        $booking = DB::transaction(function () use ($validated, $serviceType) {
+        // 4. Execute booking with IP-based active booking limit
+        $ipAddress = $request->ip();
 
-            // Find customer by phone number
-            $customer = Customer::where(
-                'phone',
-                $validated['phone']
-            )->first();
+        $booking = $bookingLimit->execute(
+            $ipAddress,
+            function () use ($validated, $serviceType, $ipAddress) {
 
-            if ($customer && $customer->user_id !== null) {
-                throw ValidationException::withMessages([
-                    'phone' => 'Nomor telepon ini terhubung dengan akun pelanggan. Silakan login untuk melakukan booking.',
-                ]);
-            }
+                // Find customer by phone number
+                $customer = Customer::where(
+                    'phone',
+                    $validated['phone']
+                )->first();
 
-            // Create a guest customer if one does not exist
-            if (!$customer) {
-                $customer = Customer::create([
-                    'name' => $validated['name'],
-                    'phone' => $validated['phone'],
-                    'email' => null,
-                    'address' => null,
-                    'user_id' => null,
-                ]);
-            }
+                if ($customer && $customer->user_id !== null) {
+                    throw ValidationException::withMessages([
+                        'phone' => 'Nomor telepon ini terhubung dengan akun pelanggan. Silakan login untuk melakukan booking.',
+                    ]);
+                }
 
-            // Find vehicle by license plate
-            $vehicle = Vehicle::where(
-                'license_plate',
-                $validated['license_plate']
-            )->first();
+                // Create a guest customer if one does not exist
+                if (!$customer) {
+                    $customer = Customer::create([
+                        'name' => $validated['name'],
+                        'phone' => $validated['phone'],
+                        'email' => null,
+                        'address' => null,
+                        'user_id' => null,
+                    ]);
+                }
 
-            if ($vehicle && $vehicle->customer_id !== $customer->id) {
-                throw ValidationException::withMessages([
-                    'license_plate' => 'Nomor polisi ini sudah terdaftar pada customer lain. Periksa kembali nomor polisi kendaraan.',
-                ]);
-            }
+                // Find vehicle by license plate
+                $vehicle = Vehicle::where(
+                    'license_plate',
+                    $validated['license_plate']
+                )->first();
 
-            // Create a vehicle if it does not exist
-            if (!$vehicle) {
-                $vehicle = $customer->vehicles()->create([
-                    'license_plate' => $validated['license_plate'],
-                    'brand' => $validated['brand'],
-                    'model' => $validated['model'],
-                    'year' => $validated['year'],
-                    'color' => $validated['color'],
-                ]);
-            }
+                if ($vehicle && $vehicle->customer_id !== $customer->id) {
+                    throw ValidationException::withMessages([
+                        'license_plate' => 'Nomor polisi ini sudah terdaftar pada customer lain. Periksa kembali nomor polisi kendaraan.',
+                    ]);
+                }
 
-            // Generate a unique booking code
-            do {
-                $bookingCode = 'BK-' . str_pad(
-                    (string) random_int(0, 999999),
-                    6,
-                    '0',
-                    STR_PAD_LEFT
+                // Create a vehicle if it does not exist
+                if (!$vehicle) {
+                    $vehicle = $customer->vehicles()->create([
+                        'license_plate' => $validated['license_plate'],
+                        'brand' => $validated['brand'],
+                        'model' => $validated['model'],
+                        'year' => $validated['year'],
+                        'color' => $validated['color'],
+                    ]);
+                }
+
+                // Generate a unique booking code
+                do {
+                    $bookingCode = 'BK-' . str_pad(
+                        (string) random_int(0, 999999),
+                        6,
+                        '0',
+                        STR_PAD_LEFT
+                    );
+                } while (
+                    Booking::where('booking_code', $bookingCode)->exists()
                 );
-            } while (
-                Booking::where('booking_code', $bookingCode)->exists()
-            );
 
-            // Create the booking
-            return Booking::create([
-                'booking_code' => $bookingCode,
-                'customer_id' => $customer->id,
-                'vehicle_id' => $vehicle->id,
-                'service_type' => $serviceType,
-                'booking_date' => $validated['booking_date'],
-                'booking_time' => $validated['booking_time'],
-                'complaint' => $validated['complaint'] ?? null,
-                'status' => 'PENDING',
-            ]);
-        });
+                // Create the booking
+                return Booking::create([
+                    'booking_code' => $bookingCode,
+                    'ip_address' => $ipAddress,
+                    'customer_id' => $customer->id,
+                    'vehicle_id' => $vehicle->id,
+                    'service_type' => $serviceType,
+                    'booking_date' => $validated['booking_date'],
+                    'booking_time' => $validated['booking_time'],
+                    'complaint' => $validated['complaint'] ?? null,
+                    'status' => 'PENDING',
+                ]);
+            }
+        );
 
         // 5. Return the booking confirmation
         return redirect()
@@ -183,7 +192,7 @@ class HomeBookingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource.
      */
     public function update(Request $request, string $id)
     {
@@ -191,7 +200,7 @@ class HomeBookingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource.
      */
     public function destroy(string $id)
     {
