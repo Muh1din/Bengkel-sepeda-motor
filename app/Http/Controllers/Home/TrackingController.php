@@ -28,7 +28,7 @@ class TrackingController extends Controller
         // Jika format kode booking tidak valid.
         if ($validator->fails()) {
             return redirect()
-                ->to(url('/#tracking'))
+                ->to(url('/') . '#tracking')
                 ->withInput()
                 ->withErrors($validator)
                 ->with('tracking_section', true);
@@ -50,7 +50,7 @@ class TrackingController extends Controller
         // Jika kode booking tidak ditemukan.
         if (!$booking) {
             return redirect()
-                ->to(url('/#tracking'))
+                ->to(url('/') . '#tracking')
                 ->withInput()
                 ->withErrors([
                     'booking_code' => 'Booking tidak ditemukan. Periksa kembali kode booking Anda.',
@@ -60,7 +60,7 @@ class TrackingController extends Controller
 
         // Jika kode booking ditemukan.
         return redirect()
-            ->to(url('/#tracking'))
+            ->to(url('/') . '#tracking')
             ->with('tracking_booking_id', $booking->id)
             ->with('tracking_section', true);
     }

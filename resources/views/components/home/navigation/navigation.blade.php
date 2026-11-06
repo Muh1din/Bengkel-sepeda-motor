@@ -2,9 +2,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 sm:h-20 items-center">
             <!-- Logo -->
-            <a href="#home" class="shrink-0">
-                <span class="text-xl sm:text-2xl font-black tracking-tighter italic text-white font-display">Nirwana<span
-                        class="text-brand-gold">Garage</span></span>
+            <a href="{{ url('/#home') }}" class="shrink-0 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                    <img src="{{ asset('logo/logo.jpeg') }}" alt="Nirwana Garage Logo"
+                        class="w-full h-full object-contain">
+                </div>
+
+                <span class="text-2xl  text-white font-display font-black tracking-tighter uppercase">
+                    Nirwana <span class="text-brand-gold">Garage.</span>
+                </span>
             </a>
 
             <!-- Desktop Menu -->
@@ -104,10 +110,15 @@
                 class="mobile-link text-brand-silver hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition font-medium flex items-center gap-3">
                 <i class="fa-solid fas fa-headset text-brand-gold w-5"></i> Kontak
             </a>
-            <a href="{{ url('/#booking') }}"
-                class="mobile-link mt-2 bg-brand-gold text-white py-3 px-4 rounded-xl font-bold flex items-center gap-3 justify-center">
-                <i class="fa-solid fa-calendar-check w-5"></i> Booking Sekarang
-            </a>
+            @if (!request()->routeIs('booking.form.index'))
+                <button type="button" onclick="openBookingModal()"
+                    class="btn-primary bg-brand-gold px-5 py-2.5 rounded-xl text-white font-bold text-sm
+               transition-all duration-300 ease-out
+               hover:bg-amber-500 hover:-translate-y-0.5 hover:shadow-md
+               active:translate-y-0 active:scale-95">
+                    Booking Sekarang
+                </button>
+            @endif
         </div>
     </div>
 </nav>

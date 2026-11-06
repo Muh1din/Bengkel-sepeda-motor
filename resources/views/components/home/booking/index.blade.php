@@ -127,12 +127,12 @@
                                     Butuh Respon Cepat?
                                 </p>
 
-                                <a href="https://wa.me/62812xxxxxxxx"
+                                <a href="https://wa.me/6285811975195?text=Halo%20Nirwana%20Garage%2C%20saya%20ingin%20menanyakan%20informasi%20dan%20melakukan%20booking%20servis%20motor.%20Mohon%20informasi%20jadwal%20dan%20ketersediaan%20slot%20booking.%20Terima%20kasih."
+                                    target="_blank" rel="noopener noreferrer"
                                     class="flex items-center gap-3 text-lg sm:text-xl font-black hover:text-brand-gold transition-colors">
 
                                     <i class="fa-brands fa-whatsapp text-2xl text-green-500"></i>
-
-                                    0812-XXXX-XXXX
+                                    0858-1197-5195
                                 </a>
 
                             </div>

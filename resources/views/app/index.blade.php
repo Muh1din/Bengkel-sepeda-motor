@@ -1,5 +1,5 @@
 <x-layouts.home>
-    
+
     <x-home.hero-section :remainingBookingSlots="$remainingBookingSlots" :activeVehicle="$activeVehicle" />
 
     <x-home.service-section></x-home.service-section>
@@ -18,7 +18,8 @@
 
     <x-home.contact-section></x-home.contact-section>
 
-    <a href="https://wa.me/62812xxxxxxxx" target="_blank"
+    <a href="https://wa.me/6285811975195?text=Hallo%20Nirwana%20Garage" target="_blank" rel="noopener noreferrer"
+        aria-label="Chat WhatsApp Nirwana Garage"
         class="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50 bg-brand-navy w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shadow-2xl hover:bg-green-600 transition-all duration-300 group">
         <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl text-white group-hover:scale-110 transition-transform"></i>
     </a>

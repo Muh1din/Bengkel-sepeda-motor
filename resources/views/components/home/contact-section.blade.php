@@ -56,10 +56,16 @@
                             <i class="fa-brands fa-whatsapp"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black text-brand-navy uppercase tracking-widest mb-1">
-                                WhatsApp Langsung</p>
-                            <p class="text-brand-steel text-sm">0812-XXXX-XXXX</p>
-                            
+                            <a href="https://wa.me/6285811975195?text=Hallo%20Nirwana%20Garage" target="_blank"
+                                rel="noopener noreferrer" class="group">
+                                <p
+                                    class="text-[10px] font-black text-brand-navy uppercase tracking-widest mb-1 group-hover:text-brand-gold transition-colors">
+                                    WhatsApp Langsung
+                                </p>
+                                <p class="text-brand-steel text-sm group-hover:text-brand-gold transition-colors">
+                                    0858-1197-5195
+                                </p>
+                            </a>
                         </div>
                     </div>
 

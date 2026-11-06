@@ -67,10 +67,13 @@
         </div>
 
         <div class="mt-10 text-center" data-scroll="fade-up">
-            <p class="text-brand-steel text-sm">Masih punya pertanyaan?
-                <a href="#"
-                    class="text-brand-navy font-black border-b-2 border-brand-gold ml-1 hover:text-brand-gold transition-all">Hubungi
-                    WhatsApp Kami</a>
+            <p class="text-brand-steel text-sm">
+                Masih punya pertanyaan?
+                <a href="https://wa.me/6285811975195?text=Hallo%20Nirwana%20Garage%2C%20saya%20memiliki%20pertanyaan%20seputar%20layanan%20bengkel.%20Mohon%20informasi%20lebih%20lanjut."
+                    target="_blank" rel="noopener noreferrer"
+                    class="text-brand-navy font-black border-b-2 border-brand-gold ml-1 hover:text-brand-gold transition-all">
+                    Hubungi WhatsApp Kami
+                </a>
             </p>
         </div>
     </div>

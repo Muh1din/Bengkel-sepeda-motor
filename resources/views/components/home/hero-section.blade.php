@@ -52,8 +52,8 @@
                         {{-- Status --}}
                         <div class="flex items-center gap-3">
                             <div
-                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-gold/20 text-xl">
-                                ⚡
+                                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-gold/20">
+                                <i data-lucide="bike" class="w-6 h-6 text-brand-gold"></i>
                             </div>
 
                             <div class="min-w-0">
@@ -154,7 +154,8 @@
                 </div>
                 <div
                     class="col-span-2 shine-effect p-6 rounded-3xl border border-white/10 shadow-2xl flex items-center gap-5">
-                    <div class="w-14 h-14 bg-brand-gold/20 rounded-2xl flex items-center justify-center text-2xl">⚡
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-gold/20">
+                        <i data-lucide="bike" class="w-6 h-6 text-brand-gold"></i>
                     </div>
 
                     <div>

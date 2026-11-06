@@ -180,21 +180,22 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 
 // ACTIVE NAV LINK
 const sections = document.querySelectorAll("section[id]");
-const navLinks = document.querySelectorAll(".nav-link");
+const navLinks = document.querySelectorAll(".nav-link, .mobile-link");
 
 function updateActiveNavLink() {
     let current = "";
 
     sections.forEach((section) => {
-        if (window.scrollY >= section.offsetTop - 100) {
+        if (window.scrollY >= section.offsetTop - 150) {
             current = section.id;
         }
     });
 
     navLinks.forEach((link) => {
-        const isActive = link.getAttribute("href") === `#${current}`;
+        const href = link.getAttribute("href");
+        const targetId = href?.split("#")[1];
 
-        link.style.color = isActive ? "#c58e4b" : "";
+        link.classList.toggle("active", targetId === current);
     });
 }
 
@@ -202,7 +203,28 @@ window.addEventListener("scroll", updateActiveNavLink, {
     passive: true,
 });
 
+window.addEventListener("load", updateActiveNavLink);
+
 updateActiveNavLink();
+
+// TRACKING SECTION AFTER REDIRECT
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+
+    if (hash === "#tracking") {
+        const tracking = document.getElementById("tracking");
+
+        if (tracking) {
+            requestAnimationFrame(() => {
+                tracking.scrollIntoView({
+                    behavior: "instant",
+                    block: "start",
+                });
+            });
+        }
+    }
+});
 
 // KONSULTASI VIA WHATSAPP
 document.addEventListener("DOMContentLoaded", function () {
@@ -236,7 +258,6 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleOtherService();
 });
 
-
 // Mengirim konsultasi melalui WhatsApp
 window.handleKonsultasiSubmit = function () {
     const section = document.getElementById("kontak");
@@ -247,17 +268,15 @@ window.handleKonsultasiSubmit = function () {
     }
 
     const nama =
-        section.querySelector('input[type="text"]:not(#other_service)')
+        section
+            .querySelector('input[type="text"]:not(#other_service)')
             ?.value.trim() ?? "";
 
-    const serviceType =
-        section.querySelector("#service_type");
+    const serviceType = section.querySelector("#service_type");
 
-    const otherService =
-        section.querySelector("#other_service");
+    const otherService = section.querySelector("#other_service");
 
-    const detail =
-        section.querySelector("textarea")?.value.trim() ?? "";
+    const detail = section.querySelector("textarea")?.value.trim() ?? "";
 
     if (!nama) {
         alert("Nama wajib diisi.");
@@ -270,10 +289,7 @@ window.handleKonsultasiSubmit = function () {
         return;
     }
 
-    if (
-        serviceType.value === "Lainnya" &&
-        !otherService?.value.trim()
-    ) {
+    if (serviceType.value === "Lainnya" && !otherService?.value.trim()) {
         alert("Silakan tuliskan layanan yang Anda inginkan.");
         otherService?.focus();
         return;
@@ -285,9 +301,10 @@ window.handleKonsultasiSubmit = function () {
         return;
     }
 
-    const layanan = serviceType.value === "Lainnya"
-        ? `Lainnya - ${otherService.value.trim()}`
-        : serviceType.value;
+    const layanan =
+        serviceType.value === "Lainnya"
+            ? `Lainnya - ${otherService.value.trim()}`
+            : serviceType.value;
 
     const nomorWA = "6285717676292";
 
@@ -297,8 +314,7 @@ window.handleKonsultasiSubmit = function () {
         `Detail: ${detail}\n\n` +
         `Mohon informasi lebih lanjut. Terima kasih.`;
 
-    const url =
-        `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+    const url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
 
     window.open(url, "_blank", "noopener,noreferrer");
 };
@@ -459,7 +475,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
 // FIX: AUTO-TRIGGER RENDER ENGINE (LOAD EVENT)
 window.addEventListener("load", () => {
     updateNavbar();

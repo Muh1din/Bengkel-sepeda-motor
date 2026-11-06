@@ -79,10 +79,12 @@
                 <div
                     class="absolute top-0 right-0 w-28 h-28 bg-brand-gold/5 rounded-bl-full -mr-14 -mt-14 group-hover:bg-brand-gold/10 transition-colors">
                 </div>
+
                 <div
                     class="w-14 h-14 bg-brand-navy rounded-2xl flex items-center justify-center mb-7 transform group-hover:rotate-6 transition-transform duration-300">
-                    <i class="fa-solid fa-bolt text-brand-gold text-xl"></i>
+                    <i data-lucide="cog" class="w-6 h-6 sm:w-7 sm:h-7 text-brand-gold"></i>
                 </div>
+
                 <h4 class="text-xl sm:text-2xl font-display font-black text-brand-navy mb-3 uppercase">Bore Up &
                     Stroke</h4>
                 <p class="text-brand-steel leading-relaxed text-sm mb-6">Tingkatkan kapasitas mesin untuk tenaga
@@ -103,8 +105,9 @@
             class="mt-12 sm:mt-16 p-6 sm:p-8 bg-brand-navy rounded-3xl border border-brand-gold/30 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-2xl">
             <div class="flex items-center gap-4 sm:gap-5 text-center sm:text-left">
                 <div
-                    class="bg-brand-gold/20 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-xl sm:text-2xl shrink-0">
-                    ⚡</div>
+                    class="bg-brand-gold/20 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shrink-0">
+                    <i data-lucide="cog" class="w-6 h-6 sm:w-7 sm:h-7 text-brand-gold"></i>
+                </div>
                 <div>
                     <p class="text-white font-bold text-base sm:text-lg">Siap upgrade performa motor Abang?</p>
                     <p class="text-brand-silver text-xs sm:text-sm italic">Konsultasikan spek bore up yang sesuai
