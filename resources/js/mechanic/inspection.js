@@ -26,15 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         workItems.forEach((item, index) => {
             const nameInput = item.querySelector(".work-name");
-            const costInput = item.querySelector(".work-cost");
             const descriptionInput = item.querySelector(".work-description");
 
             if (nameInput) {
                 nameInput.name = `works[${index}][name]`;
-            }
-
-            if (costInput) {
-                costInput.name = `works[${index}][estimated_cost]`;
             }
 
             if (descriptionInput) {

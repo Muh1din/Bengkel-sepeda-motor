@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -50,6 +51,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $customer = Auth::user()->customer;
+
         return view('customer.profile.edit', compact('customer'));
     }
 
@@ -72,14 +74,15 @@ class ProfileController extends Controller
                 'required',
                 'email',
                 'max:255',
-                'unique:customers,email,' . $customer->id,
+                'unique:customers,email,'.$customer->id,
             ],
 
             'phone' => [
                 'required',
                 'string',
                 'max:20',
-                'unique:customers,phone,' . $customer->id,
+                'unique:customers,phone,'.$customer->id,
+                Rule::unique('users', 'phone')->ignore($user->id),
             ],
 
             'address' => [
@@ -87,6 +90,8 @@ class ProfileController extends Controller
                 'string',
                 'max:500',
             ],
+        ], [
+            'phone.unique' => 'Nomor telepon sudah digunakan oleh akun lain.',
         ]);
 
         DB::transaction(function () use ($customer, $user, $validated) {

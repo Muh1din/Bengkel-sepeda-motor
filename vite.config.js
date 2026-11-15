@@ -13,6 +13,7 @@ export default defineConfig({
                 "resources/js/owner/chart-dashboard.js",
                 "resources/js/owner/work-orders.js",
                 "resources/js/admin/material-requests.js",
+                "resources/js/admin/material.js",
                 "resources/js/admin/stock-preview.js",
                 "resources/js/admin/stock-adjustments.js",
                 "resources/js/admin/create-admin-project.js",

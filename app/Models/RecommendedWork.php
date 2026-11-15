@@ -11,12 +11,11 @@ class RecommendedWork extends Model
         'vehicle_inspection_id',
         'name',
         'description',
-        'estimated_cost',
         'approval_status',
     ];
 
     public function vehicleInspection(): BelongsTo
     {
-        return $this->belongsTo(VehicleInspection::class,'vehicle_inspection_id','id');
+        return $this->belongsTo(VehicleInspection::class, 'vehicle_inspection_id', 'id');
     }
 }

@@ -8,6 +8,14 @@
             </p>
         </div>
 
+        @if (session('success'))
+            <div role="status"
+                class="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+                <i data-lucide="circle-check" class="mt-0.5 h-5 w-5 shrink-0"></i>
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
+
         {{-- INSPECTION LIST --}}
         <div class="bg-ui-card rounded-lg border border-ui-border shadow-sm overflow-hidden">
 

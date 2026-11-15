@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\RecommendedWork;
-use App\Models\Booking;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VehicleInspection extends Model
 {
@@ -16,7 +13,6 @@ class VehicleInspection extends Model
         'mechanic_id',
         'status',
         'inspection',
-        'diagnosis',
         'recommendation',
         'created_by',
     ];
@@ -33,7 +29,7 @@ class VehicleInspection extends Model
 
     public function recommendedWorks(): HasMany
     {
-        return $this->hasMany(RecommendedWork::class,'vehicle_inspection_id','id');
+        return $this->hasMany(RecommendedWork::class, 'vehicle_inspection_id', 'id');
     }
 
     public function creator(): BelongsTo

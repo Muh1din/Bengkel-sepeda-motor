@@ -217,23 +217,6 @@
 
                     </div>
 
-                    {{-- DIAGNOSIS --}}
-                    {{-- <div>
-
-                        <label for="diagnosis" class="block text-sm font-semibold text-brand-navy">
-                            Diagnosis
-                        </label>
-
-                        <p class="mt-1 text-xs text-brand-steel">
-                            Jelaskan penyebab atau masalah yang ditemukan berdasarkan hasil pemeriksaan.
-                        </p>
-
-                        <textarea id="diagnosis" name="diagnosis" rows="5"
-                            class="mt-3 w-full rounded-lg border border-ui-border bg-white px-4 py-3 text-sm text-ui-text outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
-                            placeholder="Contoh: Kampas kopling CVT mengalami keausan sehingga menyebabkan getaran...">{{ old('diagnosis', $inspection->diagnosis) }}</textarea>
-
-                    </div> --}}
-
                     {{-- RECOMMENDATION --}}
                     <div>
 
@@ -242,7 +225,7 @@
                         </label>
 
                         <p class="mt-1 text-xs text-brand-steel">
-                            Tambahkan catatan atau rekomendasi umum berdasarkan hasil diagnosis.
+                            Tambahkan catatan atau rekomendasi umum berdasarkan hasil pemeriksaan.
                         </p>
 
                         <textarea id="recommendation" name="recommendation" rows="4"
@@ -264,6 +247,9 @@
                                 <p class="mt-1 text-xs text-brand-steel">
                                     Tambahkan pekerjaan yang perlu mendapat persetujuan pelanggan.
                                 </p>
+                                @error('works')
+                                    <p class="mt-2 text-xs font-medium text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <button type="button" id="add-work-button"
@@ -293,7 +279,7 @@
 
                                     </div>
 
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="grid grid-cols-1 gap-4">
 
                                         {{-- WORK NAME --}}
                                         <div>
@@ -306,21 +292,6 @@
                                                 value="{{ old("works.$index.name", $work->name) }}"
                                                 class="work-name mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
                                                 placeholder="Contoh: Ganti Kampas Kopling CVT">
-
-                                        </div>
-
-                                        {{-- ESTIMATED COST --}}
-                                        <div>
-
-                                            <label class="block text-xs font-semibold text-brand-steel">
-                                                Estimasi Biaya
-                                            </label>
-
-                                            <input type="number" name="works[{{ $index }}][estimated_cost]"
-                                                value="{{ old("works.$index.estimated_cost", $work->estimated_cost) }}"
-                                                min="0"
-                                                class="work-cost mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
-                                                placeholder="0">
 
                                         </div>
 
@@ -373,7 +344,7 @@
 
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 gap-4">
 
                                     {{-- WORK NAME --}}
                                     <div>
@@ -385,19 +356,6 @@
                                         <input type="text"
                                             class="work-name mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
                                             placeholder="Contoh: Ganti Kampas Kopling CVT">
-
-                                    </div>
-
-                                    {{-- ESTIMATED COST --}}
-                                    <div>
-
-                                        <label class="block text-xs font-semibold text-brand-steel">
-                                            Estimasi Biaya
-                                        </label>
-
-                                        <input type="number" min="0"
-                                            class="work-cost mt-2 w-full rounded-lg border border-ui-border px-3 py-2.5 text-sm outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
-                                            placeholder="0">
 
                                     </div>
 

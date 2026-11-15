@@ -95,6 +95,15 @@
                             class="hidden mt-3 w-full max-w-lg overflow-hidden
                                    rounded-lg border border-ui-border bg-black">
                             <video id="barcodeVideo" class="w-full" muted playsinline></video>
+                            <div class="flex items-center justify-between gap-3 bg-white px-3 py-2">
+                                <p id="barcodeScannerStatus" class="text-xs text-gray-600" role="status" aria-live="polite">
+                                    Arahkan kamera ke barcode.
+                                </p>
+                                <button type="button" id="stopBarcodeScanner"
+                                    class="shrink-0 rounded-md px-2 py-1 text-xs font-medium text-red-600 hover:bg-red-50">
+                                    Tutup kamera
+                                </button>
+                            </div>
                         </div>
 
                         @error('barcode')
@@ -198,5 +207,9 @@
         </div>
 
     </div>
+
+    @push('scripts')
+        @vite('resources/js/admin/material.js')
+    @endpush
 
 </x-layouts.admin>

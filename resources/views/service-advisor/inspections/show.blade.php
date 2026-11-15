@@ -6,7 +6,7 @@
         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <p class="mt-1 text-sm text-gray-500">
-                    Hasil pemeriksaan, diagnosis, dan pekerjaan yang direkomendasikan oleh mekanik.
+                    Hasil pemeriksaan dan pekerjaan yang direkomendasikan oleh mekanik.
                 </p>
             </div>
 
@@ -260,7 +260,7 @@
                         </h2>
 
                         <p class="mt-0.5 text-xs text-gray-500">
-                            Hasil pemeriksaan dan diagnosis yang dikirim oleh mekanik.
+                            Hasil pemeriksaan yang dikirim oleh mekanik.
                         </p>
 
                     </div>
@@ -283,24 +283,6 @@
 
                         <p class="whitespace-pre-line text-sm leading-6 text-ui-text">
                             {{ $inspection->inspection ?: 'Tidak ada hasil pemeriksaan.' }}
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                {{-- Diagnosis --}}
-                <div>
-
-                    <p class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                        Diagnosis
-                    </p>
-
-                    <div class="rounded-lg bg-ui-main p-4">
-
-                        <p class="whitespace-pre-line text-sm leading-6 text-ui-text">
-                            {{ $inspection->diagnosis ?: 'Tidak ada diagnosis.' }}
                         </p>
 
                     </div>
@@ -398,12 +380,6 @@
                                         @if ($work->description)
                                             <p class="mt-1 text-sm leading-6 text-gray-500">
                                                 {{ $work->description }}
-                                            </p>
-                                        @endif
-
-                                        @if ($work->estimated_cost !== null)
-                                            <p class="mt-2 text-sm font-bold text-ui-text">
-                                                Rp {{ number_format($work->estimated_cost, 0, ',', '.') }}
                                             </p>
                                         @endif
 

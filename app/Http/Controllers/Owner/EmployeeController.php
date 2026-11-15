@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use App\Models\Role;
-use App\Models\User;
 
 class EmployeeController extends Controller
 {
@@ -29,13 +29,13 @@ class EmployeeController extends Controller
         $statistics = [
             'total' => (clone $employeeQuery)->count(),
             'service_advisor' => (clone $employeeQuery)
-                ->whereHas('role', fn($query) => $query->where('name', 'ServiceAdvisor'))
+                ->whereHas('role', fn ($query) => $query->where('name', 'ServiceAdvisor'))
                 ->count(),
             'mechanic' => (clone $employeeQuery)
-                ->whereHas('role', fn($query) => $query->where('name', 'Mechanic'))
+                ->whereHas('role', fn ($query) => $query->where('name', 'Mechanic'))
                 ->count(),
             'admin' => (clone $employeeQuery)
-                ->whereHas('role', fn($query) => $query->where('name', 'Admin'))
+                ->whereHas('role', fn ($query) => $query->where('name', 'Admin'))
                 ->count(),
         ];
 

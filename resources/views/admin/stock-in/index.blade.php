@@ -290,7 +290,7 @@
                 <div class="text-xs text-slate-500 bg-amber-50 p-3 rounded-lg border border-amber-200 mt-6">
 
                     <span class="font-semibold text-amber-800">
-                        Sistem Audit:
+                        NOTES:
                     </span>
 
                     Transaksi Stock In akan memperbarui stok material dan

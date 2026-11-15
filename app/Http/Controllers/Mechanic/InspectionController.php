@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Mechanic;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Models\VehicleInspection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InspectionController extends Controller
 {
@@ -98,17 +98,14 @@ class InspectionController extends Controller
 
         $validated = $request->validate([
             'inspection' => ['nullable', 'string'],
-            'diagnosis' => ['nullable', 'string'],
             'recommendation' => ['nullable', 'string'],
             'works' => ['nullable', 'array'],
             'works.*.name' => ['required', 'string', 'max:255'],
             'works.*.description' => ['nullable', 'string'],
-            'works.*.estimated_cost' => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $inspection->update([
             'inspection' => $validated['inspection'] ?? null,
-            'diagnosis' => $validated['diagnosis'] ?? null,
             'recommendation' => $validated['recommendation'] ?? null,
         ]);
 
@@ -118,7 +115,6 @@ class InspectionController extends Controller
             $inspection->recommendedWorks()->create([
                 'name' => $work['name'],
                 'description' => $work['description'] ?? null,
-                'estimated_cost' => $work['estimated_cost'] ?? null,
                 'approval_status' => 'PENDING',
             ]);
         }
@@ -127,7 +123,6 @@ class InspectionController extends Controller
             ->route('mechanic.inspections.show', $inspection)
             ->with('success', 'Draft inspeksi berhasil disimpan.');
     }
-
 
     public function complete(Request $request, VehicleInspection $inspection)
     {
@@ -143,17 +138,18 @@ class InspectionController extends Controller
 
         $validated = $request->validate([
             'inspection' => ['required', 'string'],
-            'diagnosis' => ['required', 'string'],
             'recommendation' => ['nullable', 'string'],
-            'works' => ['nullable', 'array'],
+            'works' => ['required', 'array', 'min:1'],
             'works.*.name' => ['required', 'string', 'max:255'],
             'works.*.description' => ['nullable', 'string'],
-            'works.*.estimated_cost' => ['nullable', 'numeric', 'min:0'],
+        ], [
+            'works.required' => 'Tambahkan minimal satu pekerjaan yang direkomendasikan sebelum mengirim ke Service Advisor.',
+            'works.min' => 'Tambahkan minimal satu pekerjaan yang direkomendasikan sebelum mengirim ke Service Advisor.',
+            'works.*.name.required' => 'Nama pekerjaan wajib diisi.',
         ]);
 
         $inspection->update([
             'inspection' => $validated['inspection'],
-            'diagnosis' => $validated['diagnosis'],
             'recommendation' => $validated['recommendation'] ?? null,
             'status' => 'COMPLETED',
         ]);
@@ -164,7 +160,6 @@ class InspectionController extends Controller
             $inspection->recommendedWorks()->create([
                 'name' => $work['name'],
                 'description' => $work['description'] ?? null,
-                'estimated_cost' => $work['estimated_cost'] ?? null,
                 'approval_status' => 'PENDING',
             ]);
         }
