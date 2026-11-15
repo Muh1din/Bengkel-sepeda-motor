@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <a target="_blank"
-                    href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Repaint&Body"
+                    href="https://wa.me/6285811975195?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Repaint&Body"
                     class="mt-8 block text-center py-3.5 rounded-2xl bg-ui-main border border-brand-navy text-brand-navy font-black text-xs hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider">
                     Tanya Admin
                 </a>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <a target="_blank"
-                    href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Performance"
+                    href="https://wa.me/6285811975195?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Performance"
                     class="btn-primary mt-8 block text-center py-3.5 rounded-2xl bg-brand-gold text-white font-black text-xs glow-gold hover:scale-105 transition-transform uppercase tracking-wider">
                     Tanya Admin
                 </a>
@@ -152,7 +152,7 @@
                         <p class="text-brand-gold font-black">150rb - 250rb</p>
                     </div>
                 </div>
-                <a href="https://wa.me/6285717676292?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Carbon+Fiber"
+                <a href="https://wa.me/6285811975195?text=Halo+Nirwana+Garage,+saya+mau+tanya-tanya+tentang+Paket+Carbon+Fiber"
                     class="mt-8 block text-center py-3.5 rounded-2xl bg-ui-main border border-brand-navy text-brand-navy font-black text-xs hover:bg-brand-navy hover:text-white transition-all uppercase tracking-wider">
                     Tanya Admin
                 </a>

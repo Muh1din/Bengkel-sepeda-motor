@@ -218,7 +218,7 @@
                     </div>
 
                     {{-- DIAGNOSIS --}}
-                    <div>
+                    {{-- <div>
 
                         <label for="diagnosis" class="block text-sm font-semibold text-brand-navy">
                             Diagnosis
@@ -232,7 +232,7 @@
                             class="mt-3 w-full rounded-lg border border-ui-border bg-white px-4 py-3 text-sm text-ui-text outline-none focus:border-brand-navy focus:ring-1 focus:ring-brand-navy"
                             placeholder="Contoh: Kampas kopling CVT mengalami keausan sehingga menyebabkan getaran...">{{ old('diagnosis', $inspection->diagnosis) }}</textarea>
 
-                    </div>
+                    </div> --}}
 
                     {{-- RECOMMENDATION --}}
                     <div>
