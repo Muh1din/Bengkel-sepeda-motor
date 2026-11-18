@@ -193,11 +193,8 @@
 
 
             /*
-            |--------------------------------------------------------------------------
-            | Material Options
-            |--------------------------------------------------------------------------
+             Material Options
             */
-
             const materialOptions = `
             <option value="">Pilih material</option>
 
@@ -211,14 +208,7 @@
 
 
             /*
-            |--------------------------------------------------------------------------
-            | Trash Icon
-            |--------------------------------------------------------------------------
-            |
-            | Icon dibuat langsung sebagai SVG.
-            | Jadi tidak bergantung pada lucide.createIcons()
-            | untuk element yang dibuat secara dynamic.
-            |
+             Trash Icon
             */
 
             const trashIcon = `
@@ -245,9 +235,7 @@
 
 
             /*
-            |--------------------------------------------------------------------------
-            | Create Material Item
-            |--------------------------------------------------------------------------
+             Create Material Item
             */
 
             function createMaterialItem(index) {
@@ -332,11 +320,8 @@
 
 
             /*
-            |--------------------------------------------------------------------------
-            | Add Material
-            |--------------------------------------------------------------------------
+             Add Material
             */
-
             addButton.addEventListener('click', function() {
 
                 const newItem = createMaterialItem(index);
@@ -349,11 +334,8 @@
 
 
             /*
-            |--------------------------------------------------------------------------
-            | Remove Material
-            |--------------------------------------------------------------------------
+             Remove Material
             */
-
             container.addEventListener('click', function(event) {
 
                 const removeButton =
@@ -368,22 +350,16 @@
 
 
                 /*
-                |--------------------------------------------------------------------------
-                | Jangan hapus kalau hanya tersisa 1 item
-                |--------------------------------------------------------------------------
+                 Jangan hapus kalau hanya tersisa 1 item
                 */
-
                 if (items.length <= 1) {
                     return;
                 }
 
 
                 /*
-                |--------------------------------------------------------------------------
-                | Hapus material
-                |--------------------------------------------------------------------------
+                 Hapus material
                 */
-
                 removeButton
                     .closest('.material-item')
                     .remove();

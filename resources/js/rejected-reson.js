@@ -1,6 +1,4 @@
 // REJECTION REASON MODAL
-// ========================================
-
 window.openRejectionReason = function (bookingCode, reason) {
     const modal = document.getElementById("rejection-reason-modal");
     const modalBox = document.getElementById("rejection-reason-modal-box");
@@ -41,10 +39,7 @@ window.openRejectionReason = function (bookingCode, reason) {
 };
 
 
-// ========================================
 // CLOSE REJECTION REASON MODAL
-// ========================================
-
 window.closeRejectionReason = function () {
     const modal = document.getElementById("rejection-reason-modal");
     const modalBox = document.getElementById("rejection-reason-modal-box");

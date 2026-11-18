@@ -8,7 +8,6 @@ use App\Models\RecommendedWork;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehicleInspection;
-use App\Models\WorkItem;
 use App\Models\WorkOrder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -32,6 +31,9 @@ class WorkOrderControllerTest extends TestCase
         $this->mechanic = User::whereHas('role', function ($query) {
             $query->where('name', 'Mechanic');
         })->firstOrFail();
+
+        $customer = Customer::factory()->create();
+        Vehicle::factory()->for($customer)->create();
     }
 
     /*
@@ -76,7 +78,7 @@ class WorkOrderControllerTest extends TestCase
             $ids = $inspections->pluck('id');
 
             return $ids->contains($completedInspection->id)
-                && !$ids->contains($inProgressInspection->id);
+                && ! $ids->contains($inProgressInspection->id);
         });
     }
 
@@ -318,7 +320,7 @@ class WorkOrderControllerTest extends TestCase
         $response->assertViewHas('workOrders', function ($workOrders) use (
             $workOrder
         ) {
-            return !$workOrders->contains('id', $workOrder->id);
+            return ! $workOrders->contains('id', $workOrder->id);
         });
     }
 
@@ -348,7 +350,7 @@ class WorkOrderControllerTest extends TestCase
 
         $response->assertViewHas(
             'workOrder',
-            fn($result) => $result->id === $workOrder->id
+            fn ($result) => $result->id === $workOrder->id
         );
     }
 
@@ -402,7 +404,7 @@ class WorkOrderControllerTest extends TestCase
         )->firstOrFail();
 
         $booking = Booking::forceCreate([
-            'booking_code' => 'BK-' . fake()->unique()->numerify('######'),
+            'booking_code' => 'BK-'.fake()->unique()->numerify('######'),
             'customer_id' => $customer->id,
             'vehicle_id' => $vehicle->id,
             'booking_date' => now()->addDays(2)->toDateString(),
@@ -440,7 +442,7 @@ class WorkOrderControllerTest extends TestCase
         return WorkOrder::forceCreate(array_merge([
             'booking_id' => $inspection->booking_id,
             'mechanic_id' => $inspection->mechanic_id,
-            'work_order_code' => 'WO-' . fake()->unique()->numerify('######'),
+            'work_order_code' => 'WO-'.fake()->unique()->numerify('######'),
             'received_at' => now(),
             'status' => 'IN_PROGRESS',
         ], $attributes));

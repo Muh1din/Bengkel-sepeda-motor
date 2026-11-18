@@ -3,7 +3,10 @@
 namespace Tests\Feature\ServiceAdvisor;
 
 use App\Models\Booking;
+use App\Models\Customer;
 use App\Models\User;
+use App\Models\Vehicle;
+use App\Models\WorkOrder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,6 +22,13 @@ class DashboardControllerTest extends TestCase
 
         $this->serviceAdvisor = User::whereHas('role', function ($query) {
             $query->where('name', 'ServiceAdvisor');
+        })->firstOrFail();
+
+        $customer = Customer::factory()->create();
+        Vehicle::factory()->for($customer)->create();
+
+        User::whereHas('role', function ($query) {
+            $query->where('name', 'Mechanic');
         })->firstOrFail();
     }
 
@@ -107,8 +117,8 @@ class DashboardControllerTest extends TestCase
         $response->assertViewHas('bookings', function ($bookings) {
             return $bookings->count() === 1
                 && $bookings->every(
-                fn($booking) => $booking->booking_date
-                    === today()->toDateString()
+                    fn ($booking) => $booking->booking_date
+                        === today()->toDateString()
                 );
         });
     }
@@ -146,7 +156,7 @@ class DashboardControllerTest extends TestCase
         $response->assertViewHas('activeServicesList', function ($bookings) {
             return $bookings->count() === 1
                 && $bookings->every(
-                    fn($booking) => $booking->status === 'IN_PROGRESS'
+                    fn ($booking) => $booking->status === 'IN_PROGRESS'
                 );
         });
     }
@@ -160,15 +170,15 @@ class DashboardControllerTest extends TestCase
 
     private function createWorkOrderWithBooking(string $status): void
     {
-        $customer = \App\Models\Customer::query()->firstOrFail();
+        $customer = Customer::query()->firstOrFail();
 
-        $vehicle = \App\Models\Vehicle::where(
+        $vehicle = Vehicle::where(
             'customer_id',
             $customer->id
         )->firstOrFail();
 
         $booking = Booking::forceCreate([
-            'booking_code' => 'BK-' . fake()->unique()->numerify('######'),
+            'booking_code' => 'BK-'.fake()->unique()->numerify('######'),
             'customer_id' => $customer->id,
             'vehicle_id' => $vehicle->id,
             'booking_date' => today()->toDateString(),
@@ -182,10 +192,10 @@ class DashboardControllerTest extends TestCase
             $query->where('name', 'Mechanic');
         })->firstOrFail();
 
-        \App\Models\WorkOrder::forceCreate([
+        WorkOrder::forceCreate([
             'booking_id' => $booking->id,
             'mechanic_id' => $mechanic->id,
-            'work_order_code' => 'WO-' . fake()->unique()->numerify('######'),
+            'work_order_code' => 'WO-'.fake()->unique()->numerify('######'),
             'received_at' => now(),
             'status' => $status,
         ]);

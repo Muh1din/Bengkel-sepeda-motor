@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class BookingControllerTest extends TestCase
@@ -24,13 +25,16 @@ class BookingControllerTest extends TestCase
         // Mengambil akun Service Advisor dan Mechanic dari seeder.
         $this->serviceAdvisor = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'ServiceAdvisor')
+            fn ($query) => $query->where('name', 'ServiceAdvisor')
         )->firstOrFail();
 
         $this->mechanic = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'Mechanic')
+            fn ($query) => $query->where('name', 'Mechanic')
         )->firstOrFail();
+
+        $customer = Customer::factory()->create();
+        Vehicle::factory()->for($customer)->create();
     }
 
     /**
@@ -45,7 +49,7 @@ class BookingControllerTest extends TestCase
             ->firstOrFail();
 
         return Booking::create(array_merge([
-            'booking_code' => 'BK-' . fake()->unique()->numerify('######'),
+            'booking_code' => 'BK-'.fake()->unique()->numerify('######'),
             'customer_id' => $customer->id,
             'vehicle_id' => $vehicle->id,
             'booking_date' => now()->addDays(2)->toDateString(),
@@ -172,7 +176,7 @@ class BookingControllerTest extends TestCase
         $booking = $this->createBooking();
 
         // Menghapus konfigurasi kapasitas.
-        \Illuminate\Support\Facades\DB::table('settings')
+        DB::table('settings')
             ->where('key', 'max_booking_slots')
             ->delete();
 
@@ -360,7 +364,7 @@ class BookingControllerTest extends TestCase
 
     private function setBookingCapacity(int $capacity): void
     {
-        \Illuminate\Support\Facades\DB::table('settings')
+        DB::table('settings')
             ->updateOrInsert(
                 ['key' => 'max_booking_slots'],
                 ['value' => (string) $capacity]

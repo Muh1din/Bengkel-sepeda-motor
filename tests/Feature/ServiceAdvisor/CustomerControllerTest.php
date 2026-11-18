@@ -21,8 +21,10 @@ class CustomerControllerTest extends TestCase
         // Mengambil akun Service Advisor dari seeder.
         $this->serviceAdvisor = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'ServiceAdvisor')
+            fn ($query) => $query->where('name', 'ServiceAdvisor')
         )->firstOrFail();
+
+        Customer::factory()->create();
     }
 
     /*
@@ -46,7 +48,7 @@ class CustomerControllerTest extends TestCase
 
         $response->assertViewHas(
             'customers',
-            fn($customers) => $customers->contains('id', $customer->id)
+            fn ($customers) => $customers->contains('id', $customer->id)
         );
     }
 
@@ -62,7 +64,7 @@ class CustomerControllerTest extends TestCase
         $response->assertViewHas('customers', function ($customers) {
             $customer = $customers->first();
 
-            if (!$customer) {
+            if (! $customer) {
                 return false;
             }
 
@@ -91,7 +93,7 @@ class CustomerControllerTest extends TestCase
 
         $response->assertViewHas(
             'customer',
-            fn($viewCustomer) => $viewCustomer->id === $customer->id
+            fn ($viewCustomer) => $viewCustomer->id === $customer->id
         );
     }
 
@@ -109,7 +111,7 @@ class CustomerControllerTest extends TestCase
                 && $viewCustomer->relationLoaded('vehicles')
                 && $viewCustomer->relationLoaded('bookings')
                 && $viewCustomer->bookings->every(
-                    fn($booking) => $booking->relationLoaded('workOrder')
+                    fn ($booking) => $booking->relationLoaded('workOrder')
                 );
         });
     }

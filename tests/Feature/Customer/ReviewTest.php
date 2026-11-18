@@ -27,6 +27,7 @@ class ReviewTest extends TestCase
 
         $user->forceFill([
             'is_active' => true,
+            'email_verified_at' => now(),
         ])->save();
 
         return $user;
@@ -45,7 +46,7 @@ class ReviewTest extends TestCase
     private function createVehicle(Customer $customer): Vehicle
     {
         return Vehicle::create([
-            'license_plate' => 'B ' . (1000 + $customer->id) . ' TST',
+            'license_plate' => 'B '.(1000 + $customer->id).' TST',
             'brand' => 'Honda',
             'model' => 'Vario 160',
             'year' => 2024,

@@ -23,7 +23,7 @@ class TrackingControllerTest extends TestCase
             'booking_code' => 'BK-ABC123',
         ]);
 
-        $response->assertRedirect(url('/#tracking'));
+        $response->assertRedirect(url('/').'#tracking');
 
         $response->assertSessionHas(
             'tracking_booking_id',
@@ -47,7 +47,7 @@ class TrackingControllerTest extends TestCase
             'booking_code' => 'bk-abc123',
         ]);
 
-        $response->assertRedirect(url('/#tracking'));
+        $response->assertRedirect(url('/').'#tracking');
 
         $response->assertSessionHas(
             'tracking_booking_id',
@@ -67,11 +67,10 @@ class TrackingControllerTest extends TestCase
             'booking_code' => 'BK-ZZZ999',
         ]);
 
-        $response->assertRedirect(url('/#tracking'));
+        $response->assertRedirect(url('/').'#tracking');
 
         $response->assertSessionHasErrors([
-            'booking_code' =>
-            'Booking tidak ditemukan. Periksa kembali kode booking Anda.',
+            'booking_code' => 'Booking tidak ditemukan. Periksa kembali kode booking Anda.',
         ]);
 
         $response->assertSessionHas('tracking_section', true);
@@ -88,7 +87,7 @@ class TrackingControllerTest extends TestCase
             'booking_code' => '',
         ]);
 
-        $response->assertRedirect(url('/#tracking'));
+        $response->assertRedirect(url('/').'#tracking');
 
         $response->assertSessionHasErrors([
             'booking_code' => 'Kode booking wajib diisi.',
@@ -116,7 +115,7 @@ class TrackingControllerTest extends TestCase
                 ['booking_code' => $code]
             );
 
-            $response->assertRedirect(url('/#tracking'));
+            $response->assertRedirect(url('/').'#tracking');
 
             $response->assertSessionHasErrors([
                 'booking_code' => 'Format kode booking tidak valid.',
@@ -135,7 +134,7 @@ class TrackingControllerTest extends TestCase
             'booking_code' => ['BK-ABC123'],
         ]);
 
-        $response->assertRedirect(url('/#tracking'));
+        $response->assertRedirect(url('/').'#tracking');
 
         $response->assertSessionHasErrors('booking_code');
         $response->assertSessionHas('tracking_section', true);
@@ -150,7 +149,7 @@ class TrackingControllerTest extends TestCase
             'booking_code' => 'INVALID',
         ]);
 
-        $response->assertRedirect(url('/#tracking'));
+        $response->assertRedirect(url('/').'#tracking');
 
         $response->assertSessionHasInput('booking_code', 'INVALID');
         $response->assertSessionHasErrors('booking_code');

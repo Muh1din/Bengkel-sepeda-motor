@@ -10,7 +10,6 @@ use App\Models\Vehicle;
 use App\Models\VehicleInspection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RecommendedWorkControllerTest extends TestCase
@@ -27,13 +26,16 @@ class RecommendedWorkControllerTest extends TestCase
 
         $this->serviceAdvisor = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'ServiceAdvisor')
+            fn ($query) => $query->where('name', 'ServiceAdvisor')
         )->firstOrFail();
 
         $this->mechanic = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'Mechanic')
+            fn ($query) => $query->where('name', 'Mechanic')
         )->firstOrFail();
+
+        $customer = Customer::factory()->create();
+        Vehicle::factory()->for($customer)->create();
     }
 
     /*
@@ -202,7 +204,7 @@ class RecommendedWorkControllerTest extends TestCase
             ->firstOrFail();
 
         $booking = Booking::forceCreate([
-            'booking_code' => 'BK-' . fake()->unique()->numerify('######'),
+            'booking_code' => 'BK-'.fake()->unique()->numerify('######'),
             'customer_id' => $customer->id,
             'vehicle_id' => $vehicle->id,
             'booking_date' => now()->addDays(2)->toDateString(),

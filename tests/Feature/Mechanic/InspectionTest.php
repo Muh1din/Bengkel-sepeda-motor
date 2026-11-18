@@ -87,7 +87,7 @@ class InspectionTest extends TestCase
     private function createBooking(): Booking
     {
         return Booking::create([
-            'booking_code' => 'BK-' . fake()->unique()->numerify('######'),
+            'booking_code' => 'BK-'.fake()->unique()->numerify('######'),
             'customer_id' => $this->customer->id,
             'vehicle_id' => $this->vehicle->id,
             'service_type' => 'Servis',
@@ -114,7 +114,7 @@ class InspectionTest extends TestCase
             'created_by' => $mechanic->id,
         ]);
     }
-    
+
     // Index
 
     public function test_mechanic_can_open_inspection_list(): void
@@ -155,7 +155,6 @@ class InspectionTest extends TestCase
         });
     }
 
-    
     // Show
 
     public function test_mechanic_can_open_own_inspection_detail(): void
@@ -193,7 +192,6 @@ class InspectionTest extends TestCase
         $response = $this->actingAs($this->mechanic)
             ->patch(route('mechanic.inspections.save-draft', $inspection), [
                 'inspection' => 'Rantai motor perlu diperiksa.',
-                'diagnosis' => 'Rantai mulai kendur.',
                 'recommendation' => 'Periksa dan setel rantai.',
             ]);
 
@@ -209,7 +207,6 @@ class InspectionTest extends TestCase
         $this->assertDatabaseHas('vehicle_inspections', [
             'id' => $inspection->id,
             'inspection' => 'Rantai motor perlu diperiksa.',
-            'diagnosis' => 'Rantai mulai kendur.',
             'recommendation' => 'Periksa dan setel rantai.',
             'status' => 'IN_PROGRESS',
         ]);
@@ -270,8 +267,10 @@ class InspectionTest extends TestCase
         $response = $this->actingAs($this->mechanic)
             ->patch(route('mechanic.inspections.complete', $inspection), [
                 'inspection' => 'Pemeriksaan mesin dan rem selesai.',
-                'diagnosis' => 'Rem perlu disetel.',
                 'recommendation' => 'Lakukan penyetelan rem.',
+                'works' => [
+                    ['name' => 'Setel rem', 'description' => 'Atur ulang rem.'],
+                ],
             ]);
 
         $response->assertRedirect(
@@ -286,7 +285,6 @@ class InspectionTest extends TestCase
         $this->assertDatabaseHas('vehicle_inspections', [
             'id' => $inspection->id,
             'inspection' => 'Pemeriksaan mesin dan rem selesai.',
-            'diagnosis' => 'Rem perlu disetel.',
             'recommendation' => 'Lakukan penyetelan rem.',
             'status' => 'COMPLETED',
         ]);
@@ -305,7 +303,6 @@ class InspectionTest extends TestCase
 
         $response->assertSessionHasErrors([
             'inspection',
-            'diagnosis',
         ]);
 
         $this->assertDatabaseHas('vehicle_inspections', [

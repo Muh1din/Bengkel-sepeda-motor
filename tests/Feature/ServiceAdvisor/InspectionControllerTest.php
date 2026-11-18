@@ -25,13 +25,16 @@ class InspectionControllerTest extends TestCase
 
         $this->serviceAdvisor = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'ServiceAdvisor')
+            fn ($query) => $query->where('name', 'ServiceAdvisor')
         )->firstOrFail();
 
         $this->mechanic = User::whereHas(
             'role',
-            fn($query) => $query->where('name', 'Mechanic')
+            fn ($query) => $query->where('name', 'Mechanic')
         )->firstOrFail();
+
+        $customer = Customer::factory()->create();
+        Vehicle::factory()->for($customer)->create();
     }
 
     /*
@@ -74,7 +77,7 @@ class InspectionControllerTest extends TestCase
                 'id',
                 $completedInspection->id
             ) && $inspections->every(
-                fn($inspection) => $inspection->status === 'COMPLETED'
+                fn ($inspection) => $inspection->status === 'COMPLETED'
             );
         });
     }
@@ -93,7 +96,7 @@ class InspectionControllerTest extends TestCase
         $response->assertViewHas('inspections', function ($inspections) {
             $inspection = $inspections->first();
 
-            if (!$inspection) {
+            if (! $inspection) {
                 return false;
             }
 
@@ -129,7 +132,7 @@ class InspectionControllerTest extends TestCase
 
         $response->assertViewHas(
             'inspection',
-            fn($viewInspection) => $viewInspection->id === $inspection->id
+            fn ($viewInspection) => $viewInspection->id === $inspection->id
         );
     }
 
@@ -202,7 +205,7 @@ class InspectionControllerTest extends TestCase
             ->firstOrFail();
 
         $booking = Booking::create([
-            'booking_code' => 'BK-' . fake()->unique()->numerify('######'),
+            'booking_code' => 'BK-'.fake()->unique()->numerify('######'),
             'customer_id' => $customer->id,
             'vehicle_id' => $vehicle->id,
             'booking_date' => now()->addDays(2)->toDateString(),
